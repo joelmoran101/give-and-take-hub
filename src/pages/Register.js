@@ -1,6 +1,7 @@
 import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import './Register.css';
 
 const RegisterSchema = Yup.object().shape({
   username: Yup.string().required('Username is required'),
@@ -15,13 +16,15 @@ const RegisterSchema = Yup.object().shape({
 });
 
 const Register = () => {
-  const handleSubmit = (values) => {
+
+  const handleSubmit = (values, { resetForm }) => {
     // Handle form submission here
     console.log(values);
+    resetForm(); // Reset the form after submission
   };
 
   return (
-    <div>
+    <div className="register-container">
       <h1>Registration Form</h1>
       <Formik
         initialValues={{
@@ -33,41 +36,44 @@ const Register = () => {
           giver: false,
           searcher: false,
         }}
+
         validationSchema={RegisterSchema}
-        onSubmit={handleSubmit}
+        onSubmit={(values, { resetForm }) => {
+          handleSubmit(values, { resetForm });
+        }}
       >
         <Form>
-          <div>
+          <div className="form-group">
             <label htmlFor="username">Username</label>
             <Field type="text" id="username" name="username" />
             <ErrorMessage name="username" component="div" />
           </div>
 
-          <div>
+          <div className="form-group">
             <label htmlFor="password">Password</label>
             <Field type="password" id="password" name="password" />
             <ErrorMessage name="password" component="div" />
           </div>
 
-          <div>
+          <div className="form-group">
             <label htmlFor="confirmPassword">Confirm Password</label>
             <Field type="password" id="confirmPassword" name="confirmPassword" />
             <ErrorMessage name="confirmPassword" component="div" />
           </div>
 
-          <div>
+          <div className="form-group">
             <label htmlFor="email">Email</label>
             <Field type="email" id="email" name="email" />
             <ErrorMessage name="email" component="div" />
           </div>
 
-          <div>
+          <div className="form-group">
             <label htmlFor="phone">Phone</label>
             <Field type="text" id="phone" name="phone" />
             <ErrorMessage name="phone" component="div" />
           </div>
 
-          <div>
+          <div className="form-group">
             <label>
               <Field type="checkbox" id="giver" name="giver" />
               Giver
@@ -75,7 +81,7 @@ const Register = () => {
             <ErrorMessage name="giver" component="div" />
           </div>
 
-          <div>
+          <div className="form-group">
             <label>
               <Field type="checkbox" id="searcher" name="searcher" />
               Searcher
@@ -83,8 +89,11 @@ const Register = () => {
             <ErrorMessage name="searcher" component="div" />
           </div>
 
-          <button type="submit">Submit</button>
-          <button type="button">Edit</button>
+          <div className="button-container">
+            <button type="submit" className="register-button">Register</button>
+            <button type="button" className="edit-button">Edit</button>
+          </div>
+
         </Form>
       </Formik>
     </div>
