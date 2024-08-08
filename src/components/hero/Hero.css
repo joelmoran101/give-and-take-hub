@@ -1,9 +1,30 @@
+/* Heading styles */
+
+.App {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-image: url('../../assets/images/bird.jpg');
+  background-size: cover;
+  background-position: center;
+  
+}
+
+.App h1 {
+  margin-top: 0;
+  font-size: 2.5rem;
+  color: #333;
+}
 /* Hero.css */
 
 .hero-container {
     background: #f8f9fa;
     padding: 50px;
     text-align: center;
+    background-color: rgba(255, 255, 255, 0.5);
 }
 
 .hero-container h1 {
