@@ -2,6 +2,7 @@
 
 import React from 'react';
 import './Hero.css'; // Import your CSS file for styling
+import { Link } from 'react-router-dom';
 
 const Hero = () => {
     return (
@@ -11,8 +12,8 @@ const Hero = () => {
                 <strong>Core Concept:</strong> A platform where users can anonymously offer or request items or services for free.
             </p>
             <div className="hero-buttons">
-                <button className="register-button">Register</button>
-                <button className="login-button">Login</button>
+                <Link to="/register"><button className="register-button">Register</button></Link>
+                <Link to="/login"><button className="login-button">Login</button></Link>
             </div>
         </div>
     );
