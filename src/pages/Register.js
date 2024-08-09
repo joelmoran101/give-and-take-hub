@@ -2,6 +2,7 @@ import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import './Register.css';
+import axios from 'axios';
 
 const RegisterSchema = Yup.object().shape({
   username: Yup.string().required('Username is required'),
@@ -16,31 +17,35 @@ const RegisterSchema = Yup.object().shape({
 });
 
 const Register = () => {
-
+const initialValues = {
+  username: '',
+  password: '',
+  confirmPassword: '',
+  email: '',
+  phone: '',
+  giver: false,
+  searcher: false,
+}
   const handleSubmit = (values, { resetForm }) => {
-    // Handle form submission here
-    console.log(values);
-    resetForm(); // Reset the form after submission
+    axios.post('http://localhost:4000/register', values).then((response) => {
+      console.log(response.data);
+      resetForm(); // Reset the form after submission
+
+    }).catch((error) => {
+      console.error(error);
+    });
   };
 
   return (
     <div className="register-container">
       <h1>Registration Form</h1>
       <Formik
-        initialValues={{
-          username: '',
-          password: '',
-          confirmPassword: '',
-          email: '',
-          phone: '',
-          giver: false,
-          searcher: false,
-        }}
+
+        initialValues={initialValues}
 
         validationSchema={RegisterSchema}
-        onSubmit={(values, { resetForm }) => {
-          handleSubmit(values, { resetForm });
-        }}
+
+        onSubmit={handleSubmit}
       >
         <Form>
           <div className="form-group">
