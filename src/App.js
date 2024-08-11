@@ -14,7 +14,7 @@ function App() {
         <Routes>
         <Route path="/" element={
           <div className="App">
-            <h1>Give and Take Hub</h1>
+            <h1>Give and/or Take Hub</h1>
             <Hero />
           </div>
         } />
