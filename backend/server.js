@@ -2,7 +2,8 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 const express = require('express');
 const cors = require('cors')
-// const jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken')
+const bcrypt = require('bcrypt')
 
 const app = express();
 
@@ -20,7 +21,7 @@ try {
 
 // Define a model
 const User = mongoose.model('User', {
-  name: String,
+  username: String,
   password: String,
   confirmPassword: String,
   email: String,
@@ -43,7 +44,7 @@ app.post('/api/register', async (req, res) => {
         if(foundUser){
             return res.status(400).send('user already exist')
         }
-        const newUser = new User({ username, password, confirmPassword, email, phone, giver, searcher })
+        const newUser = new User({ username, password: await bcrypt.hash(password, 10), email, phone, giver, searcher })
         await newUser.save();
         res.status(201).send('user created successfully')
 
@@ -55,18 +56,23 @@ app.post('/api/register', async (req, res) => {
 })
 
 app.post('/api/login', async (req, res) => {
-  const { username, password } = req.body;
+  const { username_or_email, password } = req.body;
+
   try {
-    const user = await User.findOne({ username });
-    if (!user) {
+    const foundUser = await User.findOne({$or:[{username:username_or_email}, {email:username_or_email}]})
+    console.log(foundUser)
+    console.log(await bcrypt.hash(password, 10))
+
+    if(!foundUser){
       return res.status(401).send('Invalid credentials');
     }
-    const isValidPassword = await user.comparePassword(password);
+
+    const isValidPassword = await bcrypt.compare(password, foundUser.password);
     if (!isValidPassword) {
       return res.status(401).send('Invalid username or password');
     }
     // If the username and password are valid, generate a JWT token
-    const token = jwt.sign({ userId: user._id }, process.env.SECRET_KEY, {
+    const token = jwt.sign({ userId: foundUser._id }, process.env.SECRET_KEY, {
       expiresIn: '1h',
     });
     res.json({ token });

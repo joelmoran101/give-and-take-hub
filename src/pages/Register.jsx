@@ -4,6 +4,7 @@ import * as Yup from 'yup';
 import './Register.css';
 import axios from 'axios';
 
+
 const RegisterSchema = Yup.object().shape({
   username: Yup.string().required('Username is required'),
   password: Yup.string().required('Password is required'),
