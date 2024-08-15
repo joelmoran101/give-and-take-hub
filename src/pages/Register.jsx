@@ -27,7 +27,7 @@ const initialValues = {
   searcher: false,
 }
   const handleSubmit = (values, { resetForm }) => {
-    axios.post('http://localhost:4000/register', values).then((response) => {
+    axios.post('http://localhost:4000/api/register', values).then((response) => {
       console.log(response.data);
       resetForm(); // Reset the form after submission
 

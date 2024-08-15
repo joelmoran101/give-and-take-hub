@@ -2,6 +2,7 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 const express = require('express');
 const cors = require('cors')
+// const jwt = require('jsonwebtoken');
 
 const app = express();
 
@@ -33,7 +34,7 @@ app.get('/users', async (req, res) => {
   const users = await User.find();
   res.json(users);
 });
-app.post('/register', async (req, res) => {
+app.post('/api/register', async (req, res) => {
     const { username, password, confirmPassword, email, phone, giver, searcher } = req.body;
     try {
 
@@ -53,7 +54,27 @@ app.post('/register', async (req, res) => {
 
 })
 
-
+app.post('/api/login', async (req, res) => {
+  const { username, password } = req.body;
+  try {
+    const user = await User.findOne({ username });
+    if (!user) {
+      return res.status(401).send('Invalid credentials');
+    }
+    const isValidPassword = await user.comparePassword(password);
+    if (!isValidPassword) {
+      return res.status(401).send('Invalid username or password');
+    }
+    // If the username and password are valid, generate a JWT token
+    const token = jwt.sign({ userId: user._id }, process.env.SECRET_KEY, {
+      expiresIn: '1h',
+    });
+    res.json({ token });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error logging in');
+  }
+});
 
 // Start the server
 app.listen(process.env.PORT, () => {

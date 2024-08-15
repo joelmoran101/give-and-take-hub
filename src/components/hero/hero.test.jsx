@@ -3,14 +3,16 @@ import React from 'react';
 import { render, fireEvent, screen } from '@testing-library/react';
 import Hero from './hero';
 import App from '../../App';
+import { MemoryRouter } from 'react-router-dom';
 
 
 describe('Hero component', () => {
   it('renders hero component correctly', () => {
-     render(<App />);
-    //  const heroEl = screen.getByText(/A Sharing Platform/i);
-
-    // expect(heroEl).toBeInTheDocument();
+  render(<MemoryRouter>
+      (<Hero />);
+      const heroEl = screen.getByText(/A Sharking Platform/i);
+      expect(heroEl).toBeInTheDocument();
+    </MemoryRouter>)
   });
 
 //   it('renders hero component with correct text', () => {

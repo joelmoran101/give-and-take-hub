@@ -2,6 +2,7 @@ import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup'; 
 import './Login.css'; // Import the CSS file for styling the impo
+import axios from 'axios';
 
 const LoginSchema = Yup.object().shape({
   username: Yup.string().required('Username is required'),
@@ -12,25 +13,30 @@ const LoginPage = () => {
   const handleSubmit = (values, { setSubmitting }) => {
     // Make a request to the backend to verify the credentials
     // You can use fetch or any other HTTP client library
-    fetch('/api/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(values),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        // Handle the response from the backend
-        if (data.success) {
-          // Redirect to the dashboard or any other page
-          // You can use React Router to navigate to a different page
-          // For example: history.push('/dashboard');
-        } else {
-          // Handle login failure
-          // You can display an error message to the user
-          console.error('Login failed:', data.message);
-        }
+    axios.post('http://localhost:4000/api/login', values).then((response) => {
+      console.log(response.data);
+      resetForm(); // Reset the form after submission
+
+
+    // fetch('/api/login', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify(values),
+    // })
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     // Handle the response from the backend
+    //     if (data.success) {
+    //       // Redirect to the dashboard or any other page
+    //       // You can use React Router to navigate to a different page
+    //       // For example: history.push('/dashboard');
+    //     } else {
+    //       // Handle login failure
+    //       // You can display an error message to the user
+    //       console.error('Login failed:', data.message);
+    //     }
       })
       .catch((error) => {
         console.error('Error:', error);
