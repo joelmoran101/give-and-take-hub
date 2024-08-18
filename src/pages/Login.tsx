@@ -3,6 +3,7 @@ import { Formik, Form, Field, ErrorMessage, FormikHelpers } from 'formik';
 import * as Yup from 'yup'; 
 import './Login.css'; // Import the CSS file for styling the impo
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 type FormValues = {
   username_or_email: string;
@@ -22,6 +23,8 @@ const Login = () => {
     password: '',
     email: '',
   }
+
+  const navigate = useNavigate();
   const handleSubmit = (values: FormValues, { setSubmitting, resetForm }:FormikHelpers<FormValues>) => {
     // Make a request to the backend to verify the credentials
     // You can use fetch or any other HTTP client library
@@ -36,6 +39,7 @@ const Login = () => {
       })
       .finally(() => {
         setSubmitting(false);
+        navigate('/home');
       });
   };
 
