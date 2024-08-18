@@ -1,8 +1,14 @@
 import React from 'react';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Formik, Form, Field, ErrorMessage, FormikHelpers } from 'formik';
 import * as Yup from 'yup'; 
 import './Login.css'; // Import the CSS file for styling the impo
 import axios from 'axios';
+
+type FormValues = {
+  username_or_email: string;
+  password: string;
+  email: string;
+};
 
 const LoginSchema = Yup.object().shape({
   username_or_email: Yup.string().required('username_or_email is required'),
@@ -16,7 +22,7 @@ const Login = () => {
     password: '',
     email: '',
   }
-  const handleSubmit = (values, { setSubmitting, resetForm }) => {
+  const handleSubmit = (values: FormValues, { setSubmitting, resetForm }:FormikHelpers<FormValues>) => {
     // Make a request to the backend to verify the credentials
     // You can use fetch or any other HTTP client library
     axios.post('http://localhost:4000/api/login', values)
@@ -37,10 +43,7 @@ const Login = () => {
     <div className="login-container">
       <h2>Login</h2>
       <Formik
-        initialValues={{
-          username_or_email: '',
-          password: '',
-        }}
+        initialValues={initialValues}
         validationSchema={LoginSchema}
         onSubmit={handleSubmit}
       >

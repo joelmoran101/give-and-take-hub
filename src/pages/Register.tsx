@@ -1,15 +1,24 @@
 import React from 'react';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Formik, Form, Field, ErrorMessage, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
 import './Register.css';
 import axios from 'axios';
 
+type FormValues = {
+  username: string;
+  password: string;
+  confirmPassword: string;
+  email: string;
+  phone: string;
+  giver: boolean;
+  searcher: boolean;
+};  
 
 const RegisterSchema = Yup.object().shape({
   username: Yup.string().required('Username is required'),
   password: Yup.string().required('Password is required'),
   confirmPassword: Yup.string()
-    .oneOf([Yup.ref('password'), null], 'Passwords must match')
+    .oneOf([Yup.ref('password')], 'Passwords must match')
     .required('Confirm Password is required'),
   email: Yup.string().email('Invalid email'),
   phone: Yup.string(),
@@ -27,7 +36,7 @@ const initialValues = {
   giver: false,
   searcher: false,
 }
-  const handleSubmit = (values, { resetForm }) => {
+  const handleSubmit = (values: FormValues, { resetForm }: FormikHelpers<FormValues>) => {
     axios.post('http://localhost:4000/api/register', values).then((response) => {
       console.log(response.data);
       resetForm(); // Reset the form after submission
