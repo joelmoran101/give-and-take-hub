@@ -99,4 +99,4 @@ describe('Hero component', () => {
 //     fireEvent.click(button);
 //     expect(onClick).toHaveBeenCalledTimes(1);
 //   });
-});
+// });

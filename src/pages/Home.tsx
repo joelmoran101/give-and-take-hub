@@ -3,8 +3,10 @@ import Hero from '../components/hero/Hero';
 
 function Home() {
   return (
-    <div>
-      <h1 className="home-heading font-size-xxl d-flex justify-content-center text-center align-items-center">Welcome to Give and Take Hub</h1>
+    <div className='d-flex flex-column justify-content-center text-center align-items-center'>
+      <h1 className="home-heading display-1">Welcome</h1>
+      <h1 className="home-heading display-3">to the</h1>
+      <h1 className="home-heading display-1 ">"Give and/or Take Hub"</h1>
       {/* <Hero /> */}
     </div>
   )
