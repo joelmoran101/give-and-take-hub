@@ -3,6 +3,8 @@ import { Formik, Form, Field, ErrorMessage, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
 import './Register.css';
 import axios from 'axios';
+import Login from './Login';
+import { useNavigate } from 'react-router-dom';
 
 type FormValues = {
   username: string;
@@ -36,10 +38,13 @@ const initialValues = {
   giver: false,
   searcher: false,
 }
+const navigate = useNavigate();
+
   const handleSubmit = (values: FormValues, { resetForm }: FormikHelpers<FormValues>) => {
     axios.post('http://localhost:4000/api/register', values).then((response) => {
       console.log(response.data);
       resetForm(); // Reset the form after submission
+      navigate('/login');
 
     }).catch((error) => {
       console.error(error);

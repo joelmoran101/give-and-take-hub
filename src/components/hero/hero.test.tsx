@@ -13,10 +13,10 @@ describe('Hero component', () => {
     </MemoryRouter>)
   });
 
-  // it('renders hero component with correct text', () => {
+  // it('should render hero component without the buttons after the user successfully loggedin', () => {
   //   const { getByText } = render(
   //     <BrowserRouter>
-  //       <Hero />
+  //       <Hero.isLoggedIn />
   //     </BrowserRouter>
   //   );
 
