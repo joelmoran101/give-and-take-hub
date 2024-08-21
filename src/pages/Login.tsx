@@ -7,21 +7,15 @@ import { useNavigate } from 'react-router-dom';
 
 type FormValues = {
   username_or_email: string;
-  password: string;
-  email: string;
 };
 
 const LoginSchema = Yup.object().shape({
   username_or_email: Yup.string().required('username_or_email is required'),
-  password: Yup.string().required('Password is required'),
-  email: Yup.string().email('Invalid email'),
 });
 
 const Login = () => {
   const initialValues = {
     username_or_email: '',
-    password: '',
-    email: '',
   }
 
   const navigate = useNavigate();
@@ -57,11 +51,7 @@ const Login = () => {
             <Field type="text" id="username_or_email" name="username_or_email" />
             <ErrorMessage name="username_or_email" component="div" className="error-message" />
           </div>
-          <div className="form-group">
-            <label htmlFor="password">Password</label>
-            <Field type="password" id="password" name="password" />
-            <ErrorMessage name="password" component="div" className="error-message" />
-          </div>
+          <button type='link' to="/register">No account yet? Register here...</button>
           <button type="submit" className="login-button">Login</button>
         </Form>
       </Formik>

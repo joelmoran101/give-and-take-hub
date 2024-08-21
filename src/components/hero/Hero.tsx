@@ -20,6 +20,7 @@ function Hero(props: HeroProps) {
       <div className="hero-buttons">
         <Link to="/register"><button className="register-button">Register</button></Link>
         <Link to="/login"><button className="login-button">Login</button></Link>
+        <Link to="/"><button className="browse-button">Browse</button></Link>
       </div>
     </div>
   );
