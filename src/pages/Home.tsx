@@ -7,7 +7,7 @@ function Home() {
       <h1 className="home-heading display-1">Welcome</h1>
       <h1 className="home-heading display-3">to the</h1>
       <h1 className="home-heading display-1 ">"Give and/or Take Hub"</h1>
-      {/* <Hero /> */}
+      <Hero />
     </div>
   )
 }
