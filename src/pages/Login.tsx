@@ -16,13 +16,17 @@ const LoginSchema = Yup.object().shape({
 const Login = () => {
   const initialValues = {
     username_or_email: '',
+    loginCode: '', // new input field for one-time login code
   }
 
   const navigate = useNavigate();
   const handleSubmit = (values: FormValues, { setSubmitting, resetForm }:FormikHelpers<FormValues>) => {
     // Make a request to the backend to verify the credentials
     // You can use fetch or any other HTTP client library
-    axios.post('http://localhost:4000/api/login', values)
+    axios.post('http://localhost:4000/api/login-with-code', {
+      username_or_email: values.username_or_email,
+      loginCode: values.loginCode,
+    })
     
     .then((response) => {
       console.log(response.data);
@@ -51,6 +55,12 @@ const Login = () => {
             <Field type="text" id="username_or_email" name="username_or_email" />
             <ErrorMessage name="username_or_email" component="div" className="error-message" />
           </div>
+          <div className="form-group">
+            <label htmlFor="loginCode">One-Time Login Code</label>
+            <Field type="text" id="loginCode" name="loginCode" />
+            <ErrorMessage name="loginCode" component="div" className="error-message" />
+          </div>
+          
           <Link to="/register">No account yet? Register here...</Link>
           <button type="submit" className="login-button">Login</button>
         </Form>
