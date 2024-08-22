@@ -4,7 +4,7 @@ import * as Yup from 'yup';
 import './Register.css';
 import axios from 'axios';
 import Login from './Login';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 type FormValues = {
   firstname: string;
@@ -88,7 +88,7 @@ const navigate = useNavigate();
 
           <div className="button-container">
             <button type="submit" className="register-button">Register</button>
-            <button type="button" className="edit-button">Edit</button>
+            <Link to="/" className="back-button">Go back...</Link>
           </div>
 
         </Form>

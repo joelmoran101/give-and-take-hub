@@ -1,4 +1,4 @@
-
+import './Hero.css'
 
 // src/components/hero/Hero.tsx
 import React, { useContext} from 'react';

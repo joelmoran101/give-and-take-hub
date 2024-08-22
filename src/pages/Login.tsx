@@ -3,7 +3,7 @@ import { Formik, Form, Field, ErrorMessage, FormikHelpers } from 'formik';
 import * as Yup from 'yup'; 
 import './Login.css'; // Import the CSS file for styling the impo
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 type FormValues = {
   username_or_email: string;
@@ -51,7 +51,7 @@ const Login = () => {
             <Field type="text" id="username_or_email" name="username_or_email" />
             <ErrorMessage name="username_or_email" component="div" className="error-message" />
           </div>
-          <button type='link' to="/register">No account yet? Register here...</button>
+          <Link to="/register">No account yet? Register here...</Link>
           <button type="submit" className="login-button">Login</button>
         </Form>
       </Formik>
