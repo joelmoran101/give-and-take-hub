@@ -50,6 +50,14 @@ body {
   border-radius: 5px;
 }
 
+.get_code_button {
+  background-color: darkorchid;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
 .login-button {
     background-color: lightgreen;
     color: black;

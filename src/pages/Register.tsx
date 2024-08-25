@@ -59,13 +59,13 @@ const navigate = useNavigate();
           <div className="form-group">
             <label htmlFor="firstname">Firstname</label>
             <Field type="text" id="firstname" name="firstname" />
-            <ErrorMessage name="username" component="div" />
+            <ErrorMessage name="firstname" component="div" />
           </div>
 
           <div className="form-group">
             <label htmlFor="lastname">Lastname</label>
             <Field type="text" id="lastname" name="lastname" />
-            <ErrorMessage name="username" component="div" />
+            <ErrorMessage name="lastname" component="div" />
           </div>
 
           <div className="form-group">

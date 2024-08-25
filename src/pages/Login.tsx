@@ -55,9 +55,10 @@ const Login = () => {
             <Field type="text" id="username_or_email" name="username_or_email" />
             <ErrorMessage name="username_or_email" component="div" className="error-message" />
           </div>
+          <button type="submit" className="get_code_button">Get One-Time Login Code</button>
           <div className="form-group">
-            <label htmlFor="loginCode">One-Time Login Code</label>
-            <Field type="text" id="loginCode" name="loginCode" />
+            <label htmlFor="loginCode"></label>
+            <Field type="text" id="loginCode" name="loginCode" placeholder="One-Time Login Code"/>
             <ErrorMessage name="loginCode" component="div" className="error-message" />
           </div>
           
