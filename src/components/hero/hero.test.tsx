@@ -1,24 +1,21 @@
 // src/components/hero/hero.test.tsx
 import React from 'react';
-import { render, fireEvent, screen } from '@testing-library/react';
+import { render, fireEvent, screen, cleanup } from '@testing-library/react';
 import Hero from './Hero';
 import { MemoryRouter } from 'react-router-dom';
 import Home from '../../pages/Home';
 
 describe('Hero component', () => {
-  it('renders hero component correctly', () => {
-    beforeEach(() => {
-      
+  afterAll(() => {
+    cleanup();
+})
+  it('renders hero component correctly', () => {    
     render(
-    <MemoryRouter basename='/'>
+    <MemoryRouter >
       (<Hero />);
     </MemoryRouter>
     );
-    afterAll(() => {
-      cleanup();
-  })
-    expect(screen.findByText(/^welcome/i));
-    expect(screen.getByText(/to the/i)).toBeInTheDocument();
+    expect(screen.getByText(/a sharing platform/i)).toBeInTheDocument();
     });
   });
 

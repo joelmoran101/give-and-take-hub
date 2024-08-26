@@ -8,13 +8,13 @@ function Home() {
       <header className="Header">
         <div className="main-container">
           <div className="wrapper-logo" style={{ color: "black" }}>
-            <img class="logo" src="/src/assets/images/free-logo.svg" alt="logo" />
+            <img className="logo" src="/src/assets/images/free-logo.svg" alt="logo" />
             <div>Give and Take</div>
           </div>
 
           <nav>
             <ul>
-              <li><a href="src/pages/Home.test.tsx">Home</a></li>
+              <li><a href="src/pages/Home.tsx">Home</a></li>
               <li><a href="src/pages/Hub.tsx">Give & Take Hub</a></li>
               <li><a href="src/pages/About.tsx">About</a></li>
               <li><a href="src/pages/Register.tsx">Join</a></li>

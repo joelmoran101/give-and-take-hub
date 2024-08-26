@@ -3,10 +3,13 @@ import { cleanup, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { afterEach, expect } from 'vitest'
  import Home from './Home'
+import { MemoryRouter } from 'react-router-dom'
 
  describe('Home page header', () => {
   it('should render the header with the correct logo and navigation', () => {
-    const { getByText, getByRole } = render(<Home />);
+    const { getByText, getByRole } = render(<MemoryRouter >
+      (<Home />);
+    </MemoryRouter>);
     
     // Test the logo
     expect(getByText('Give and Take')).toBeInTheDocument();
@@ -20,7 +23,7 @@ import { afterEach, expect } from 'vitest'
     
     // Test the navigation links have the correct href attribute
     const homeLink = getByText('Home');
-    expect(homeLink).toHaveAttribute('href', 'src/pages/Home.test.tsx');
+    expect(homeLink).toHaveAttribute('href', 'src/pages/Home.tsx');
     
     const hubLink = getByText('Give & Take Hub');
     expect(hubLink).toHaveAttribute('href', 'src/pages/Hub.tsx');

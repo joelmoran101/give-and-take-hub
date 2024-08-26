@@ -18,7 +18,7 @@ const RegisterSchema = Yup.object().shape({
   firstname: Yup.string(),
   lastname: Yup.string(),
   username: Yup.string().required('Username is required'),
-  email: Yup.string().email('Invalid email'),
+  email: Yup.string().email('Invalid email').required('Email is required'),
   phone: Yup.string()
 });
 
