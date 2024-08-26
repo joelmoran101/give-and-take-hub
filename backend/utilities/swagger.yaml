@@ -1,0 +1,105 @@
+openapi: "3.0.0"
+info:
+  version: "1.0.0"
+  title: "Give and Take Hub"
+  description: "An application platform where users can anonymously offer or request items or services for free. Give and Take Hub"
+
+servers:
+  - url: "http://localhost:4000/api"
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: "http"
+      scheme: "bearer"
+      bearerFormat: "JWT"
+
+  schemas:
+    User:
+      type: "object"
+      properties:
+        _id:
+          type: "string"
+          example: "66be0a935965dd869c358577"
+        firstname:
+          type: "string"
+          example: "John"
+        lastname:
+          type: "string"
+          example: "Doe"
+        username:
+          type: "string"
+          example: "johndoe"
+        email:
+          type: "string"
+          example: "johndoe@my.com"
+        phone:
+          type: "string"
+          example: "1234567890"
+      required:
+        - "username"
+        - "email"
+
+    Item:
+      type: "object"
+      properties:
+        _id:
+          type: "string"
+          example: "66be0a935965dd869c358577"
+        name:
+          type: "string"
+          example: "Item 1"
+        description:
+          type: "string"
+          example: "This is item 1"
+        images:
+          type: "array"
+          items:
+            type: "string"
+            example: "https://example.com/item1.jpg"
+
+security:
+  - bearerAuth: []  
+
+paths:
+  /login:
+    post:
+      summary: "Login with username or email"
+      description: "Login with username or email but with one-time login code."
+      tags: ["Authentication"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                username:
+                  type: "string"
+                  example: "johndoe"
+                email:
+                  type: "string"
+                  example: "johndoe@my.com"
+              required:
+                - "username"
+                - "email"
+      responses:
+        200:
+          description: "Login successful"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  token:
+                    type: "string"
+                    example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2YmUwYTkzNTY1ZGQ4NjljMzU4NTc3MiIsImlhdCI6MTY3MjIwNzU5Nn0.8h9tqQZvqO2s7t5nG4sZSv7gY0Sf8f1QZ"
+
+        401:
+          description: "Invalid credentials"
+        400:
+          description: "Missing username or email"
+        500:
+          description: "Internal server error"
+  /register:
+  

@@ -4,6 +4,7 @@ const express = require('express');
 const cors = require('cors')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
+const swaggerDocs = require('./utilities/swagger')
 
 const app = express();
 
@@ -36,7 +37,10 @@ app.get('/users', async (req, res) => {
   res.json(users);
 });
 app.post('/api/register', async (req, res) => {
-    const { username, password, confirmPassword, email, phone, giver, searcher } = req.body;
+    const { firstname, lastname, username, email, phone } = req.body;
+
+    console.log(req.body)
+
     try {
 
         const foundUser = await User.findOne({$or:[{username}, {email}]})
@@ -44,7 +48,7 @@ app.post('/api/register', async (req, res) => {
         if(foundUser){
             return res.status(400).send('user already exist')
         }
-        const newUser = new User({ username, password: await bcrypt.hash(password, 10), email, phone, giver, searcher })
+        const newUser = new User({ username, firstname, lastname, email, phone })
         await newUser.save();
         res.status(201).send('user created successfully')
 
@@ -56,20 +60,20 @@ app.post('/api/register', async (req, res) => {
 })
 
 app.post('/api/login', async (req, res) => {
-  const { username_or_email, password } = req.body;
+  const { username_or_email, loginCode } = req.body;
 
   try {
     const foundUser = await User.findOne({$or:[{username:username_or_email}, {email:username_or_email}]})
     console.log(foundUser)
-    console.log(await bcrypt.hash(password, 10))
+    console.log(await loginCode)
 
     if(!foundUser){
       return res.status(401).send('Invalid credentials');
     }
 
-    const isValidPassword = await bcrypt.compare(password, foundUser.password);
-    if (!isValidPassword) {
-      return res.status(401).send('Invalid username or password');
+    const isValidLoginCode = await bcrypt.compare(loginCode, foundUser.loginCode);
+    if (!isValidLoginCode) {
+      return res.status(401).send('Invalid username or loginCode');
     }
     // If the username and password are valid, generate a JWT token
     const token = jwt.sign({ userId: foundUser._id }, process.env.SECRET_KEY, {
@@ -85,4 +89,5 @@ app.post('/api/login', async (req, res) => {
 // Start the server
 app.listen(process.env.PORT, () => {
   console.log('Server is running on port '+process.env.PORT);
+  swaggerDocs(app, process.env.PORT)
 });
