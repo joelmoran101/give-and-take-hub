@@ -10,7 +10,7 @@ interface HeroProps {
 
 function Hero(props: HeroProps) {
   return (
-    <div className="hero-container">
+    <div className="hero-container" aria-label='main hero'>
       <h1>A Sharing Platform </h1>
       <p className="hero-description">
         <strong>Core Concept:</strong> A platform where users can anonymously offer or request items or services for free.

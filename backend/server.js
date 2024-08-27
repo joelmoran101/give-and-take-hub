@@ -5,8 +5,24 @@ const cors = require('cors')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const swaggerDocs = require('./utilities/swagger')
+// additional features to minimize risks of cyber attacks
+// import express-rate-limit
+const rateLimit = require('express-rate-limit')
+// import helmet
+const helmet = require('helmet')
 
 const app = express();
+
+// SECURITY
+    // make use of express-rate-limit
+    const limiter = rateLimit({
+      windowMs: 15 * 60 * 1000, // 15 minutes
+      max: 10 // limit each IP to 10 requests per window
+    });    
+  app.use(limiter);
+  
+      // make use of helmet
+  app.use(helmet())
 
 app.use(express.json());
 app.use(cors())
@@ -22,13 +38,11 @@ try {
 
 // Define a model
 const User = mongoose.model('User', {
+  firstname: String,
+  lastname: String,
   username: String,
-  password: String,
-  confirmPassword: String,
   email: String,
   phone: String,
-  giver: Boolean,
-  searcher: Boolean
 });
 
 // Define a route
@@ -60,7 +74,7 @@ app.post('/api/register', async (req, res) => {
 })
 
 app.post('/api/login', async (req, res) => {
-  const { username_or_email, loginCode } = req.body;
+  const { username_or_email } = req.body;
 
   try {
     const foundUser = await User.findOne({$or:[{username:username_or_email}, {email:username_or_email}]})
@@ -70,6 +84,8 @@ app.post('/api/login', async (req, res) => {
     if(!foundUser){
       return res.status(401).send('Invalid credentials');
     }
+    // uuid to create a random code
+    // code should be sent to user's email; copy paste back to the login page
 
     const isValidLoginCode = await bcrypt.compare(loginCode, foundUser.loginCode);
     if (!isValidLoginCode) {
