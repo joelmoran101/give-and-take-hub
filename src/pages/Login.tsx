@@ -61,19 +61,19 @@ const code = Math.floor(100000 + Math.random() * 900000).toString();
       >
         <Form>
           <div className="form-group">
-            <label htmlFor="username_or_email">Username or Email</label>
+            <label htmlFor="username_or_email">Enter Username or Email</label>
             <Field type="text" id="username_or_email" name="username_or_email" />
             <ErrorMessage name="username_or_email" component="div" className="error-message" />
           </div>
           <button type="submit" className="get_code_button">Get One-Time Login Code</button>
           <div className="form-group">
             <label htmlFor="loginCode"></label>
-            <Field type="text" id="loginCode" name="loginCode" placeholder="One-Time Login Code"/>
+
             <ErrorMessage name="loginCode" component="div" className="error-message" />
           </div>
           
           <Link to="/register">No account yet? Register here...</Link>
-          <button type="submit" className="login-button">Login</button>
+          
         </Form>
       </Formik>
     </div>
