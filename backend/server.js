@@ -5,6 +5,7 @@ const cors = require('cors')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const swaggerDocs = require('./utilities/swagger')
+const nodemailer = require('nodemailer')
 // additional features to minimize risks of cyber attacks
 // import express-rate-limit
 const rateLimit = require('express-rate-limit')
@@ -72,6 +73,34 @@ app.post('/api/register', async (req, res) => {
     }
 
 })
+
+app.post('/send-email', (req, res) => {
+  const transporter = nodemailer.createTransport({
+    host: 'smtp.gmail.com',
+    port: 587,
+    secure: false, // or 'STARTTLS'
+    auth: {
+      user: 'joelmoran.ph@gmail.com',
+      pass: 'Ezw2024*gm',
+    },
+  });
+
+  const mailOptions = {
+    from: 'joel.moran@students.beaaminstitute.org',
+    to: 'joelmoran.ph@gmail.com',
+    subject: 'Test email',
+    text: 'Hello from server-side!',
+  };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      return console.log(error);
+    }
+    console.log('Email sent: ' + info.response);
+    res.send('Email sent!');
+  });
+});
+
 
 app.post('/api/login', async (req, res) => {
   const { username_or_email } = req.body;

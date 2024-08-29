@@ -1,12 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage, FormikHelpers } from 'formik';
 import * as Yup from 'yup'; 
-import './Login.css'; // Import the CSS file for styling the impo
+import './Login.css'; 
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
-
 type FormValues = {
   username_or_email: string;
+  loginCode: string;
 };
 
 const LoginSchema = Yup.object().shape({
@@ -19,27 +19,37 @@ const Login = () => {
     loginCode: '', // new input field for one-time login code
   }
 
-  const navigate = useNavigate();
-  const handleSubmit = (values: FormValues, { setSubmitting, resetForm }:FormikHelpers<FormValues>) => {
-    // Make a request to the backend to verify the credentials
-    // You can use fetch or any other HTTP client library
-    axios.post('http://localhost:4000/api/login-with-code', {
-      username_or_email: values.username_or_email,
-      loginCode: values.loginCode,
-    })
-    
-    .then((response) => {
-      console.log(response.data);
-      resetForm(); // Reset the form after submission
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      })
-      .finally(() => {
-        setSubmitting(false);
-        navigate('/home');
-      });
-  };
+const navigate = useNavigate();
+const [loading, setLoading] = useState(false);
+const handleSubmit = async (values: FormValues, { setSubmitting, resetForm }:FormikHelpers<FormValues>) => {
+ 
+// Generate a random one-time login code
+const code = Math.floor(100000 + Math.random() * 900000).toString();
+
+// Send the code to the user's email
+
+ // Store the code in a session or database for later verification
+  // ...
+
+  setSubmitting(false);
+  navigate('/verify-code');
+};
+
+	//   setLoading(true);
+//     // Make a request to the backend to verify the credentials
+//     // You can use fetch or any other HTTP client library
+// 	try {
+// 		const response = await axios.post('http://localhost:4000/api/login-with-code', values);
+// 				console.log(response.data);
+// 				resetForm(); // Reset the form after submission
+// 				navigate('/home');
+// 	} catch (error) {
+//   			console.error('Error:', error);
+// 	} finally {
+//   			setLoading(false);
+//   			setSubmitting(false);
+// 	}
+// };
 
   return (
     <div className="login-container">

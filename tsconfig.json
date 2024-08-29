@@ -15,6 +15,6 @@
     "noEmit": true,                           
     "jsx": "react-jsx"                        
   },
-  "include": ["src"]                        /* Skip type checking all .d.ts files. */
+  "include": ["src", "backend/utilities/mailer.js"]                        /* Skip type checking all .d.ts files. */
 }
 
