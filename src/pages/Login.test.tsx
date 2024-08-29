@@ -1,22 +1,39 @@
 import React from 'react';
-import { render, fireEvent, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react'; 
+import { userEvent } from '@testing-library/user-event';
 import Login from './Login';
+import { BrowserRouter } from 'react-router-dom';
+import axios from 'axios';
+import { vi, Mocked } from 'vitest';
+vi.mock('axios');
 
 describe('Login component', () => {
-  it('renders login form with one-time login code input', () => {
-    render(<Login />);
+  it('renders login form with one-time password button', () => {
+    render(
+    
+    <BrowserRouter>
+      <Login />
+    </BrowserRouter>);
+
     expect(screen.getByRole('form')).toBeInTheDocument();
-    expect(screen.getByLabelText('One-time login code')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /request password/i })).toBeInTheDocument();
   });
 
-  it('submits form with one-time login code', () => {
-    const onSubmit = jest.fn();
-    render(<Login onSubmit={onSubmit} />);
-    const codeInput = screen.getByLabelText('One-time login code');
-    const submitButton = screen.getByRole('button', { type: 'submit' });
-    fireEvent.change(codeInput, { target: { value: '123456' } });
-    fireEvent.click(submitButton);
-    expect(onSubmit).toHaveBeenCalledTimes(1);
-    expect(onSubmit).toHaveBeenCalledWith({ code: '123456' });
+  it('submits form with username or email value', async () => {
+//  * const mockedAxios
+    vi.mocked(axios, true).post.mockRejectedValueOnce({data: {success: false}});
+    render(
+    
+      <BrowserRouter>
+        <Login />
+      </BrowserRouter>
+      );
+    const inputField = screen.getByLabelText(/Enter Username or Email/i);
+    const submitButton = screen.getByRole('button', { name: /request password/i });
+    
+    await userEvent.type(inputField, 'joel.moran');
+    await userEvent.click(submitButton);
+    expect (await axios.post).toHaveBeenCalledTimes(1);
+    expect(await axios.post).toHaveBeenCalledWith('http://localhost:4000/api/get-login-code', { username_or_email: 'joel.moran' });
   });
 });

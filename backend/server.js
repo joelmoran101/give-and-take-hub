@@ -74,6 +74,14 @@ app.post('/api/register', async (req, res) => {
 
 })
 
+// Generate a random one-time login code
+const code = Math.floor(100000 + Math.random() * 900000).toString();
+
+// Send the code to the user's email
+
+ // Store the code in a session or database for later verification
+  // ...
+  
 app.post('/send-email', (req, res) => {
   const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',

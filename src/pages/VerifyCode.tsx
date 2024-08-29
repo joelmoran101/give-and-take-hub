@@ -8,6 +8,8 @@ const VerifyCode = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+<Field type="text" id="loginCode" name="loginCode" placeholder="One-Time Login Code"/>
+    <button type="submit" className="login-button">Login</button>
 
     // Verify the code with the stored code in the session or database
     axios.post('/verify-code', { code })

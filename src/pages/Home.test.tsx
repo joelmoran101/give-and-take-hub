@@ -7,7 +7,9 @@ import { MemoryRouter } from 'react-router-dom'
 
  describe('Home page header', () => {
   it('should render the header with the correct logo and navigation', () => {
-    const { getByText, getByRole } = render(<MemoryRouter >
+    const { getByText, getByRole } = render(
+    
+    <MemoryRouter >
       (<Home />);
     </MemoryRouter>);
     
