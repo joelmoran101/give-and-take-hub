@@ -3,6 +3,7 @@ import { Form, Navigate } from 'react-router-dom';
 import { Field, Formik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
+import './Login.css';
 
 type FormValues = {
   oneTimePassword: string;
@@ -31,7 +32,7 @@ const handleLogin = async (values: FormValues, { setSubmitting, resetForm }: any
 
 const EnterOneTimePassword = () => {
   return (
-    <div>
+    <div className="login-container">
       <h2>Enter One Time Password</h2>
       <Formik
         initialValues={initialValues}
@@ -39,11 +40,11 @@ const EnterOneTimePassword = () => {
         onSubmit={handleLogin}
       >
         {({ isSubmitting }) => (
-          <Form>
-            <label htmlFor="oneTimePassword">One Time Password</label>
-            <Field type="text" id="oneTimePassword" name="oneTimePassword" />
-            <button type="submit" disabled={isSubmitting}>
-              Submit
+          <Form className='login-form'>
+            <label htmlFor="oneTimePassword" padding-right="1em">One Time Password</label>
+            <Field type="text" border-radius="10px" id="oneTimePassword" name="oneTimePassword" />
+            <button className='login-button' type="submit" disabled={isSubmitting}>
+              Login
             </button>
           </Form>
         )}
