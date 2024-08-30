@@ -19,16 +19,16 @@ const Login: React.FC = () => {
     username_or_email: '',
   };
 
-const handleGetCode = async (values: FormValues, { setSubmitting, resetForm }:FormikHelpers<FormValues>) => {
+const handleRequestPassword = async (values: FormValues, { setSubmitting, resetForm }:FormikHelpers<FormValues>) => {
   setSubmitting(true);
   try {
-    const response = await axios.post('http://localhost:4000/api/get-login-code', { username_or_email: values.username_or_email });
+    const response = await axios.post('http://localhost:4000/api/request-password', { username_or_email: values.username_or_email });
     console.log(response.data);
     // Update the form with the generated code
     // setLoginCode(response.data);
-    navigate('/verify-code');
+    navigate('/enter-one-time-password' );
   } catch (error) {
-    console.error('Error:', error);
+    alert('Error:'+ error);
   }
   finally {
     setSubmitting(false);
@@ -42,13 +42,13 @@ const handleGetCode = async (values: FormValues, { setSubmitting, resetForm }:Fo
       <Formik
         initialValues={initialValues}
         validationSchema={LoginSchema}
-        onSubmit={handleGetCode}
+        onSubmit={handleRequestPassword}
       >
       {(formik) => (
             <Form role='form'>
             <div className="form-group">
               <label htmlFor="username_or_email">Enter Username or Email</label>
-              <Field type="text" id="username_or_email" name="username_or_email" />
+              <Field type="text" id="username_or_email" name="username_or_email" placeholder="Username or Email"/>
               <ErrorMessage name="username_or_email" component="div" className="error-message" />
             </div>
             <button type="submit" className="get_code_button" >Request Password</button>

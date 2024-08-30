@@ -74,8 +74,42 @@ app.post('/api/register', async (req, res) => {
 
 })
 
-// Generate a random one-time login code
-const code = Math.floor(100000 + Math.random() * 900000).toString();
+app.post('/api/login', async (req, res) => {
+  const { username_or_email } = req.body;
+
+  try {
+    const foundUser = await User.findOne({$or:[{username:username_or_email}, {email:username_or_email}]})
+    console.log(foundUser)
+    console.log(await loginCode)
+
+    if(!foundUser){
+      return res.status(401).send('Invalid credentials');
+    }
+    // uuid to create a random code
+    // code should be sent to user's email; copy paste back to the login page
+
+    const isValidLoginCode = await bcrypt.compare(loginCode, foundUser.loginCode);
+    if (!isValidLoginCode) {
+      return res.status(401).send('Invalid username or loginCode');
+    }
+    // If the username and password are valid, generate a JWT token
+    const token = jwt.sign({ userId: foundUser._id }, process.env.SECRET_KEY, {
+      expiresIn: '1h',
+    });
+    res.json({ token });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error logging in');
+  }
+});
+
+app.post('/api/request-password', async (req, res) => {
+  const { username_or_email } = req.body;
+  // simulating always a good response
+  res.json({ success: true });
+})
+
+
 
 // Send the code to the user's email
 
@@ -110,34 +144,7 @@ app.post('/send-email', (req, res) => {
 });
 
 
-app.post('/api/login', async (req, res) => {
-  const { username_or_email } = req.body;
 
-  try {
-    const foundUser = await User.findOne({$or:[{username:username_or_email}, {email:username_or_email}]})
-    console.log(foundUser)
-    console.log(await loginCode)
-
-    if(!foundUser){
-      return res.status(401).send('Invalid credentials');
-    }
-    // uuid to create a random code
-    // code should be sent to user's email; copy paste back to the login page
-
-    const isValidLoginCode = await bcrypt.compare(loginCode, foundUser.loginCode);
-    if (!isValidLoginCode) {
-      return res.status(401).send('Invalid username or loginCode');
-    }
-    // If the username and password are valid, generate a JWT token
-    const token = jwt.sign({ userId: foundUser._id }, process.env.SECRET_KEY, {
-      expiresIn: '1h',
-    });
-    res.json({ token });
-  } catch (err) {
-    console.error(err);
-    res.status(500).send('Error logging in');
-  }
-});
 
 // Start the server
 app.listen(process.env.PORT, () => {

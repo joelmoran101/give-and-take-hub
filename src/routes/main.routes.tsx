@@ -6,6 +6,7 @@ import Register from "../pages/Register";
 import Login from "../pages/Login";
 import GiveItem from "../components/GiveItem";
 import SearchItems from "../components/SearchItems";
+import EnterOneTimePassword from "../pages/EnterOneTimePassword";
 
 export const router=createBrowserRouter(createRoutesFromElements(
 
@@ -14,6 +15,7 @@ export const router=createBrowserRouter(createRoutesFromElements(
             <Route path="/welcome" element={<Hero />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/enter-one-time-password" element={<EnterOneTimePassword />} />
             <Route path="/give" element={<GiveItem />} />
             <Route path="/search" element={<SearchItems />} />
         </Route>

@@ -8,6 +8,17 @@ import { vi, Mocked } from 'vitest';
 vi.mock('axios');
 
 describe('Login component', () => {
+  it('renders login form with an input field for username or email', () => {
+    render(
+    
+    <BrowserRouter>
+      <Login />
+    </BrowserRouter>);
+
+    expect(screen.getByRole('form')).toBeInTheDocument();
+    expect(screen.getByLabelText(/username or email/i)).toBeInTheDocument();
+  });
+
   it('renders login form with one-time password button', () => {
     render(
     
@@ -34,6 +45,6 @@ describe('Login component', () => {
     await userEvent.type(inputField, 'joel.moran');
     await userEvent.click(submitButton);
     expect (await axios.post).toHaveBeenCalledTimes(1);
-    expect(await axios.post).toHaveBeenCalledWith('http://localhost:4000/api/get-login-code', { username_or_email: 'joel.moran' });
+    expect(await axios.post).toHaveBeenCalledWith('http://localhost:4000/api/request-password', { username_or_email: 'joel.moran' });
   });
 });
