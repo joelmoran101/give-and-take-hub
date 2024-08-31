@@ -41,8 +41,8 @@ const EnterOneTimePassword = () => {
       >
         {({ isSubmitting }) => (
           <Form className='login-form'>
-            <label htmlFor="oneTimePassword" padding-right="1em">One Time Password</label>
-            <Field type="text" border-radius="10px" id="oneTimePassword" name="oneTimePassword" />
+            <label htmlFor="oneTimePassword" padding-right="1em">Check your email for One Time Password</label>
+            <Field type="text" border-radius="10px" id="oneTimePassword" name="oneTimePassword"placeholder="Enter 1-Time Password"/>
             <button className='login-button' type="submit" disabled={isSubmitting}>
               Login
             </button>
