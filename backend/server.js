@@ -128,8 +128,8 @@ app.post('/send-email', (req, res) => {
   });
 
   const mailOptions = {
-    from: 'joel.moran@students.beaaminstitute.org',
-    to: 'joelmoran.ph@gmail.com',
+    from: '',
+    to: '',
     subject: 'Test email',
     text: 'Hello from server-side!',
   };
