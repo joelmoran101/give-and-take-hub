@@ -122,8 +122,8 @@ app.post('/send-email', (req, res) => {
     port: 587,
     secure: false, // or 'STARTTLS'
     auth: {
-      user: 'joelmoran.ph@gmail.com',
-      pass: 'Ezw2024*gm',
+      user: '',
+      pass: '',
     },
   });
 
