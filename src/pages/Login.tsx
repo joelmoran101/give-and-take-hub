@@ -4,6 +4,9 @@ import * as Yup from 'yup';
 import './Login.css'; 
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setUserId } from '../state/userSlice';
+import { BACKEND_HOST } from '../config/config';
 type FormValues = {
   username_or_email: string;
 };
@@ -14,6 +17,7 @@ const LoginSchema = Yup.object().shape({
 const Login: React.FC = () => {
   const [loginCode, setLoginCode] = useState<string>(''); // Move the state hook here
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const initialValues = {
     username_or_email: '',
@@ -22,8 +26,10 @@ const Login: React.FC = () => {
 const handleRequestPassword = async (values: FormValues, { setSubmitting, resetForm }:FormikHelpers<FormValues>) => {
   setSubmitting(true);
   try {
-    const response = await axios.post('http://localhost:4000/api/request-password', { username_or_email: values.username_or_email });
+
+    const response = await axios.post<{userId: string, message: string, success: boolean}>(BACKEND_HOST+'/api/request-password', { username_or_email: values.username_or_email });
     console.log(response.data);
+    dispatch( setUserId(response.data.userId))
     // Update the form with the generated code
     // setLoginCode(response.data);
     navigate('/enter-one-time-password' );
