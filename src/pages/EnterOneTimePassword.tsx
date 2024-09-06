@@ -4,6 +4,8 @@ import { Field, Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 import './Login.css';
+import { useSelector } from 'react-redux';
+import { BACKEND_HOST } from '../config/config';
 
 type FormValues = {
   oneTimePassword: string;
@@ -16,6 +18,7 @@ const LoginSchema = Yup.object().shape({
 
 
 const EnterOneTimePassword = () => {
+  const userId = useSelector((state: any) => state.user.userId);
   const navigate = useNavigate();
   const initialValues = {
     oneTimePassword: '',
@@ -23,7 +26,7 @@ const EnterOneTimePassword = () => {
   const handleLogin = async (values: FormValues, { setSubmitting, resetForm }: any) => {
     setSubmitting(true);
     try {
-      const response = await axios.post('http://localhost:4000/api/login', values);
+      const response = await axios.post(BACKEND_HOST+'/api/login', { userId, ...values});
       console.log(response.data);
       // Update the form with the generated code
       // setLoginCode(response.data);
