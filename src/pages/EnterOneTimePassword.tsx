@@ -12,9 +12,10 @@ type FormValues = {
 };
 
 const LoginSchema = Yup.object().shape({
-  oneTimePassword: Yup.string().required('One Time Password is required'),
+  oneTimePassword: Yup.string()
+    .required('One Time Password is required')
+    .transform((value) => value.toUpperCase()),
 });
-
 
 
 const EnterOneTimePassword = () => {
@@ -26,7 +27,10 @@ const EnterOneTimePassword = () => {
   const handleLogin = async (values: FormValues, { setSubmitting, resetForm }: any) => {
     setSubmitting(true);
     try {
-      const response = await axios.post(BACKEND_HOST+'/api/login', { userId, ...values});
+      const response = await axios.post(BACKEND_HOST+'/api/login', { 
+        userId,
+        oneTimePassword: values.oneTimePassword.toUpperCase(), 
+      });
       console.log(response.data);
       // Update the form with the generated code
       // setLoginCode(response.data);
