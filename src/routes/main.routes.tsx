@@ -4,9 +4,9 @@ import Home from "../pages/Home";
 import Hero from "../components/hero/Hero";
 import Register from "../pages/Register";
 import Login from "../pages/Login";
-import GiveItem from "../components/GiveItem";
-import SearchItems from "../components/SearchItems";
+import BrowseItems from "../components/BrowseItems";
 import EnterOneTimePassword from "../pages/EnterOneTimePassword";
+import AddArticle from "../components/AddArticle";
 
 export const router=createBrowserRouter(createRoutesFromElements(
 
@@ -16,8 +16,8 @@ export const router=createBrowserRouter(createRoutesFromElements(
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
             <Route path="/enter-one-time-password" element={<EnterOneTimePassword />} />
-            <Route path="/give" element={<GiveItem />} />
-            <Route path="/search" element={<SearchItems />} />
+            <Route path="/add-article" element={<AddArticle />} />
+            <Route path="/browse" element={<BrowseItems />} />
         </Route>
    
 ))

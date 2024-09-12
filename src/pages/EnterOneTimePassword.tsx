@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Field, Formik, Form } from 'formik';
 import * as Yup from 'yup';
@@ -6,6 +6,7 @@ import axios from 'axios';
 import './Login.css';
 import { useSelector } from 'react-redux';
 import { BACKEND_HOST } from '../config/config';
+import { AuthContext } from '../auth/AuthContext';
 
 type FormValues = {
   oneTimePassword: string;
@@ -20,6 +21,7 @@ const LoginSchema = Yup.object().shape({
 
 const EnterOneTimePassword = () => {
   const userId = useSelector((state: any) => state.user.userId);
+  const { setLoggedInUser } = useContext(AuthContext)
   const navigate = useNavigate();
   const initialValues = {
     oneTimePassword: '',
@@ -27,19 +29,24 @@ const EnterOneTimePassword = () => {
   const handleLogin = async (values: FormValues, { setSubmitting, resetForm }: any) => {
     setSubmitting(true);
     try {
-      const response = await axios.post(BACKEND_HOST+'/api/login', { 
+      // response any has to be changed later
+      const response:any = await axios.post(BACKEND_HOST+'/api/login', { 
         userId,
         oneTimePassword: values.oneTimePassword.toUpperCase(), 
       });
       console.log(response.data);
+
+      setLoggedInUser(response.data.user);
       // Update the form with the generated code
       // setLoginCode(response.data);
       navigate('/');
     } catch (error) {
       console.error(error);
     }
+    finally {
+      setSubmitting(false);
   };
-
+}
   return (
     <div className="login-container">
       <h2>Enter One Time Password</h2>
@@ -59,7 +66,6 @@ const EnterOneTimePassword = () => {
         )}
       </Formik>
     </div>
-  );
-};
-
-export default EnterOneTimePassword;
+  )
+}
+export default EnterOneTimePassword
