@@ -1,19 +1,40 @@
+import React from 'react';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 
+interface Location {
+  address: string;
+  city: string;
+  // Add any other location properties you have
+}
 
+interface ArticleCardProps {
+  article: {
+    _id: string; // Changed from article_id to _id
+    article_name: string;
+    picture_url: string;
+    article_category: string;
+    article_description: string;
+    username: string;
+    date_time_stamp: string;
+    availability: string;
+    location: Location;
+  };
+}
 
-function ArticleCard({}) {
+const ArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
   return (
     <Card style={{ width: '18rem' }}>
-      <Card.Img variant="top" src="holder.js/100px180" />
+      <Card.Img variant="top" src={article.picture_url} />
       <Card.Body>
-        <Card.Title>Article Title</Card.Title>
-        <Card.Text>
-          Some quick example text to build on the card title and make up the
-          bulk of the card's content.
-        </Card.Text>
-        <Button variant="primary">Go somewhere</Button>
+        <Card.Title>{article.article_name}</Card.Title>
+        <Card.Text>{article.article_description}</Card.Text>
+        <Card.Text>Category: {article.article_category}</Card.Text>
+        <Card.Text>Available: {article.availability}</Card.Text>
+        <Card.Text>Location: {article.location.city}</Card.Text>
+        <Card.Text>Posted by: {article.username}</Card.Text>
+        <Card.Text>Date: {article.date_time_stamp}</Card.Text>
+        <Button variant="primary">View Details</Button>
       </Card.Body>
     </Card>
   );

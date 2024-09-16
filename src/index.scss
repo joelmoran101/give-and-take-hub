@@ -9,6 +9,18 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  /* background-color: white; */
+  /* background-image: url('../assets/images/bird.jpg'); */
+  background-size: cover;
+  background-position: center;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;

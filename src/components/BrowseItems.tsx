@@ -1,7 +1,32 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import ArticleCard from './articleCard/ArticleCard';
-import { Dropdown, Navbar, Button, Container, Form, Nav, NavDropdown } from 'react-bootstrap';
+import { Navbar, Button, Container, Form, Nav, NavDropdown } from 'react-bootstrap';
+import { connectToDatabase } from '../config/mongoDb';
+import { WithId, Document } from 'mongodb';
 
+// Define the Location interface
+interface Location {
+  address: string;
+  city: string;
+  // Add any other location properties you have
+}
+
+// Define the CustomArticle interface
+interface CustomArticle extends Omit<WithId<Document>, 'location'> {
+  _id: string;
+  article_name: string;
+  picture_url: string;
+  article_category: string;
+  article_description: string;
+  username: string;
+  date_time_stamp: string;
+  availability: string;
+  location: Location;
+}
+
+type Article = CustomArticle;
+
+// Header rendering function
 function renderHeader() {
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
@@ -54,92 +79,52 @@ function renderHeader() {
   );
 }
 
-//     <nav className="navbar navbar-expand-lg navbar-light bg-light">
-//   <div className="container-fluid">
-//     <a className="navbar-brand" href="#">Navbar</a>
-//     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-//       <span className="navbar-toggler-icon"></span>
-//     </button>
-//     <div className="collapse navbar-collapse" id="navbarSupportedContent">
-//       <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-//         <li className="nav-item">
-//           <a className="nav-link active" aria-current="page" href="#">Home</a>
-//         </li>
-//         <li className="nav-item dropdown">
-//           <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-//             Sort by: Dropdown
-//           </a>
-//           <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-//             <li><a className="dropdown-item" href="#">Available Articles</a></li>
-//             <li><a className="dropdown-item" href="#">Needed Items</a></li>
-//             <li><hr/> className="dropdown-divider"</li>
-//             <li><a className="dropdown-item" href="#">Show All Articles</a></li>
-//           </ul>
-//         </li>
-//         <li className="nav-item dropdown">
-//           <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-//             Filter by: Dropdown
-//           </a>
-//           <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-//             <li><a className="dropdown-item" href="#">Location</a></li>
-//             <li><a className="dropdown-item" href="#">Category</a></li>
-//             <li><hr/> className="dropdown-divider"</li>
-//             <li><a className="dropdown-item" href="#">Show All</a></li>
-//           </ul>
-//         </li>
-//       </ul>
-//       <form className="d-flex">
-//         <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search"></input>
-//         <button className="btn btn-outline-success" type="submit">Search</button>
-//       </form>
-//     </div>
-//   </div>
-// </nav>
-
-
-// function sortByDropdownOptions() {
-//   return (
-//     <Dropdown>
-//       <Dropdown.Toggle variant="success" id="dropdown-basic">
-//         Sort By
-//       </Dropdown.Toggle>
-//       <Dropdown.Menu>
-//         <Dropdown.Item href="#/action-1">Available Articles</Dropdown.Item>
-//         <Dropdown.Item href="#/action-2">Needed Items</Dropdown.Item>
-//         <Dropdown.Item href="#/action-3">Show All Articles</Dropdown.Item>
-//       </Dropdown.Menu>
-//     </Dropdown>
-//   )};
-// function filterByDropdownOptions() {
-//   return (
-//     <Dropdown>
-//       <Dropdown.Toggle variant="success" id="dropdown-basic">
-//         Filter By
-//       </Dropdown.Toggle>
-//       <Dropdown.Menu>
-//         <Dropdown.Item href="#/action-1">Location</Dropdown.Item>
-//         <Dropdown.Item href="#/action-2">Category</Dropdown.Item>
-//         <Dropdown.Item href="#/action-3">Show All</Dropdown.Item>
-//       </Dropdown.Menu>
-//     </Dropdown>
-//   )};
+// Main BrowseItems component
 function BrowseItems() {
+  const [articles, setArticles] = useState<Article[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
   useEffect(() => {
-    // axios.get
-    
-  }, [])
+    const fetchArticles = async () => {
+      try {
+        const { db } = await connectToDatabase();
+        const articlesCollection = db.collection('articles');
+        const articlesData = await articlesCollection.find().toArray();
+
+        const articles: Article[] = articlesData.map((article: CustomArticle) => ({
+          ...article,
+          location: article.location as Location,
+        }));
+
+        setArticles(articles);
+        setLoading(false);
+      } catch (error) {
+        console.error('Failed to fetch articles:', error);
+        setError('Failed to fetch articles. Please try again later.');
+        setLoading(false);
+      }
+    };
+
+    fetchArticles();
+  }, []);
 
   return (
     <div>
       <header className='optionHeaders'>
-        { renderHeader() }
-        
+        {renderHeader()}        
       </header>
 
       <div className="article-cards">
-        <ArticleCard />
-        <ArticleCard />
-        <ArticleCard />
+        {loading ? (
+          <p>Loading...</p>
+        ) : error ? (
+          <p>{error}</p>
+        ) : (
+          articles.map((article) => (
+            <ArticleCard key={article._id} article={article} />
+          ))
+        )}
       </div>
     </div>
   );

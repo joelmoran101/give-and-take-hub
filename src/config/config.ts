@@ -1,2 +1,2 @@
-export const BACKEND_HOST = 'http://localhost:4000';
-// export const BACKEND_HOST = 'http://localhost:4000'; use the actual URL of the Bacend here
+export const BACKEND_HOST = 'mongodb+srv://joelmoran:zT1kieHt5JCouYQi@cluster0.jw2164k.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
+// export const BACKEND_HOST = 'http://localhost:4000'; use the actual URL of the Backend here

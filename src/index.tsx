@@ -7,15 +7,16 @@ import './index.scss';
 import { RouterProvider } from 'react-router-dom';
 import { router } from './routes/main.routes';
 import { AuthProvider } from './auth/AuthContext.js';
+import { createRoot } from 'react-dom/client';
 
-
-ReactDOM.render(
+const root = createRoot(document.getElementById('root')!);
+root.render(
   <React.StrictMode>
     <Provider store={store}>
       <AuthProvider>
         <RouterProvider router={router}></RouterProvider>
       </AuthProvider>
     </Provider>
-  </React.StrictMode>,
-  document.getElementById('root')
+  </React.StrictMode>
+
 );
