@@ -7,16 +7,13 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-body {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
   margin: 0;
-  /* background-color: white; */
-  /* background-image: url('../assets/images/bird.jpg'); */
+  // background-color: red!important; 
+  background-image: url('./assets/images/bird.jpg'); 
   background-size: cover;
   background-position: center;
 }

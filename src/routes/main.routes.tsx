@@ -11,14 +11,14 @@ import AddArticle from "../components/AddArticle";
 export const router=createBrowserRouter(createRoutesFromElements(
 
         <Route element={<App />} >
-            <Route path="/" element={<h2>Home</h2>} />
+            <Route path="/" element={ <Home/> } />
             {/* <Route path="/welcome" element={<Hero />} /> */}
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
             <Route path="/enter-one-time-password" element={<EnterOneTimePassword />} />
             <Route path="/add-article" element={<AddArticle />} />
-            <Route path="/browse" element={<BrowseItems />} />
-            <Route path="/test" element={<BrowseItems />} />
+            {/* <Route path="/browse" element={<BrowseItems />} />
+            <Route path="/test" element={<BrowseItems />} /> */}
         </Route>
    
 ))
