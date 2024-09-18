@@ -1,12 +1,12 @@
-.article-card {
-    display: grid;
-    max-width: 800px;
-    margin: 40px auto;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
+// .article-card {
+//     display: grid;
+//     max-width: 800px;
+//     margin: 40px auto;
+//     padding: 20px;
+//     border: 1px solid #ddd;
+//     border-radius: 10px;
+//     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+//   }
 
   .article-card-grid {
     display: grid;
@@ -14,11 +14,11 @@
     grid-gap: 20px;
   }
   
-  .classification-header {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
+  // .classification-header {
+  //   font-size: 18px;
+  //   font-weight: bold;
+  //   margin-bottom: 10px;
+  // }
   
   .article-image {
     width: 100%;

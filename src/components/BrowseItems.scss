@@ -1,0 +1,21 @@
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  justify-content: center;
+  margin: 2em;
+  border-top: 15em;
+
+  .card {
+    flex-basis: 200px;
+    margin: 20px;
+
+    @media (max-width: 768px) {
+      flex-basis: 300px;
+    }
+
+    @media (max-width: 480px) {
+      flex-basis: 100%;
+    }
+  }
+}

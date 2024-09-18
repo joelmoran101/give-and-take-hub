@@ -17,8 +17,8 @@ export const router=createBrowserRouter(createRoutesFromElements(
             <Route path="/login" element={<Login />} />
             <Route path="/enter-one-time-password" element={<EnterOneTimePassword />} />
             <Route path="/add-article" element={<AddArticle />} />
-            {/* <Route path="/browse" element={<BrowseItems />} />
-            <Route path="/test" element={<BrowseItems />} /> */}
+          <Route path="/browse" element={<BrowseItems />} />
+
         </Route>
    
 ))

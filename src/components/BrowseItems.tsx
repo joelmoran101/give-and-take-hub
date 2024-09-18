@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ArticleCard from './articleCard/ArticleCard';
 import { Navbar, Button, Container, Form, Nav, NavDropdown } from 'react-bootstrap';
-
+import './BrowseItems.scss';
 // Define the Location interface
 
 // Header rendering function
@@ -61,7 +61,7 @@ const data = [{
     "$oid": "66e4019a244ca7471f5671e3"
   },
   "article_id": 1,
-  "picture_url": "https://console.cloudinary.com/pm/c-94873cdeae15f87eb6d8c80f9d0f92/media-explorer/Give%20and%20Take%20Article%20Images?assetId=a5369b4994b2d77aa6eaefbff020ed85",
+  "picture_url": "https://res.cloudinary.com/dctjnykyl/image/upload/v1726302941/Give%20and%20Take%20Article%20Images/wodqbxoqmejyqcd92dyp.png",
   "article_name": "Bluetooth Headphones",
   "article_category": "Electronic Gadgets",
   "article_description": "Over-ear wireless Bluetooth headphones with noise cancellation.",
@@ -75,7 +75,7 @@ const data = [{
     "$oid": "66e4019a244ca7471f5671e4"
   },
   "article_id": 2,
-  "picture_url": "https://console.cloudinary.com/pm/c-94873cdeae15f87eb6d8c80f9d0f92/media-explorer/Give%20and%20Take%20Article%20Images?assetId=7d0cf62ea9b8f351e08beecb8ffa8b45",
+  "picture_url": "https://res.cloudinary.com/dctjnykyl/image/upload/v1726304075/Give%20and%20Take%20Article%20Images/zh430lspb2aerwnjsjku.png",
   "article_name": "Wooden Coffee Table",
   "article_category": "Furniture",
   "article_description": "Solid oak coffee table with a classic design.",
@@ -89,7 +89,7 @@ const data = [{
     "$oid": "66e4019a244ca7471f5671e5"
   },
   "article_id": 3,
-  "picture_url": "https://console.cloudinary.com/pm/c-94873cdeae15f87eb6d8c80f9d0f92/media-explorer/Give%20and%20Take%20Article%20Images?assetId=bf35e8fa4ac5b31d32b96b452e15be53",
+  "picture_url": "https://res.cloudinary.com/dctjnykyl/image/upload/v1726305150/Give%20and%20Take%20Article%20Images/sftjzjm6u3xvbajabemp.png",
   "article_name": "Children's Puzzle Set",
   "article_category": "Toys",
   "article_description": "Colorful puzzle set for kids aged 3-5.",
@@ -103,7 +103,7 @@ const data = [{
     "$oid": "66e4019a244ca7471f5671e6"
   },
   "article_id": 4,
-  "picture_url": "https://console.cloudinary.com/pm/c-94873cdeae15f87eb6d8c80f9d0f92/media-explorer/Give%20and%20Take%20Article%20Images?assetId=6ad5122a7ade579c3cec26387b06113f",
+  "picture_url": "https://res.cloudinary.com/dctjnykyl/image/upload/v1726305287/Give%20and%20Take%20Article%20Images/ribfowvcjyupz8eadovb.png",
   "article_name": "Leather Jacket",
   "article_category": "Clothes",
   "article_description": "Black leather jacket, size M.",
@@ -117,7 +117,7 @@ const data = [{
     "$oid": "66e4019a244ca7471f5671e7"
   },
   "article_id": 5,
-  "picture_url": "https://console.cloudinary.com/pm/c-94873cdeae15f87eb6d8c80f9d0f92/media-explorer/Give%20and%20Take%20Article%20Images?assetId=95b74dfd59ac87577fc7bd8de54d6e16",
+  "picture_url": "https://res.cloudinary.com/dctjnykyl/image/upload/v1726305389/Give%20and%20Take%20Article%20Images/xvjdnabu5l4zhyqsjsbx.png",
   "article_name": "Camping Tent",
   "article_category": "Outdoor Gear",
   "article_description": "4-person camping tent with waterproof cover.",
@@ -131,7 +131,7 @@ const data = [{
     "$oid": "66e4019a244ca7471f5671e8"
   },
   "article_id": 6,
-  "picture_url": "https://console.cloudinary.com/pm/c-94873cdeae15f87eb6d8c80f9d0f92/media-explorer/Give%20and%20Take%20Article%20Images?assetId=94049e9847c91b2fd17d97b5caa825df",
+  "picture_url": "https://res.cloudinary.com/dctjnykyl/image/upload/v1726305499/Give%20and%20Take%20Article%20Images/bhux5f4wzmomo9oe2cnq.png",
   "article_name": "Electric Drill",
   "article_category": "Tools",
   "article_description": "Cordless electric drill with 2 batteries.",
@@ -145,7 +145,7 @@ const data = [{
     "$oid": "66e4019a244ca7471f5671e9"
   },
   "article_id": 7,
-  "picture_url": "https://console.cloudinary.com/pm/c-94873cdeae15f87eb6d8c80f9d0f92/media-explorer/Give%20and%20Take%20Article%20Images?assetId=c9cf33c1f8293df28d5497a491467636",
+  "picture_url": "https://res.cloudinary.com/dctjnykyl/image/upload/v1726305601/Give%20and%20Take%20Article%20Images/ghgc9wubo8oxsg5brv9e.png",
   "article_name": "Novelty Lamp",
   "article_category": "Home Decor",
   "article_description": "Retro novelty lamp with adjustable brightness.",
@@ -159,7 +159,7 @@ const data = [{
     "$oid": "66e4019a244ca7471f5671ea"
   },
   "article_id": 8,
-  "picture_url": "https://console.cloudinary.com/pm/c-94873cdeae15f87eb6d8c80f9d0f92/media-explorer/Give%20and%20Take%20Article%20Images?assetId=8c6497073c5f7932735c09c7eb51cd10",
+  "picture_url": "https://res.cloudinary.com/dctjnykyl/image/upload/v1726305695/Give%20and%20Take%20Article%20Images/n1w6x9t4ng3es01iyevn.png",
   "article_name": "Gaming Console",
   "article_category": "Electronic Gadgets",
   "article_description": "Latest model gaming console with 2 controllers.",
@@ -173,7 +173,7 @@ const data = [{
     "$oid": "66e4019a244ca7471f5671eb"
   },
   "article_id": 9,
-  "picture_url": "https://console.cloudinary.com/pm/c-94873cdeae15f87eb6d8c80f9d0f92/media-explorer/Give%20and%20Take%20Article%20Images?assetId=0763d4a1e52e9b051b806975d13bf9b0",
+  "picture_url": "https://res.cloudinary.com/dctjnykyl/image/upload/v1726305780/Give%20and%20Take%20Article%20Images/n8qljcnj0dmk0nzvnqso.png",
   "article_name": "Winter Coat",
   "article_category": "Clothes",
   "article_description": "Heavy-duty winter coat, size L.",
@@ -187,7 +187,7 @@ const data = [{
     "$oid": "66e4019a244ca7471f5671ec"
   },
   "article_id": 10,
-  "picture_url": "https://console.cloudinary.com/pm/c-94873cdeae15f87eb6d8c80f9d0f92/media-explorer/Give%20and%20Take%20Article%20Images?assetId=28b2b245df6d1d4988c75a61ddba434b",
+  "picture_url": "https://res.cloudinary.com/dctjnykyl/image/upload/v1726305867/Give%20and%20Take%20Article%20Images/hzgmpaagnhmx8gsvcww8.png",
   "article_name": "Yoga Mat",
   "article_category": "Fitness Gear",
   "article_description": "Non-slip yoga mat with carrying strap.",
@@ -201,7 +201,7 @@ const data = [{
     "$oid": "66e4019a244ca7471f5671ed"
   },
   "article_id": 11,
-  "picture_url": "https://console.cloudinary.com/pm/c-94873cdeae15f87eb6d8c80f9d0f92/media-explorer/Give%20and%20Take%20Article%20Images?assetId=b5552b27c33c22fec34b301baf3b6381",
+  "picture_url": "https://res.cloudinary.com/dctjnykyl/image/upload/v1726305987/Give%20and%20Take%20Article%20Images/ytwljm7n28oar5tzzdpn.png",
   "article_name": "Wristwatch",
   "article_category": "Accessories",
   "article_description": "Analog wristwatch with leather strap.",
@@ -215,7 +215,7 @@ const data = [{
     "$oid": "66e4019a244ca7471f5671ee"
   },
   "article_id": 12,
-  "picture_url": "https://console.cloudinary.com/pm/c-94873cdeae15f87eb6d8c80f9d0f92/media-explorer/Give%20and%20Take%20Article%20Images?assetId=3ddff03d155324025280dd08f2e58863",
+  "picture_url": "https://res.cloudinary.com/dctjnykyl/image/upload/v1726306129/Give%20and%20Take%20Article%20Images/waons4cqbvn1pijqxu8m.png",
   "article_name": "Portable Blender",
   "article_category": "Kitchen Appliances",
   "article_description": "Battery-operated portable blender for smoothies.",
@@ -229,7 +229,7 @@ const data = [{
     "$oid": "66e4019a244ca7471f5671ef"
   },
   "article_id": 13,
-  "picture_url": "https://console.cloudinary.com/pm/c-94873cdeae15f87eb6d8c80f9d0f92/media-explorer/Give%20and%20Take%20Article%20Images?assetId=54b3bdb6848c9ee86cb759099675f950",
+  "picture_url": "https://res.cloudinary.com/dctjnykyl/image/upload/v1726306218/Give%20and%20Take%20Article%20Images/nkqrprfiql6ecgssjnt7.png",
   "article_name": "Table Lamp",
   "article_category": "Home Decor",
   "article_description": "Modern table lamp with adjustable shade.",
@@ -243,7 +243,7 @@ const data = [{
     "$oid": "66e4019a244ca7471f5671f0"
   },
   "article_id": 14,
-  "picture_url": "https://console.cloudinary.com/pm/c-94873cdeae15f87eb6d8c80f9d0f92/media-explorer/Give%20and%20Take%20Article%20Images?assetId=1773d5961ed11ec228594d54e3f03cf0",
+  "picture_url": "https://res.cloudinary.com/dctjnykyl/image/upload/v1726306318/Give%20and%20Take%20Article%20Images/hf4xz9p1vjiuwqmpb0md.png",
   "article_name": "Set of Cookware",
   "article_category": "Kitchen Items",
   "article_description": "Non-stick cookware set including pots and pans.",
@@ -257,7 +257,7 @@ const data = [{
     "$oid": "66e4019a244ca7471f5671f1"
   },
   "article_id": 15,
-  "picture_url": "https://console.cloudinary.com/pm/c-94873cdeae15f87eb6d8c80f9d0f92/media-explorer/Give%20and%20Take%20Article%20Images?assetId=027fb65dc39c83e1b1f3b6adc89dd716",
+  "picture_url": "https://res.cloudinary.com/dctjnykyl/image/upload/v1726306650/Give%20and%20Take%20Article%20Images/yhbkqjp6xipojh0qvl2p.png",
   "article_name": "Office Chair",
   "article_category": "Furniture",
   "article_description": "Ergonomic office chair with lumbar support.",

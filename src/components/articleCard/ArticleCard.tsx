@@ -23,8 +23,9 @@ interface ArticleCardProps {
 }
 
 const ArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
+  console.log('Aticle data: ', article);
   return (
-    <Card style={{ width: '18rem' }}>
+    <Card className='card-container'>
       <Card.Img variant="top" src={article.picture_url} />
       <Card.Body>
         <Card.Title>{article.article_name}</Card.Title>
