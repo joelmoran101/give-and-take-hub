@@ -56,6 +56,8 @@ function renderHeader() {
     </Navbar>
   );
 }
+
+
 const data = [{
   "_id": {
     "$oid": "66e4019a244ca7471f5671e3"
@@ -272,6 +274,27 @@ function BrowseItems() {
   const [articles, setArticles] = useState <any>(data)
   const [errors, setErrors] = useState(null)
 
+  return (
+    <div className='d-flex flex-column '>
+
+        {renderHeader()}        
+
+
+      <div className="article-cards mx-auto">
+        {isPending ? (
+          <p>Loading...</p>
+        ) : errors ? (
+          <p>{errors}</p>
+        ) : (
+          articles && Array.isArray(articles) &&
+          articles.map((article) => (
+            <ArticleCard key={article._id} article={article} />
+          ))
+        )}
+      </div>
+    </div>
+  );
+
   // useEffect(() => {
   //   setIsPending(true)
   //   axios.get('/api/items')
@@ -289,26 +312,6 @@ function BrowseItems() {
 
 
 
-  return (
-    <div>
-      <header className='optionHeaders'>
-        {renderHeader()}        
-      </header>
-
-      <div className="article-cards">
-        {isPending ? (
-          <p>Loading...</p>
-        ) : errors ? (
-          <p>{errors}</p>
-        ) : (
-          articles && Array.isArray(articles) &&
-          articles.map((article) => (
-            <ArticleCard key={article._id} article={article} />
-          ))
-        )}
-      </div>
-    </div>
-  );
 }
 
 export default BrowseItems;

@@ -8,6 +8,29 @@
 //     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 //   }
 
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  justify-content: center;
+  max-width: 500px;
+  margin: 2em;
+  border-top: 15em;
+
+  .card {
+    flex-basis: 200px;
+    margin: 20px;
+
+    @media (max-width: 768px) {
+      flex-basis: 300px;
+    }
+
+    @media (max-width: 480px) {
+      flex-basis: 100%;
+    }
+  }
+}
+
   .article-card-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
