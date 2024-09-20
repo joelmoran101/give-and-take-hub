@@ -48,13 +48,16 @@ function renderHeader() {
                   <NavDropdown.Item href="#action3">
                       <div className="category">
                         <Dropdown>
-                          <Dropdown.Toggle variant="primary" id="dropdown-basic">
-                            Categories
-                              <Dropdown.Item href="#action4">Furnitures</Dropdown.Item>
-                              <Dropdown.Item href="#action4">Toys</Dropdown.Item>
-                              <Dropdown.Item href="#action4">Clothes</Dropdown.Item>
-                              <Dropdown.Item href="#action4">Electric Gadgets</Dropdown.Item>
-                          </Dropdown.Toggle>
+                            <Dropdown.Toggle variant="primary" id="dropdown-basic">
+                              Categories
+                            </Dropdown.Toggle>
+                            
+                            <Dropdown.Menu>
+                                <Dropdown.Item href="#action4">Furnitures</Dropdown.Item>
+                                <Dropdown.Item href="#action4">Toys</Dropdown.Item>
+                                <Dropdown.Item href="#action4">Clothes</Dropdown.Item>
+                                <Dropdown.Item href="#action4">Electric Gadgets</Dropdown.Item>
+                            </Dropdown.Menu>
                           {/* <Dropdown.Item
                             className={filterCriteria.furnitures ? 'bg-primary text-light' : ''}
                             onClick={() => setFilterCriteria({...filterCriteria, furnitures:!filterCriteria.furnitures})}>Furnitures</Dropdown.Item> */}                         
