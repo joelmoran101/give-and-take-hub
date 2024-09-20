@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import ArticleCard from './articleCard/ArticleCard';
-import { Navbar, Button, Container, Form, Nav, NavDropdown } from 'react-bootstrap';
+import { Navbar, Button, Container, Form, Nav, NavDropdown, Dropdown } from 'react-bootstrap';
 import './BrowseItems.scss';
 import { Article, ArticleContext } from '../context/article.context';
 // Define the Location interface
@@ -33,7 +33,9 @@ function renderHeader() {
               <Nav.Link href="/">Home</Nav.Link>
 
               <NavDropdown title="Sort by:" id="navbarScrollingDropdown">
+
                   <NavDropdown.Item href="#action3">Date</NavDropdown.Item>
+
                   <NavDropdown.Item href="#action4">Status</NavDropdown.Item>
         
                   <NavDropdown.Divider />
@@ -42,18 +44,38 @@ function renderHeader() {
                                 
               <NavDropdown title="Filter by:" id="navbarScrollingDropdown">
                   <NavDropdown.Item href="#action3">Location</NavDropdown.Item>
-                  <div className="category">
-                    <NavDropdown.Item href="#action4">Furnitures</NavDropdown.Item>
-                    <NavDropdown.Item href="#action4">Toys</NavDropdown.Item>
-                    <NavDropdown.Item href="#action4">Clothes</NavDropdown.Item>
-                    <NavDropdown.Item href="#action4">Electric Gadgets</NavDropdown.Item>
-                  </div>
-                  <div className="status">
-                    <NavDropdown.Item href="#action4">Available</NavDropdown.Item>
-                    <NavDropdown.Item href="#action4">Reserved</NavDropdown.Item>
-                    <NavDropdown.Item href="#action4">Needed</NavDropdown.Item>
-                    <NavDropdown.Item href="#action4">Already Taken</NavDropdown.Item>
-                  </div>
+
+                  <NavDropdown.Item href="#action3">
+                      <div className="category">
+                        <Dropdown>
+                          <Dropdown.Toggle variant="primary" id="dropdown-basic">
+                            Categories
+                              <Dropdown.Item href="#action4">Furnitures</Dropdown.Item>
+                              <Dropdown.Item href="#action4">Toys</Dropdown.Item>
+                              <Dropdown.Item href="#action4">Clothes</Dropdown.Item>
+                              <Dropdown.Item href="#action4">Electric Gadgets</Dropdown.Item>
+                          </Dropdown.Toggle>
+                          {/* <Dropdown.Item
+                            className={filterCriteria.furnitures ? 'bg-primary text-light' : ''}
+                            onClick={() => setFilterCriteria({...filterCriteria, furnitures:!filterCriteria.furnitures})}>Furnitures</Dropdown.Item> */}                         
+                        </Dropdown>
+                      </div>
+                  </NavDropdown.Item>
+
+                  <NavDropdown.Item href="#action3">
+                      <div className="status">
+                        <Dropdown>
+                            <Dropdown.Toggle variant="primary" id="dropdown-basic">
+                              Status
+                                <Dropdown.Item href="#action4">Available</Dropdown.Item>
+                                <Dropdown.Item href="#action4">Reserved</Dropdown.Item>
+                                <Dropdown.Item href="#action4">Needed</Dropdown.Item>
+                                <Dropdown.Item href="#action4">Already Taken</Dropdown.Item>
+                            </Dropdown.Toggle>
+                        </Dropdown>
+                      </div>
+                  </NavDropdown.Item>
+
                   <NavDropdown.Divider />
                   <NavDropdown.Item href="#action5">Show All</NavDropdown.Item>                              
               </NavDropdown>
@@ -102,6 +124,15 @@ function BrowseItems() {
     elec_gadgets: false
   })
 
+  // function filter(c){
+  //   if(!c.clothing && !c.electronics && !c.jewelery) return setLocalProducts(products)
+    
+  //   const filteredProducts = products.filter( p => {
+  //     if(p.category?.toLowerCase().includes('clothing') && c.clothing) return true
+  //     if(p.category?.toLowerCase().includes('electronics') && c.electronics) return true
+  //     if(p.category?.toLowerCase().includes('jewelery') && c.jewelery) return true
+  //     return false
+  //   })
   function filter(c:Filter){
     if(!c.location && !c.available && !c.reserved && !c.needed && !c.already_taken)
       return setArticlesToBeDisplayed(articles)
@@ -110,6 +141,10 @@ function BrowseItems() {
       if(article.status?.includes('available') && c.available) return true
   })
 };
+
+// useEffect(() => {
+//   filter(filterCriteria)
+// }, [filterCriteria, articles])
 
   
   const [errors, setErrors] = useState(null)
