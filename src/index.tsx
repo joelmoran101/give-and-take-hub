@@ -8,13 +8,16 @@ import { RouterProvider } from 'react-router-dom';
 import { router } from './routes/main.routes';
 import { AuthProvider } from './auth/AuthContext.js';
 import { createRoot } from 'react-dom/client';
+import ArticleProvider from './context/article.context.js';
 
 const root = createRoot(document.getElementById('root')!);
 root.render(
   <React.StrictMode>
     <Provider store={store}>
       <AuthProvider>
-        <RouterProvider router={router}></RouterProvider>
+        <ArticleProvider>
+          <RouterProvider router={router}></RouterProvider>
+        </ArticleProvider>
       </AuthProvider>
     </Provider>
   </React.StrictMode>
