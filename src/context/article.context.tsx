@@ -1,6 +1,17 @@
 import { createContext, useEffect, useState } from "react";
 import axios from 'axios'
 
+export type Article={
+  article_id: number,
+  picture_url: string,
+  article_name: string,
+  article_category: string,
+  article_description: string,
+  username: string,
+  date_time_stamp: string,
+  status: string,
+  location: string
+}
 
 export const ArticleContext = createContext<{articles: any, setArticles: (articles: any) => void}>({articles: null, setArticles: () => {}})
 

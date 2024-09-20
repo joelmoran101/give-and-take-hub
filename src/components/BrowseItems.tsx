@@ -1,10 +1,21 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import ArticleCard from './articleCard/ArticleCard';
 import { Navbar, Button, Container, Form, Nav, NavDropdown } from 'react-bootstrap';
 import './BrowseItems.scss';
-import { ArticleContext } from '../context/article.context';
+import { Article, ArticleContext } from '../context/article.context';
 // Define the Location interface
 
+export type Filter = {
+  location: boolean,
+  available: boolean,
+  reserved: boolean,
+  needed: boolean,
+  already_taken: boolean,
+  furnitures: boolean,
+  clothes: boolean,
+  toys: boolean,
+  elec_gadgets: boolean
+}
 // Header rendering function
 function renderHeader() {
   return (
@@ -31,8 +42,18 @@ function renderHeader() {
                                 
               <NavDropdown title="Filter by:" id="navbarScrollingDropdown">
                   <NavDropdown.Item href="#action3">Location</NavDropdown.Item>
-                  <NavDropdown.Item href="#action4">Article Category</NavDropdown.Item>
-                  <NavDropdown.Item href="#action4">Status</NavDropdown.Item>
+                  <div className="category">
+                    <NavDropdown.Item href="#action4">Furnitures</NavDropdown.Item>
+                    <NavDropdown.Item href="#action4">Toys</NavDropdown.Item>
+                    <NavDropdown.Item href="#action4">Clothes</NavDropdown.Item>
+                    <NavDropdown.Item href="#action4">Electric Gadgets</NavDropdown.Item>
+                  </div>
+                  <div className="status">
+                    <NavDropdown.Item href="#action4">Available</NavDropdown.Item>
+                    <NavDropdown.Item href="#action4">Reserved</NavDropdown.Item>
+                    <NavDropdown.Item href="#action4">Needed</NavDropdown.Item>
+                    <NavDropdown.Item href="#action4">Already Taken</NavDropdown.Item>
+                  </div>
                   <NavDropdown.Divider />
                   <NavDropdown.Item href="#action5">Show All</NavDropdown.Item>                              
               </NavDropdown>
@@ -68,11 +89,28 @@ function renderHeader() {
 function BrowseItems() {
   const [isPending, setIsPending] = useState(false)
   const {articles} = useContext(ArticleContext)
+  const [articlesToBeDisplayed, setArticlesToBeDisplayed] = useState(null)
+  const [filterCriteria, setFilterCriteria] = useState({
+    location: false,
+    available: false,
+    reserved: false,
+    needed: false,
+    already_taken: false,
+    furnitures: false,
+    clothes: false,
+    toys: false,
+    elec_gadgets: false
+  })
 
-  // const [selectedSortOption, setSelectedSortOption] = useState('');
-  // const handleSortOptionChange = (event: React.SyntheticEvent<HTMLAnchorElement>) => {
-  //   setSelectedSortOption(event.currentTarget.text);
-  // };
+  function filter(c:Filter){
+    if(!c.location && !c.available && !c.reserved && !c.needed && !c.already_taken)
+      return setArticlesToBeDisplayed(articles)
+
+    const filteredArticles = articles.filter((article: Article) => {
+      if(article.status?.includes('available') && c.available) return true
+  })
+};
+
   
   const [errors, setErrors] = useState(null)
 
