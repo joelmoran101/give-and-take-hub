@@ -71,27 +71,27 @@ const AddArticle: React.FC = () => {
               <Field name="article_name" placeholder="Article Name" />
               <ErrorMessage name="article_name" component="div" />
             </div>
-            <div>
+            <div className='form-group'>
               <Field name="picture_url" placeholder="Picture URL" />
               <ErrorMessage name="picture_url" component="div" />
             </div>
-            <div>
+            <div className='form-group'>
               <Field name="article_category" placeholder="Category" />
               <ErrorMessage name="article_category" component="div" />
             </div>
-            <div>
+            <div className='form-group'>
               <Field name="article_description" as="textarea" placeholder="Description" />
               <ErrorMessage name="article_description" component="div" />
             </div>
-            <div>
+            <div className='form-group'>
               <Field name="username" placeholder="Username" />
               <ErrorMessage name="username" component="div" />
             </div>
-            <div>
+            <div className='form-group'>
               <Field name="date_time_stamp" type="datetime-local" />
               <ErrorMessage name="date_time_stamp" component="div" />
             </div>
-            <div>
+            <div className='form-group'>
               <Field name="status" as="select">
                 <option value="">Select Status</option>
                 <option value="available">Available</option>
@@ -101,12 +101,16 @@ const AddArticle: React.FC = () => {
               </Field>
               <ErrorMessage name="status" component="div" />
             </div>
-            <div>
+            <div className='form-group'>
               <Field name="location" placeholder="Location" />
               <ErrorMessage name="location" component="div" />
             </div>
-            <button type="submit">Submit</button>
-            <Link to="/browse" className="back-button">Go back to browsing</Link>
+
+            <div className="button-container">
+              <button className='submit-button' type="submit">Submit</button>
+              <Link to="/browse" className="back-button">Go back to browsing</Link>
+            </div>
+
           </Form>
         )}
       </Formik>
