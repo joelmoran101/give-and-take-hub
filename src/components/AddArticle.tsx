@@ -7,7 +7,6 @@ import './AddArticle.css';
 
 interface ArticleCardProps {
   article: {
-    _id: string;
     article_name: string;
     picture_url: string;
     article_category: string;
@@ -34,7 +33,6 @@ const AddArticle: React.FC = () => {
   const navigate = useNavigate();
 
   const initialValues: ArticleCardProps['article'] = {
-    _id: '', // You might want to remove this if it's generated on the server
     article_name: '',
     picture_url: '',
     article_category: '',
@@ -45,16 +43,19 @@ const AddArticle: React.FC = () => {
     location: '',
   };
 
-  const handleSubmit = (values: ArticleCardProps['article'], { resetForm }: FormikHelpers<ArticleCardProps['article']>) => {
-    axios.post('http://localhost:4000/api/add-article', values)
-      .then((response) => {
-        console.log(response.data);
-        resetForm();
-        navigate('/browse');
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+  const handleSubmit = async (values: ArticleCardProps['article'], { setSubmitting, resetForm }: any) => {
+    try {
+      const response = await axios.post('http://localhost:4000/api/add-article', values);
+      console.log('Article added successfully:', response.data);
+      resetForm();
+      navigate('/browse'); // Redirect to the browse page after successful submission
+    } catch (error) {
+      console.error('Error adding article:', error);
+      // Handle error (e.g., show error message to user)
+      
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (

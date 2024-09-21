@@ -3,7 +3,7 @@ import { Formik, Form, Field, ErrorMessage, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
 import './Register.css';
 import axios from 'axios';
-import Login from './Login';
+// import Login from './Login';
 import { Link, useNavigate } from 'react-router-dom';
 
 type FormValues = {
