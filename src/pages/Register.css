@@ -18,17 +18,17 @@
     margin-bottom: 5px;
   }
 
-  .form-control {
+  /* .form-control {
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
     padding-left: 10px;
-  }
+  } */
   
-  .error-message {
+  /* .error-message {
     color: red;
     margin-top: 5px;
-  }
+  } */
   
   .back-button {
     text-decoration: none;

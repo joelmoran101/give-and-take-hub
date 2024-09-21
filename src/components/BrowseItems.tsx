@@ -82,7 +82,7 @@ function renderHeader() {
                   <NavDropdown.Divider />
                   <NavDropdown.Item href="#action5">Show All</NavDropdown.Item>                              
               </NavDropdown>
-
+              <Nav.Link href="/add-article">Post New Article</Nav.Link>
               <Nav.Link href="#" disabled>About</Nav.Link>
                             
             </Nav>
