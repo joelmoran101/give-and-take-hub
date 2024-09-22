@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+import { AuthContext } from '../../auth/AuthContext';
 import "./ArticleCard.scss";
 // import { selectedSortOption, handleSortOptionChange } from '../BrowseItems';
 
@@ -25,6 +26,7 @@ interface ArticleCardProps {
 }
 
 const ArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
+  const { loggedInUser } = useContext(AuthContext);
   console.log('Aticle data: ', article);
   return (
     <Card className='card-container'>
@@ -37,7 +39,11 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
         <Card.Text>Location: {article.location}</Card.Text>
         <Card.Text>Posted by: {article.username}</Card.Text>
         <Card.Text>Date: {article.date_time_stamp}</Card.Text>
-        <Button variant="primary">Reply to Post</Button>
+
+        {loggedInUser && (  
+          <Button variant="primary">Reply to Post</Button>
+        )}
+        
       </Card.Body>
     </Card>
   );
