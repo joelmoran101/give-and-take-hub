@@ -3,6 +3,7 @@ import ArticleCard from './articleCard/ArticleCard';
 import { Navbar, Button, Container, Form, Nav, NavDropdown, Dropdown } from 'react-bootstrap';
 import './BrowseItems.scss';
 import { Article, ArticleContext } from '../context/article.context';
+import { AuthContext } from '../auth/AuthContext';
 // Define the Location interface
 
 export type Filter = {
@@ -16,8 +17,36 @@ export type Filter = {
   toys: boolean,
   elec_gadgets: boolean
 }
-// Header rendering function
+
+
+// export const [selectedSortOption, setSelectedSortOption] = useState('');
+
+// export const handleSortOptionChange = (event: React.SyntheticEvent<HTMLAnchorElement>) => {
+//   setSelectedSortOption(event.currentTarget.text);
+// };
+
+
+// Main BrowseItems component
+function BrowseItems() {
+  const { loggedInUser } = useContext(AuthContext)
+  const [isPending, setIsPending] = useState(false)
+  const {articles} = useContext(ArticleContext)
+  const [articlesToBeDisplayed, setArticlesToBeDisplayed] = useState(null)
+  const [filterCriteria, setFilterCriteria] = useState({
+    location: false,
+    available: false,
+    reserved: false,
+    needed: false,
+    already_taken: false,
+    furnitures: false,
+    clothes: false,
+    toys: false,
+    elec_gadgets: false
+  })
+
+  // Header rendering function
 function renderHeader() {
+
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
         <Container fluid>
@@ -82,7 +111,9 @@ function renderHeader() {
                   <NavDropdown.Divider />
                   <NavDropdown.Item href="#action5">Show All</NavDropdown.Item>                              
               </NavDropdown>
-              <Nav.Link href="/add-article">Post New Article</Nav.Link>
+              {loggedInUser && (
+                <Nav.Link href="/add-article">Post New Article</Nav.Link>
+              )}
               <Nav.Link href="#" disabled>About</Nav.Link>
                             
             </Nav>
@@ -102,30 +133,6 @@ function renderHeader() {
     </Navbar>
   );
 }
-
-// export const [selectedSortOption, setSelectedSortOption] = useState('');
-
-// export const handleSortOptionChange = (event: React.SyntheticEvent<HTMLAnchorElement>) => {
-//   setSelectedSortOption(event.currentTarget.text);
-// };
-
-
-// Main BrowseItems component
-function BrowseItems() {
-  const [isPending, setIsPending] = useState(false)
-  const {articles} = useContext(ArticleContext)
-  const [articlesToBeDisplayed, setArticlesToBeDisplayed] = useState(null)
-  const [filterCriteria, setFilterCriteria] = useState({
-    location: false,
-    available: false,
-    reserved: false,
-    needed: false,
-    already_taken: false,
-    furnitures: false,
-    clothes: false,
-    toys: false,
-    elec_gadgets: false
-  })
 
   // function filter(c){
   //   if(!c.clothing && !c.electronics && !c.jewelery) return setLocalProducts(products)
