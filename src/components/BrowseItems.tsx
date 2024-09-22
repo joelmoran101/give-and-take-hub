@@ -152,6 +152,14 @@ function BrowseItems() {
   
   const [errors, setErrors] = useState(null)
 
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
+
+
   return (
     <div className='d-flex flex-column '>
 
@@ -170,6 +178,11 @@ function BrowseItems() {
           ))
         )}
       </div>
+
+      <Button variant="primary" className="scroll-to-top-btn" onClick={scrollToTop}>
+         Back to Top
+      </Button>
+
     </div>
   );
 
