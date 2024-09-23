@@ -1,0 +1,27 @@
+.about-image {
+    background-color: transparent;
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    margin: 0 auto;
+  }
+  .about-quote {
+    text-align: center;
+    font-style: italic;
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+  }
+
+  .login-link {
+    padding: 15px 30px; /* increased padding for a bigger button */
+    border-radius: 7px; /* added border radius */
+    background-color: #4CAF50; /* gentle pop-out background color */
+    color: #fff; /* white text color */
+    border: none; /* no border */
+    cursor: pointer; /* pointer cursor */
+    font-size: 1.2rem; /* slightly larger font size */
+    position: relative; /* absolute positioning */
+    bottom: 20px; /* positioned 20px from the bottom of the page */
+    left: 50%; /* centered horizontally */
+    transform: translateX(-50%); /* adjusted for perfect centering */
+  }
