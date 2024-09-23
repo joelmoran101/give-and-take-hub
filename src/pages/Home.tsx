@@ -9,7 +9,7 @@ const Home = () => {
       <header className="Header">
         <div className="main-container">
           <div className="wrapper-logo" style={{ color: "black" }}>
-            <img className="logo" src="/src/assets/images/free-logo.svg" alt="logo" />
+            <img className="logo" src="/src/assets/images/logo.jpg" alt="logo" />
             <div>Give and Take</div>
           </div>
 
