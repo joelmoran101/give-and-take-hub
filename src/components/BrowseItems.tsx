@@ -4,6 +4,7 @@ import { Navbar, Button, Container, Form, Nav, NavDropdown, Dropdown } from 'rea
 import './BrowseItems.scss';
 import { Article, ArticleContext } from '../context/article.context';
 import { AuthContext } from '../auth/AuthContext';
+import Accordion from 'react-bootstrap/Accordion';
 // Define the Location interface
 
 export type Filter = {
@@ -77,16 +78,21 @@ function renderHeader() {
                   <NavDropdown.Item href="#action3">
                       <div className="category">
                         <Dropdown>
-                            <Dropdown.Toggle variant="primary" id="dropdown-basic">
-                              Categories
-                            </Dropdown.Toggle>
+                            <Accordion onClick={e => e.stopPropagation()}>
+                              <Accordion.Item eventKey="0">
+                                <Accordion.Header>Categories</Accordion.Header>
+                                <Accordion.Body>
+                                  {/* <Dropdown.Menu> */}
+                                    <Dropdown.Item href="#action4">Furnitures</Dropdown.Item>
+                                    <Dropdown.Item href="#action4">Toys</Dropdown.Item>
+                                    <Dropdown.Item href="#action4">Clothes</Dropdown.Item>
+                                    <Dropdown.Item href="#action4">Electric Gadgets</Dropdown.Item>
+                                  {/* </Dropdown.Menu> */}
+                                </Accordion.Body>
+                              </Accordion.Item>
+                            </Accordion>
                             
-                            <Dropdown.Menu>
-                                <Dropdown.Item href="#action4">Furnitures</Dropdown.Item>
-                                <Dropdown.Item href="#action4">Toys</Dropdown.Item>
-                                <Dropdown.Item href="#action4">Clothes</Dropdown.Item>
-                                <Dropdown.Item href="#action4">Electric Gadgets</Dropdown.Item>
-                            </Dropdown.Menu>
+                            
                           {/* <Dropdown.Item
                             className={filterCriteria.furnitures ? 'bg-primary text-light' : ''}
                             onClick={() => setFilterCriteria({...filterCriteria, furnitures:!filterCriteria.furnitures})}>Furnitures</Dropdown.Item> */}                         
@@ -97,13 +103,17 @@ function renderHeader() {
                   <NavDropdown.Item href="#action3">
                       <div className="status">
                         <Dropdown>
-                            <Dropdown.Toggle variant="primary" id="dropdown-basic">
-                              Status
-                                <Dropdown.Item href="#action4">Available</Dropdown.Item>
-                                <Dropdown.Item href="#action4">Reserved</Dropdown.Item>
-                                <Dropdown.Item href="#action4">Needed</Dropdown.Item>
-                                <Dropdown.Item href="#action4">Already Taken</Dropdown.Item>
-                            </Dropdown.Toggle>
+                          <Accordion onClick={e => e.stopPropagation()}>
+                              <Accordion.Item eventKey="0">
+                                <Accordion.Header>Status</Accordion.Header>
+                                  <Accordion.Body>
+                                    <Dropdown.Item href="#action4">Available</Dropdown.Item>
+                                    <Dropdown.Item href="#action4">Reserved</Dropdown.Item>
+                                    <Dropdown.Item href="#action4">Needed</Dropdown.Item>
+                                    <Dropdown.Item href="#action4">Already Taken</Dropdown.Item>
+                                  </Accordion.Body>
+                              </Accordion.Item>
+                          </Accordion>
                         </Dropdown>
                       </div>
                   </NavDropdown.Item>
@@ -116,7 +126,7 @@ function renderHeader() {
               ) : (
                 <Nav.Link href="/login">Login</Nav.Link>
               )}
-              <Nav.Link href="#" disabled>About</Nav.Link>
+              <Nav.Link href="/about" >About</Nav.Link>
                             
             </Nav>
 
