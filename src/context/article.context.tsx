@@ -2,6 +2,7 @@ import { createContext, useEffect, useState } from "react";
 import axios from 'axios'
 
 export type Article={
+  _id: string,
   article_id: number,
   picture_url: string,
   article_name: string,

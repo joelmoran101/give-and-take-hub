@@ -32,7 +32,8 @@ function BrowseItems() {
   const { loggedInUser } = useContext(AuthContext)
   const [isPending, setIsPending] = useState(false)
   const {articles} = useContext(ArticleContext)
-  const [articlesToBeDisplayed, setArticlesToBeDisplayed] = useState(null)
+  const [articlesToBeDisplayed, setArticlesToBeDisplayed] = useState<Article[] | null >(null)
+
   const [filterCriteria, setFilterCriteria] = useState({
     location: false,
     available: false,
@@ -73,7 +74,7 @@ function renderHeader() {
               </NavDropdown>
                                 
               <NavDropdown title="Filter by:" id="navbarScrollingDropdown">
-                  <NavDropdown.Item href="#action3">Location</NavDropdown.Item>
+                  {/* <NavDropdown.Item href="#action3">Location</NavDropdown.Item> */}
 
                   <NavDropdown.Item href="#action3">
                       <div className="category">
@@ -82,22 +83,15 @@ function renderHeader() {
                               <Accordion.Item eventKey="0">
                                 <Accordion.Header>Categories</Accordion.Header>
                                 <Accordion.Body>
-                                  {/* <Dropdown.Menu> */}
-                                    <Dropdown.Item href="#action4">Furnitures</Dropdown.Item>
-                                    <Dropdown.Item href="#action4">Toys</Dropdown.Item>
-                                    <Dropdown.Item href="#action4">Clothes</Dropdown.Item>
-                                    <Dropdown.Item href="#action4">Electric Gadgets</Dropdown.Item>
-                                  {/* </Dropdown.Menu> */}
+                                    <Dropdown.Item className={filterCriteria.furnitures ? 'active-filter': ''} onClick={e => setFilterCriteria({ ...filterCriteria, furnitures: !filterCriteria.furnitures })}>Furnitures</Dropdown.Item>
+                                    <Dropdown.Item className={filterCriteria.toys ? 'active-filter': ''} onClick={e => setFilterCriteria({ ...filterCriteria, toys: !filterCriteria.toys })}>Toys</Dropdown.Item>
+                                    <Dropdown.Item className={filterCriteria.clothes ? 'active-filter': ''} onClick={e => setFilterCriteria({ ...filterCriteria, clothes: !filterCriteria.clothes })}>Clothes</Dropdown.Item>
+                                    <Dropdown.Item className={filterCriteria.elec_gadgets ? 'active-filter': ''} onClick={e => setFilterCriteria({ ...filterCriteria, elec_gadgets: !filterCriteria.elec_gadgets })}>Electric Gadgets</Dropdown.Item>
                                 </Accordion.Body>
                               </Accordion.Item>
                             </Accordion>
-                            
-                            
-                          {/* <Dropdown.Item
-                            className={filterCriteria.furnitures ? 'bg-primary text-light' : ''}
-                            onClick={() => setFilterCriteria({...filterCriteria, furnitures:!filterCriteria.furnitures})}>Furnitures</Dropdown.Item> */}                         
                         </Dropdown>
-                      </div>
+                      </div>                      
                   </NavDropdown.Item>
 
                   <NavDropdown.Item href="#action3">
@@ -121,11 +115,13 @@ function renderHeader() {
                   <NavDropdown.Divider />
                   <NavDropdown.Item href="#action5">Show All</NavDropdown.Item>                              
               </NavDropdown>
+
               {loggedInUser ? (
                 <Nav.Link href="/add-article">Post New Article</Nav.Link>
               ) : (
                 <Nav.Link href="/login">Login</Nav.Link>
               )}
+              
               <Nav.Link href="/about" >About</Nav.Link>
                             
             </Nav>
@@ -146,27 +142,41 @@ function renderHeader() {
   );
 }
 
-  // function filter(c){
-  //   if(!c.clothing && !c.electronics && !c.jewelery) return setLocalProducts(products)
-    
-  //   const filteredProducts = products.filter( p => {
-  //     if(p.category?.toLowerCase().includes('clothing') && c.clothing) return true
-  //     if(p.category?.toLowerCase().includes('electronics') && c.electronics) return true
-  //     if(p.category?.toLowerCase().includes('jewelery') && c.jewelery) return true
-  //     return false
-  //   })
-  function filter(c:Filter){
-    if(!c.location && !c.available && !c.reserved && !c.needed && !c.already_taken)
-      return setArticlesToBeDisplayed(articles)
 
-    const filteredArticles = articles.filter((article: Article) => {
-      if(article.status?.includes('available') && c.available) return true
-  })
-};
+function filter(c: Filter) {
+  console.log("DEBUG FILTER")
+  if(Object.values(c).every(v => v === false)) return setArticlesToBeDisplayed(articles)
 
-// useEffect(() => {
-//   filter(filterCriteria)
-// }, [filterCriteria, articles])
+  const filteredArticles = articles.filter((article: Article) => {
+    switch (true) {
+      case c.furnitures && article.article_category?.toLowerCase() === 'furniture': return true
+      case c.toys && article.article_category?.toLowerCase() === 'toys': return true
+      case c.clothes && article.article_category?.toLowerCase() === 'clothes': return true
+      case c.elec_gadgets && article.article_category?.toLowerCase() === 'electronic gadgets': return true
+      default: return false
+    }
+
+  });
+  setArticlesToBeDisplayed(filteredArticles);
+}
+
+useEffect(() => {
+  console.log("FILTER EFFECT")
+  filter(filterCriteria)
+}, [filterCriteria, articles])
+
+
+//   function filter(c:Filter){
+//     if(!c.location && !c.available && !c.reserved && !c.needed && !c.already_taken)
+//       return setArticlesToBeDisplayed(articles)
+
+//     const filteredArticles = articles.filter((article: Article) => {
+//       if(article.status?.includes('available') && c.available) return true
+//   })
+// };
+
+
+
 
   
   const [errors, setErrors] = useState(null)
@@ -191,9 +201,9 @@ function renderHeader() {
         ) : errors ? (
           <p>{errors}</p>
         ) : (
-          articles && Array.isArray(articles) &&
-          articles.map((article) => (
-            <ArticleCard key={article._id} article={article} />
+          articlesToBeDisplayed && Array.isArray(articlesToBeDisplayed) &&
+          articlesToBeDisplayed.map((article, index) => (
+            <ArticleCard article={article} key={index} />
           ))
         )}
       </div>
