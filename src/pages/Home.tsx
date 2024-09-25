@@ -2,6 +2,7 @@ import React from 'react';
 import Hero from '../components/hero/Hero';
 import './Home.css';
 import { Link } from 'react-router-dom';
+import LanguageSelector from '../utilities/LanguageSelector';
 
 const Home = () => {
   return (
@@ -20,6 +21,9 @@ const Home = () => {
               <li><Link to="/about">About</Link></li>
               <li><Link to="/register">Join</Link></li>
               <li><Link to="/login">Login</Link></li>
+              {/* <div className='language-button'>Choose Language</div> */}
+              <li><LanguageSelector /></li>
+
             </ul>
           </nav>
         </div>

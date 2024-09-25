@@ -5,10 +5,10 @@ import './BrowseItems.scss';
 import { Article, ArticleContext } from '../context/article.context';
 import { AuthContext } from '../auth/AuthContext';
 import Accordion from 'react-bootstrap/Accordion';
+import LanguageSelector from '../utilities/LanguageSelector';
 // Define the Location interface
 
 export type Filter = {
-  location: boolean,
   available: boolean,
   reserved: boolean,
   needed: boolean,
@@ -35,7 +35,6 @@ function BrowseItems() {
   const [articlesToBeDisplayed, setArticlesToBeDisplayed] = useState<Article[] | null >(null)
 
   const [filterCriteria, setFilterCriteria] = useState({
-    location: false,
     available: false,
     reserved: false,
     needed: false,
@@ -45,6 +44,18 @@ function BrowseItems() {
     toys: false,
     elec_gadgets: false
   })
+
+  // const languages = [
+  //   { code: 'en', flag: '🇺🇸', name: 'English' },
+  //   { code: 'de', flag: '🇩🇪', name: 'German' },
+  // ];
+  
+  // const [selectedLanguage, setSelectedLanguage] = useState(languages[0]);
+ 
+  //   const handleLanguageChange = (language: { code: string; flag: string; name: string }) => {
+  //     setSelectedLanguage(language);
+  //     // Add logic to update the language here
+  //   };
 
   // Header rendering function
 function renderHeader() {
@@ -101,10 +112,10 @@ function renderHeader() {
                               <Accordion.Item eventKey="0">
                                 <Accordion.Header>Status</Accordion.Header>
                                   <Accordion.Body>
-                                    <Dropdown.Item href="#action4">Available</Dropdown.Item>
-                                    <Dropdown.Item href="#action4">Reserved</Dropdown.Item>
-                                    <Dropdown.Item href="#action4">Needed</Dropdown.Item>
-                                    <Dropdown.Item href="#action4">Already Taken</Dropdown.Item>
+                                    <Dropdown.Item className={filterCriteria.available ? 'active-filter': ''} onClick={e => setFilterCriteria({ ...filterCriteria, available: !filterCriteria.available })}>Available</Dropdown.Item>
+                                    <Dropdown.Item className={filterCriteria.reserved ? 'active-filter': ''} onClick={e => setFilterCriteria({ ...filterCriteria, reserved: !filterCriteria.reserved })}>Reserved</Dropdown.Item>
+                                    <Dropdown.Item className={filterCriteria.needed ? 'active-filter': ''} onClick={e => setFilterCriteria({ ...filterCriteria, needed: !filterCriteria.needed })}>Needed</Dropdown.Item>
+                                    <Dropdown.Item className={filterCriteria.already_taken ? 'active-filter': ''} onClick={e => setFilterCriteria({ ...filterCriteria, already_taken: !filterCriteria.already_taken })}>Already Taken</Dropdown.Item>
                                   </Accordion.Body>
                               </Accordion.Item>
                           </Accordion>
@@ -125,7 +136,22 @@ function renderHeader() {
               <Nav.Link href="/about" >About</Nav.Link>
                             
             </Nav>
-
+            <div className='language-button'>Choose Language</div>
+            <LanguageSelector />
+            {/* <Nav className="ml-auto">
+          <Dropdown>
+            <Dropdown.Toggle variant="link" id="language-dropdown">
+              {selectedLanguage.flag} {selectedLanguage.name}
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              {languages.map((language) => (
+                <Dropdown.Item key={language.code} onClick={() => handleLanguageChange(language)}>
+                  {language.flag} {language.name}
+                </Dropdown.Item>
+              ))}
+            </Dropdown.Menu>
+          </Dropdown>
+        </Nav> */}
             <Form className="d-flex">
                 <Form.Control
                     type="search"
@@ -148,11 +174,18 @@ function filter(c: Filter) {
   if(Object.values(c).every(v => v === false)) return setArticlesToBeDisplayed(articles)
 
   const filteredArticles = articles.filter((article: Article) => {
+
+    
+
     switch (true) {
       case c.furnitures && article.article_category?.toLowerCase() === 'furniture': return true
       case c.toys && article.article_category?.toLowerCase() === 'toys': return true
       case c.clothes && article.article_category?.toLowerCase() === 'clothes': return true
       case c.elec_gadgets && article.article_category?.toLowerCase() === 'electronic gadgets': return true
+      case c.available && article.status?.toLowerCase() === 'available': return true
+      case c.reserved && article.status?.toLowerCase() === 'reserved': return true
+      case c.needed && article.status?.toLowerCase() === 'needed': return true
+      case c.already_taken && article.status?.toLowerCase() === 'Already Taken': return true
       default: return false
     }
 
@@ -164,19 +197,6 @@ useEffect(() => {
   console.log("FILTER EFFECT")
   filter(filterCriteria)
 }, [filterCriteria, articles])
-
-
-//   function filter(c:Filter){
-//     if(!c.location && !c.available && !c.reserved && !c.needed && !c.already_taken)
-//       return setArticlesToBeDisplayed(articles)
-
-//     const filteredArticles = articles.filter((article: Article) => {
-//       if(article.status?.includes('available') && c.available) return true
-//   })
-// };
-
-
-
 
   
   const [errors, setErrors] = useState(null)
@@ -232,6 +252,6 @@ useEffect(() => {
 
 
 
-}
+  }
 
 export default BrowseItems;
