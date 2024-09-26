@@ -3,11 +3,11 @@ import { Filter } from "./BrowseItems";
 import LanguageSelector from "../utilities/LanguageSelector";
 
 
-function FilterAccordion({ title, items, filterCriteria, setFilterCriteria }: {
+function FilterAccordion({ title, filters, handler,selectedFilters }: {
     title: string;
-    items: { key: keyof Filter; label: string }[];
-    filterCriteria: Filter;
-    setFilterCriteria: React.Dispatch<React.SetStateAction<Filter>>;
+    filters: string[];
+    selectedFilters: string[];
+    handler: (criteria: string) => void;
   }) {
     return (
       <Dropdown>
@@ -15,13 +15,13 @@ function FilterAccordion({ title, items, filterCriteria, setFilterCriteria }: {
           <Accordion.Item eventKey="0">
             <Accordion.Header>{title}</Accordion.Header>
             <Accordion.Body>
-              {items.map(item => (
+              {filters.map((filterName, index) => (
                 <Dropdown.Item 
-                  key={item.key}
-                  className={filterCriteria[item.key] ? 'active-filter': ''}
-                  onClick={() => setFilterCriteria(prev => ({ ...prev, [item.key]: !prev[item.key] }))}
+                  key={index}
+                  className={selectedFilters.includes(filterName) ? 'active-filter': ''}
+                  onClick={() => handler(filterName)}
                 >
-                  {item.label}
+                  {filterName}
                 </Dropdown.Item>
               ))}
             </Accordion.Body>
@@ -31,12 +31,15 @@ function FilterAccordion({ title, items, filterCriteria, setFilterCriteria }: {
     );
   }
 
-function Header({ loggedInUser, filterCriteria, setFilterCriteria, searchQuery, setSearchQuery }: {
+function Header({ loggedInUser, filters, handleCategory, handleStatus, allCategories, allStatuses, searchQuery, setSearchQuery }: {
     loggedInUser: any;
-    filterCriteria: Filter;
+    filters: Filter;
+    allCategories: string[];
+    allStatuses: string[];
     searchQuery: string;
     setSearchQuery: React.Dispatch<React.SetStateAction<string>>;
-    setFilterCriteria: React.Dispatch<React.SetStateAction<Filter>>;
+    handleCategory: (category: string) => void;
+    handleStatus: (status: string) => void;
   }) {
     return (
       <Navbar expand="lg" className="bg-body-tertiary">
@@ -60,27 +63,18 @@ function Header({ loggedInUser, filterCriteria, setFilterCriteria, searchQuery, 
                 <NavDropdown.Item>
                   <FilterAccordion 
                     title="Categories" 
-                    items={[
-                      { key: 'furnitures', label: 'Furnitures' },
-                      { key: 'toys', label: 'Toys' },
-                      { key: 'clothes', label: 'Clothes' },
-                      { key: 'elec_gadgets', label: 'Electric Gadgets' },
-                    ]}
-                    filterCriteria={filterCriteria}
-                    setFilterCriteria={setFilterCriteria}
+                    selectedFilters={filters.category}
+                    filters={allCategories}
+                    handler={handleCategory}
+                
                   />
                 </NavDropdown.Item>
                 <NavDropdown.Item>
                   <FilterAccordion 
                     title="Status" 
-                    items={[
-                      { key: 'available', label: 'Available' },
-                      { key: 'reserved', label: 'Reserved' },
-                      { key: 'needed', label: 'Needed' },
-                      { key: 'already_taken', label: 'Already Taken' },
-                    ]}
-                    filterCriteria={filterCriteria}
-                    setFilterCriteria={setFilterCriteria}
+                    selectedFilters={filters.status}
+                    filters={allStatuses}
+                    handler={handleStatus}
                   />
                 </NavDropdown.Item>
                 <NavDropdown.Divider />
@@ -95,17 +89,15 @@ function Header({ loggedInUser, filterCriteria, setFilterCriteria, searchQuery, 
             </Nav>
             <div className='language-button'>Choose Language</div>
             <LanguageSelector />
-            <Form className="d-flex">
-              <Form.Control onChange={ e => setSearchQuery(e.target.value) }
-                value={searchQuery}
-                type="search"
-                placeholder="Search"
-                className="me-2"
-                aria-label="Search"
-                name="search"
-              />
-              <Button variant="outline-success" type="submit">Search</Button>
-            </Form>
+            <Form.Group className="mb-3" controlId="searchQuery">
+                <Form.Label className="visually-hidden">Search</Form.Label>
+                <Form.Control
+                    type="search"
+                    placeholder="&#128269; Search what or who (username) are you looking for?"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                />
+            </Form.Group>
           </Navbar.Collapse>
         </Container>
       </Navbar>

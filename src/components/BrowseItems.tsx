@@ -10,14 +10,8 @@ import Fuse from 'fuse.js'
 import Header from './Header';
 
 export type Filter = {
-  available: boolean;
-  reserved: boolean;
-  needed: boolean;
-  already_taken: boolean;
-  furnitures: boolean;
-  clothes: boolean;
-  toys: boolean;
-  elec_gadgets: boolean;
+  category: string[];
+  status: string[];
 }
 
 function BrowseItems() {
@@ -26,43 +20,57 @@ function BrowseItems() {
   const [articlesToBeDisplayed, setArticlesToBeDisplayed] = useState<Article[] | null>(null);
   const [isPending, setIsPending] = useState(false);
   const [errors, setErrors] = useState<string | null>(null);
-  const [filterCriteria, setFilterCriteria] = useState<Filter>({
-    available: false,
-    reserved: false,
-    needed: false,
-    already_taken: false,
-    furnitures: false,
-    clothes: false,
-    toys: false,
-    elec_gadgets: false
-  });
+  const [filters, setFilters] = useState<Filter>({
+    category: [],
+    status: [],
+})
+
+function handleCategory(category: string) {
+  setFilters(prev => {
+    const isSelected = prev.category.includes(category);
+    return {...prev, category: isSelected ? prev.category.filter(c => c !== category) : [...prev.category, category]}
+  })
+}
+function handleStatus(status: string) {
+  setFilters(prev => {
+    const isSelected = prev.status.includes(status);
+    return {...prev, status: isSelected ? prev.status.filter(c => c !== status) : [...prev.status, status]}
+  })
+}
 const [searchQuery, setSearchQuery] = useState('');
+const fuseOptions = {
+  keys: ['article_name', 'article_category', 'article_description', 'username', 'status'],
+  threshold: 0.2  
+}
+
+const fuse = new Fuse(articles?.length ? articles : [], fuseOptions);
+
+function handleSearch(){
+  if(!searchQuery) return articles
+
+  const results = fuse.search(searchQuery)
+
+  return results.map(result => result.item)
+}
+
+const searchResult = useMemo(() => handleSearch(), [searchQuery, articles])
 
 
-  const filter = (c: Filter) => {
-    if (Object.values(c).every(v => v === false)) {
-      setArticlesToBeDisplayed(articles);
-      return;
-    }
+  // useEffect(() => {
+  //   if (searchResult) {
+  //     setArticlesToBeDisplayed(searchResult);
+  //   } else {
+  //     filter(filterCriteria)
+  //   }
 
-    const filteredArticles = articles.filter((article: Article) => {
-      return (
-        (c.furnitures && article.article_category?.toLowerCase() === 'furniture') ||
-        (c.toys && article.article_category?.toLowerCase() === 'toys') ||
-        (c.clothes && article.article_category?.toLowerCase() === 'clothes') ||
-        (c.elec_gadgets && article.article_category?.toLowerCase() === 'electronic gadgets') ||
-        (c.available && article.status?.toLowerCase() === 'available') ||
-        (c.reserved && article.status?.toLowerCase() === 'reserved') ||
-        (c.needed && article.status?.toLowerCase() === 'needed') ||
-        (c.already_taken && article.status?.toLowerCase() === 'already taken')
-      );
-    });
-    setArticlesToBeDisplayed(filteredArticles);
-  };
+  // }, [searchQuery, filterCriteria, articles]);
 
-  useEffect(() => {
-    filter(filterCriteria);
-  }, [filterCriteria, articles]);
+  const allCategories = useMemo(() => {
+    if(articles) return [...new Set(articles?.map((article: Article) => article.article_category))]
+  }, [articles])
+  const allStatuses = useMemo(() => {
+    if(articles) return [...new Set(articles?.map((article: Article) => article.status))]
+  }, [articles])
 
   const scrollToTop = () => {
     window.scrollTo({
@@ -74,11 +82,14 @@ const [searchQuery, setSearchQuery] = useState('');
   return (
     <div className='d-flex flex-column'>
       <Header 
+        filters = {filters}
         loggedInUser={loggedInUser} 
-        filterCriteria={filterCriteria} 
-        setFilterCriteria={setFilterCriteria}
+        handleCategory={handleCategory} 
+        handleStatus={handleStatus}
         searchQuery={ searchQuery}
         setSearchQuery={setSearchQuery}
+        allCategories={allCategories}
+        allStatuses={allStatuses}
       />
 
       <div className="article-cards mx-auto">
