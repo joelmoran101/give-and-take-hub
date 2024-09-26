@@ -1,22 +1,4 @@
-import { createContext, useEffect, useState } from "react";
-import axios from 'axios'
-import maxios from '../utilities/maxios'
-
-export type Article={
-  _id: string,
-  article_id: number,
-  picture_url: string,
-  article_name: string,
-  article_category: string,
-  article_description: string,
-  username: string,
-  date_time_stamp: string,
-  status: string,
-  location: string
-}
-
-export const ArticleContext = createContext<{articles: any, setArticles: (articles: any) => void}>({articles: null, setArticles: () => {}})
-
+// Mock Axios function
 const data = [{
     "_id": {
       "$oid": "66e4019a244ca7471f5671e3"
@@ -228,30 +210,24 @@ const data = [{
     "location": "Charlotte, NC"
   }]
 
-function ArticleProvider({ children }:{children: React.ReactNode}) {
-    const [articles, setArticles] = useState(null)
+function fn(settle:any, returnedValue:any, delay = 1000): Promise<any> {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        if(settle === 'fail') {
+          reject({code: 500, response:{ data: returnedValue }})
+        }
+        else{
+          resolve({data: returnedValue})
+        }
+      }, delay)
+    })
+  }
+  
+const maxios = {
+    get: fn,
+    post: fn,
+    put: fn,
+    delete: fn,
+  }
 
-    useEffect(() => {
-        // axios.get('/api/articles')
-        // the following line is just to mock the DB 
-        maxios.get('success', data)      
-        .then((response: {data: any}) => {
-            setArticles(response.data)
-        })
-        .catch((error) => {
-            console.log(error)
-        })
-    }, [])
-
-    useEffect(() => {
-        console.log("ARTICLES FETCHED FROM:::", articles)
-    }, [articles])
-
-    return (
-        <ArticleContext.Provider value={{ articles, setArticles }}>
-            {children}
-        </ArticleContext.Provider>
-    )
-}
-
-export default ArticleProvider
+  export default maxios
