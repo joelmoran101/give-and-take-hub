@@ -53,25 +53,53 @@ function handleSearch(){
   return results.map(result => result.item)
 }
 
-const searchResult = useMemo(() => handleSearch(), [searchQuery, articles])
+const searchResult = useMemo(() => {
+  resetFilters()
+  return handleSearch()
+}, [searchQuery, articles])
 
 
-  // useEffect(() => {
-  //   if (searchResult) {
-  //     setArticlesToBeDisplayed(searchResult);
-  //   } else {
-  //     filter(filterCriteria)
-  //   }
+  useEffect(() => {
+    if (searchResult) {
+      setArticlesToBeDisplayed(searchResult);
+    } else {
+      setArticlesToBeDisplayed(articles);
+    }
 
-  // }, [searchQuery, filterCriteria, articles]);
+  }, [searchQuery, articles]);
 
   const allCategories = useMemo(() => {
     if(articles) return [...new Set(articles?.map((article: Article) => article.article_category))]
+    return []
   }, [articles])
   const allStatuses = useMemo(() => {
     if(articles) return [...new Set(articles?.map((article: Article) => article.status))]
+    return []
   }, [articles])
 
+  function applyFilters(articles: Article[] | null, filters: Filter) {
+    if (!articles) return;
+    const results = articles.filter(article => {
+      const matchesCategory = filters.category.length === 0 || filters.category.includes(article.article_category);
+      const matchesStatus = filters.status.length === 0 || filters.status.includes(article.status);
+      return matchesCategory && matchesStatus 
+    })
+
+    setArticlesToBeDisplayed(results)
+  }
+
+  useMemo(() => {
+    if (searchQuery) return
+    applyFilters(articles, filters)
+  }, [articles, filters]) // these dependencies will cause the effect to re-run when they change
+
+  function resetFilters() {
+    console.log('DEBUG: resetting filters')
+    setFilters({
+      category: [],
+      status: [],
+    })
+  }
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
@@ -90,6 +118,7 @@ const searchResult = useMemo(() => handleSearch(), [searchQuery, articles])
         setSearchQuery={setSearchQuery}
         allCategories={allCategories}
         allStatuses={allStatuses}
+        resetFilters={resetFilters}
       />
 
       <div className="article-cards mx-auto">

@@ -30,17 +30,31 @@ function FilterAccordion({ title, filters, handler,selectedFilters }: {
       </Dropdown>
     );
   }
+type HeaderProps = {
+  loggedInUser: any;
+  filters: Filter;
+  allCategories: string[];
+  allStatuses: string[];
+  searchQuery: string;
+  setSearchQuery: React.Dispatch<React.SetStateAction<string>>;
+  handleCategory: (category: string) => void;
+  handleStatus: (status: string) => void;
+  resetFilters: () => void
+};
 
-function Header({ loggedInUser, filters, handleCategory, handleStatus, allCategories, allStatuses, searchQuery, setSearchQuery }: {
-    loggedInUser: any;
-    filters: Filter;
-    allCategories: string[];
-    allStatuses: string[];
-    searchQuery: string;
-    setSearchQuery: React.Dispatch<React.SetStateAction<string>>;
-    handleCategory: (category: string) => void;
-    handleStatus: (status: string) => void;
-  }) {
+
+function Header({ 
+  loggedInUser, 
+  filters, 
+  handleCategory, 
+  handleStatus, 
+  allCategories, 
+  allStatuses, 
+  searchQuery, 
+  setSearchQuery,
+  resetFilters
+
+}: HeaderProps ) {
     return (
       <Navbar expand="lg" className="bg-body-tertiary">
         <Container fluid>
@@ -78,7 +92,8 @@ function Header({ loggedInUser, filters, handleCategory, handleStatus, allCatego
                   />
                 </NavDropdown.Item>
                 <NavDropdown.Divider />
-                <NavDropdown.Item href="#action5">Show All</NavDropdown.Item>
+
+                <NavDropdown.Item onClick={resetFilters}>Show All</NavDropdown.Item>
               </NavDropdown>
               {loggedInUser ? (
                 <Nav.Link href="/add-article">Post New Article</Nav.Link>

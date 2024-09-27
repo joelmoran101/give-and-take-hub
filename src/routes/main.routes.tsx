@@ -8,6 +8,7 @@ import BrowseItems from "../components/BrowseItems";
 import EnterOneTimePassword from "../pages/EnterOneTimePassword";
 import AddArticle from "../components/AddArticle";
 import About from "../pages/About";
+import DeleteAccount from "../components/DeleteAccount";
 
 export const router=createBrowserRouter(createRoutesFromElements(
 
@@ -20,6 +21,7 @@ export const router=createBrowserRouter(createRoutesFromElements(
             <Route path="/enter-one-time-password" element={<EnterOneTimePassword />} />
             <Route path="/add-article" element={<AddArticle />} />
             <Route path="/browse" element={<BrowseItems />} />
+            <Route path="/delete-account" element={<DeleteAccount />} />
 
         </Route>
    

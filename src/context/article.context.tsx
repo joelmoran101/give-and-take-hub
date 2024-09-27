@@ -15,7 +15,7 @@ export type Article={
   location: string
 }
 
-export const ArticleContext = createContext<{articles: any, setArticles: (articles: any) => void}>({articles: null, setArticles: () => {}})
+export const ArticleContext = createContext<{articles: Article[] | null, setArticles: React.Dispatch<React.SetStateAction<Article[] | null>>}>({articles: null, setArticles: () => {}})
 
 const data = [{
     "_id": {
@@ -229,7 +229,7 @@ const data = [{
   }]
 
 function ArticleProvider({ children }:{children: React.ReactNode}) {
-    const [articles, setArticles] = useState(null)
+    const [articles, setArticles] = useState<Article[] | null>(null)
 
     useEffect(() => {
         // axios.get('/api/articles')
