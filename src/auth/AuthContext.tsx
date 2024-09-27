@@ -2,6 +2,8 @@
 
 import { createContext, useEffect, useState } from 'react';
 import axios from 'axios';
+import { BACKEND_HOST } from '../config/config';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -28,24 +30,32 @@ const AuthContext = createContext<IAuthContext>({
 
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [loggedInUser, setLoggedInUser] = useState<User | null>(null);
-
+  const navigate = useNavigate();
   
 
   useEffect (() => {
+    console.log("DEBUG: CHECKING IF USER IS LOGGED IN")
     const token = localStorage.getItem("access_token");
-     axios.get('/api/who-is-loggedin-user', {headers: { "authorization": `Bearer ${token}` }})
+     axios.get(BACKEND_HOST+'/api/who-is-loggedin-user', {headers: { "authorization": `Bearer ${token}` }})
      .then((response: any) => {
+      console.log("RESPONSE:::", response.data)
       setLoggedInUser(response.data.user);
+      localStorage.setItem('token', response.data.token); // Store token in local storage
     })
     .catch((error: any) => {
       setLoggedInUser(null);
       localStorage.clear();
-      window.location.replace("/login");
+      navigate("/login");
     })
   }, []);
 
+  useEffect(() => {
+    console.log("USER LOGGED IN:::", loggedInUser)
+  }, [loggedInUser]);
+
   const logout = () => {
-    setLoggedInUser(null);
+    setLoggedInUser(null)
+    localStorage.removeItem('access_token');
   };
 
   return (

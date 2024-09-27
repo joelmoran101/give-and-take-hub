@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Hero from '../components/hero/Hero';
 import './Home.css';
 import { Link } from 'react-router-dom';
 import LanguageSelector from '../utilities/LanguageSelector';
+import { AuthContext } from '../auth/AuthContext';
 
 const Home = () => {
+  const { loggedInUser } = useContext(AuthContext);
   return (
     <div>
       <header className="Header">
@@ -19,9 +21,16 @@ const Home = () => {
               <li><Link to="/">Home</Link></li>
               <li><Link to="/browse">Give & Take Hub</Link></li>
               <li><Link to="/about">About</Link></li>
-              <li><Link to="/register">Join</Link></li>
-              <li><Link to="/login">Login</Link></li>
-              {/* <div className='language-button'>Choose Language</div> */}
+
+              {!loggedInUser && (
+                <>
+                  <li><Link to="/register">Join</Link></li>
+                  <li><Link to="/login">Login</Link></li>
+                </>
+              )}
+
+              <li><Link to="/profile">Profile</Link></li>
+
               <li><LanguageSelector /></li>
 
             </ul>

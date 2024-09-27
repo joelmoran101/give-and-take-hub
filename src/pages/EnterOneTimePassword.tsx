@@ -36,6 +36,8 @@ const EnterOneTimePassword = () => {
       });
       console.log(response.data);
 
+      localStorage.setItem('access_token', response.data.token); // Store token in local storage
+
       setLoggedInUser(response.data.user);
       // Update the form with the generated code
       // setLoginCode(response.data);

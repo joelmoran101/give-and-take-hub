@@ -9,18 +9,28 @@ import EnterOneTimePassword from "../pages/EnterOneTimePassword";
 import AddArticle from "../components/AddArticle";
 import About from "../pages/About";
 import DeleteAccount from "../components/DeleteAccount";
+import ArticleProvider from "../context/article.context";
+import { AuthProvider } from "../auth/AuthContext";
+// import Profile from "../components/ViewProfile";
 
 export const router=createBrowserRouter(createRoutesFromElements(
 
-        <Route element={<App />} >
+        <Route element={
+            <AuthProvider>
+                <ArticleProvider>
+                    <App />
+                </ArticleProvider>
+            </AuthProvider>
+        } >
+
             <Route path="/" element={ <Home/> } />
-            {/* <Route path="/welcome" element={<Hero />} /> */}
             <Route path="/about" element={<About />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
             <Route path="/enter-one-time-password" element={<EnterOneTimePassword />} />
             <Route path="/add-article" element={<AddArticle />} />
             <Route path="/browse" element={<BrowseItems />} />
+            {/* <Route path="/profile" element={<Profile />} /> */}
             <Route path="/delete-account" element={<DeleteAccount />} />
 
         </Route>
