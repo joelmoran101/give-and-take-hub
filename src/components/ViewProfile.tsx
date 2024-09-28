@@ -1,10 +1,11 @@
-import React, { useContext, useEffect, useState } from 'react'
-import axios from 'axios'
-import { Formik, Form, Field, ErrorMessage, FormikHelpers } from 'formik'
+import React, { useContext, useState, useEffect } from 'react'
+import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
-import './ViewProfile.sass'
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 import { AuthContext } from '../auth/AuthContext'
-import { Link, useNavigate } from 'react-router-dom'
+import { Nav } from 'react-bootstrap'
+import './ViewProfile.sass'
 
 interface UserProfile {
   userId: string
@@ -46,7 +47,7 @@ const ViewProfile: React.FC = () => {
     }
   }, [loggedInUser, navigate])
 
-  const handleSubmit = async (values: UserProfile, { setSubmitting }: FormikHelpers<UserProfile>) => {
+  const handleSubmit = async (values: UserProfile) => {
     try {
       const response = await axios.put(`/api/users/${values.userId}`, values)
       if (setLoggedInUser) {
@@ -58,73 +59,57 @@ const ViewProfile: React.FC = () => {
       console.error('Error updating profile:', error)
       setError('Failed to update profile. Please try again.')
     }
-    setSubmitting(false)
   }
 
   if (!loggedInUser) {
-    return <div>Loading...</div>
+    return <div className="view-profile-container">Loading...</div>
   }
 
   return (
-    <div className="view-profile">
+    <div className="view-profile-container">
       <h1>User Profile</h1>
-      {error && <div className="error-message">{error}</div>}
+      {error && <div className="error">{error}</div>}
       <Formik
         initialValues={loggedInUser || defaultUser}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
         enableReinitialize
       >
-        {({ isSubmitting, values }) => (
+        {({ isSubmitting }) => (
           <Form>
             <div className="profile-picture">
-              <img src={values.profilePic} alt={`${values.firstname} ${values.lastname}`} />
+              <img src={loggedInUser.profilePic || defaultUser.profilePic} alt={`${loggedInUser.firstname} ${loggedInUser.lastname}`} />
             </div>
-            <div className="form-group">
-              <label htmlFor="firstname">First Name</label>
-              <Field type="text" id="firstname" name="firstname" disabled={!isEditing} />
-              <ErrorMessage name="firstname" component="div" className="error" />
-            </div>
-            <div className="form-group">
-              <label htmlFor="lastname">Last Name</label>
-              <Field type="text" id="lastname" name="lastname" disabled={!isEditing} />
-              <ErrorMessage name="lastname" component="div" className="error" />
-            </div>
-            <div className="form-group">
-              <label htmlFor="username">Username</label>
-              <Field type="text" id="username" name="username" disabled={!isEditing} />
-              <ErrorMessage name="username" component="div" className="error" />
-            </div>
-            <div className="form-group">
-              <label htmlFor="email">Email</label>
-              <Field type="email" id="email" name="email" disabled={!isEditing} />
-              <ErrorMessage name="email" component="div" className="error" />
-            </div>
-            <div className="form-group">
-              <label htmlFor="phone">Phone</label>
-              <Field type="tel" id="phone" name="phone" disabled={!isEditing} />
-              <ErrorMessage name="phone" component="div" className="error" />
-            </div>
-            {isEditing ? (
-              <div className="button-group">
-                <button type="submit" disabled={isSubmitting}>
-                  Save Changes
-                </button>
-                <button type="button" onClick={() => setIsEditing(false)}>
-                  Cancel
-                </button>
+            {['firstname', 'lastname', 'username', 'email', 'phone'].map((field) => (
+              <div key={field} className="form-group">
+                <label htmlFor={field}>{field.charAt(0).toUpperCase() + field.slice(1)}</label>
+                <Field type={field === 'email' ? 'email' : 'text'} id={field} name={field} disabled={!isEditing} />
+                <ErrorMessage name={field} component="div" className="error" />
               </div>
-            ) : (
-              <button type="button" onClick={() => setIsEditing(true)}>
-                Edit Profile
+            ))}
+            <div className="button-container">
+              {isEditing ? (
+                <>
+                  <button type="submit" className="save-button" disabled={isSubmitting}>
+                    Save Changes
+                  </button>
+                  <button type="button" className="cancel-button" onClick={() => setIsEditing(false)}>
+                    Cancel
+                  </button>
+                </>
+              ) : (
+                <button type="button" className="edit-button" onClick={() => setIsEditing(true)}>
+                  Edit Profile
+                </button>
+              )}
+              <button type="button" className="delete-button" onClick={() => navigate('/delete-account')}>
+                Delete Account
               </button>
-            )}
+              <Nav.Link href="/" className="back-button">Back to Home Page...</Nav.Link>
+            </div>
           </Form>
         )}
       </Formik>
-      <div className="delete-account">
-        <Link to="/delete-account">Delete Account</Link>
-      </div>
     </div>
   )
 }
