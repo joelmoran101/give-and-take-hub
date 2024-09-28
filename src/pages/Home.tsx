@@ -29,7 +29,11 @@ const Home = () => {
                 </>
               )}
 
-              <li><Link to="/profile">Profile</Link></li>
+              {loggedInUser && (
+                <>
+                  <li><Link to="/profile">Profile</Link></li>
+                </>
+              )}
 
               <li><LanguageSelector /></li>
 
