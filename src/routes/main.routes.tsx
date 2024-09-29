@@ -4,7 +4,7 @@ import Home from "../pages/Home";
 // import Hero from "../components/hero/Hero";
 import Register from "../pages/Register";
 import Login from "../pages/Login";
-import ViewProfile from "../components/ViewProfile";
+// import ViewProfile from "../components/ViewProfile";
 import BrowseItems from "../components/BrowseItems";
 import EnterOneTimePassword from "../pages/EnterOneTimePassword";
 import AddArticle from "../components/AddArticle";
@@ -12,6 +12,7 @@ import About from "../pages/About";
 import DeleteAccount from "../components/DeleteAccount";
 import ArticleProvider from "../context/article.context";
 import { AuthProvider } from "../auth/AuthContext";
+import UserProfile from "../components/UserProfile";
 
 export const router=createBrowserRouter(createRoutesFromElements(
 
@@ -30,7 +31,7 @@ export const router=createBrowserRouter(createRoutesFromElements(
             <Route path="/enter-one-time-password" element={<EnterOneTimePassword />} />
             <Route path="/add-article" element={<AddArticle />} />
             <Route path="/browse" element={<BrowseItems />} />
-            <Route path="/profile" element={<ViewProfile />} />
+            <Route path="/profile" element={<UserProfile />} />
             <Route path="/delete-account" element={<DeleteAccount />} />
 
         </Route>
