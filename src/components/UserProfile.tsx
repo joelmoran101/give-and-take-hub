@@ -76,9 +76,11 @@ const UserProfile: React.FC = () => {
       setSubmitting(false)
       return
     }
-
+  
     try {
-      await axios.delete(`${process.env.REACT_APP_BACKEND_HOST}/delete-account/${loggedInUser?.userId}`)
+      const hostname = window.location.hostname
+      const url = `http://${hostname}:4000/delete-account/${loggedInUser?.userId}`
+      await axios.delete(url)
       setLoggedInUser(null)
       navigate('/')
     } catch (error) {
