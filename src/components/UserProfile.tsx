@@ -1,4 +1,3 @@
-//UserProfile integrated instead of ViewProfile, EditProfile and DeleteAccount separated as 3 different components.
 import React, { useContext, useState, useEffect } from 'react'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
@@ -79,7 +78,7 @@ const UserProfile: React.FC = () => {
     }
 
     try {
-      await axios.delete(`${process.env.REACT_APP_BACKEND_HOST}/api/delete-account/${loggedInUser?.userId}`)
+      await axios.delete(`${process.env.REACT_APP_BACKEND_HOST}/delete-account/${loggedInUser?.userId}`)
       setLoggedInUser(null)
       navigate('/')
     } catch (error) {

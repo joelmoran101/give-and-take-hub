@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import { AuthContext } from '../auth/AuthContext'
 import { Nav } from 'react-bootstrap'
 import './ViewProfile.sass'
+import './EditProfile'
 
 interface UserProfile {
   userId: string
