@@ -17,6 +17,12 @@
     margin-bottom: 5px;
   }
 
+  .disabled-field {
+    background-color: #f0f0f0;
+    color: #666;
+    cursor: not-allowed;
+  }
+
   .submit-button {
     padding: 10px 20px;
     margin: 0 10px;

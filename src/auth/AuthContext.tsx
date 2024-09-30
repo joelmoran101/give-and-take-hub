@@ -1,11 +1,6 @@
-// src/AuthContext.
-
 import { createContext, useEffect, useState } from 'react';
 import axios from 'axios';
-import { BACKEND_HOST } from '../config/config';
 import { useNavigate } from 'react-router-dom';
-
-// import './Logout.sass'
 
 axios.interceptors.request.use(
   (config: any) => {
@@ -27,6 +22,7 @@ type User = {
   profilePic: string;
   phone: string;
 }
+
 interface IAuthContext {
   loggedInUser: User | null;
   setLoggedInUser: (user: User | null) => void;
@@ -43,21 +39,22 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [loggedInUser, setLoggedInUser] = useState<User | null>(null);
   const navigate = useNavigate();
   
-
-  useEffect (() => {
+  useEffect(() => {
     console.log("DEBUG: CHECKING IF USER IS LOGGED IN")
     const token = localStorage.getItem("access_token");
-     axios.get(import.meta.env.VITE_BACKEND_HOST+'/api/who-is-loggedin-user', {headers: { "authorization": `Bearer ${token}` }})
-     .then((response: any) => {
-      console.log("RESPONSE:::", response.data)
-      setLoggedInUser(response.data.user);
-      localStorage.setItem('access_token', response.data.token); // Store token in local storage
-    })
-    .catch((error: any) => {
-      setLoggedInUser(null);
-      localStorage.clear();
-      navigate("/login");
-    })
+    axios.get(import.meta.env.VITE_BACKEND_HOST+'/api/who-is-loggedin-user', {headers: { "authorization": `Bearer ${token}` }})
+      .then((response: any) => {
+        console.log("RESPONSE:::", response.data)
+        setLoggedInUser(response.data.user);
+        console.log("loggedInUser after setting:", response.data.user); // New console.log
+        localStorage.setItem('access_token', response.data.token);
+      })
+      .catch((error: any) => {
+        console.error("Error fetching logged-in user:", error); // New console.log
+        setLoggedInUser(null);
+        localStorage.clear();
+        navigate("/login");
+      })
   }, []);
 
   useEffect(() => {
@@ -76,4 +73,4 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export { AuthProvider, AuthContext,  };
+export { AuthProvider, AuthContext };

@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Formik, Form, Field, ErrorMessage, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './AddArticle.css';
+import { AuthContext } from '../auth/AuthContext';
 
 interface ArticleCardProps {
   article: {
@@ -30,6 +31,7 @@ const AddArticleSchema = Yup.object().shape({
 });
 
 const AddArticle: React.FC = () => {
+  const { loggedInUser } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const initialValues: ArticleCardProps['article'] = {
@@ -37,13 +39,13 @@ const AddArticle: React.FC = () => {
     picture_url: '',
     article_category: '',
     article_description: '',
-    username: '',
+    username: loggedInUser?.username || '',
     date_time_stamp: '',
     status: '',
     location: '',
   };
 
-  const handleSubmit = async (values: ArticleCardProps['article'], { setSubmitting, resetForm }: any) => {
+  const handleSubmit = async (values: ArticleCardProps['article'], { setSubmitting, resetForm }: FormikHelpers<ArticleCardProps['article']>) => {
     try {
       const response = await axios.post('http://localhost:4000/api/add-article', values);
       console.log('Article added successfully:', response.data);
@@ -52,7 +54,6 @@ const AddArticle: React.FC = () => {
     } catch (error) {
       console.error('Error adding article:', error);
       // Handle error (e.g., show error message to user)
-      
     } finally {
       setSubmitting(false);
     }
@@ -66,31 +67,36 @@ const AddArticle: React.FC = () => {
         validationSchema={AddArticleSchema}
         onSubmit={handleSubmit}
       >
-        {({ errors, touched }) => (
+        {({ errors, touched, isSubmitting, values }) => (
           <Form>
             <div className='form-group'>
               <Field name="article_name" placeholder="Article Name" />
-              <ErrorMessage name="article_name" component="div" />
+              <ErrorMessage name="article_name" component="div" className="error" />
             </div>
             <div className='form-group'>
               <Field name="picture_url" placeholder="Picture URL" />
-              <ErrorMessage name="picture_url" component="div" />
+              <ErrorMessage name="picture_url" component="div" className="error" />
             </div>
             <div className='form-group'>
               <Field name="article_category" placeholder="Category" />
-              <ErrorMessage name="article_category" component="div" />
+              <ErrorMessage name="article_category" component="div" className="error" />
             </div>
             <div className='form-group'>
               <Field name="article_description" as="textarea" placeholder="Description" />
-              <ErrorMessage name="article_description" component="div" />
+              <ErrorMessage name="article_description" component="div" className="error" />
             </div>
             <div className='form-group'>
-              <Field name="username" placeholder="Username" />
-              <ErrorMessage name="username" component="div" />
+              <Field
+                name="username"
+                disabled
+                value={values.username}
+                className="disabled-field"
+              />
+              <ErrorMessage name="username" component="div" className="error" />
             </div>
             <div className='form-group'>
               <Field name="date_time_stamp" type="datetime-local" />
-              <ErrorMessage name="date_time_stamp" component="div" />
+              <ErrorMessage name="date_time_stamp" component="div" className="error" />
             </div>
             <div className='form-group'>
               <Field name="status" as="select">
@@ -100,18 +106,19 @@ const AddArticle: React.FC = () => {
                 <option value="taken">Taken</option>
                 <option value="needed">Needed</option>
               </Field>
-              <ErrorMessage name="status" component="div" />
+              <ErrorMessage name="status" component="div" className="error" />
             </div>
             <div className='form-group'>
               <Field name="location" placeholder="Location" />
-              <ErrorMessage name="location" component="div" />
+              <ErrorMessage name="location" component="div" className="error" />
             </div>
 
             <div className="button-container">
-              <button className='submit-button' type="submit">Submit</button>
+              <button className='submit-button' type="submit" disabled={isSubmitting}>
+                {isSubmitting ? 'Submitting...' : 'Submit'}
+              </button>
               <Link to="/browse" className="back-button">Go back to browsing</Link>
             </div>
-
           </Form>
         )}
       </Formik>
