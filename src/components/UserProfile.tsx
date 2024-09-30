@@ -2,9 +2,8 @@ import React, { useContext, useState, useEffect } from 'react'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { AuthContext } from '../auth/AuthContext'
-import { Nav } from 'react-bootstrap'
 import './UserProfile.sass'
 
 interface UserProfile {
@@ -54,9 +53,9 @@ const UserProfile: React.FC = () => {
     }
   }, [loggedInUser, navigate])
 
-  const handleSubmit = async (values: UserProfile, { setSubmitting }: any) => {
+  const handleProfileUpdate = async (values: UserProfile, { setSubmitting }: any) => {
     try {
-      const response = await axios.put(`${process.env.REACT_APP_BACKEND_HOST}/api/users/${values.userId}`, values)
+      const response: any = await axios.put(`${import.meta.env.VITE_BACKEND_HOST}/edit-user-profile`, values)
       if (setLoggedInUser) {
         setLoggedInUser(response.data)
       }
@@ -79,7 +78,7 @@ const UserProfile: React.FC = () => {
   
     try {
       const hostname = window.location.hostname
-      const url = `http://${hostname}:4000/delete-account/${loggedInUser?.userId}`
+      const url = `${import.meta.env.VITE_BACKEND_HOST}/delete-account`
       await axios.delete(url)
       setLoggedInUser(null)
       navigate('/')
@@ -103,7 +102,7 @@ const UserProfile: React.FC = () => {
         <Formik
           initialValues={loggedInUser || defaultUser}
           validationSchema={validationSchema}
-          onSubmit={handleSubmit}
+          onSubmit={handleProfileUpdate}
           enableReinitialize
         >
           {({ isSubmitting }) => (
@@ -138,7 +137,7 @@ const UserProfile: React.FC = () => {
                     </button>
                   </>
                 )}
-                <Nav.Link href="/" className="back-button">Back to Home Page...</Nav.Link>
+                <Link to="/" className="back-button">Back to Home Page...</Link>
               </div>
             </Form>
           )}

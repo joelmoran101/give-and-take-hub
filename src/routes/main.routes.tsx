@@ -13,7 +13,7 @@ import DeleteAccount from "../components/DeleteAccount";
 import ArticleProvider from "../context/article.context";
 import { AuthProvider } from "../auth/AuthContext";
 import UserProfile from "../components/UserProfile";
-
+import Logout from "../components/Logout";
 export const router=createBrowserRouter(createRoutesFromElements(
 
         <Route element={
@@ -28,6 +28,7 @@ export const router=createBrowserRouter(createRoutesFromElements(
             <Route path="/about" element={<About />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/logout" element={<Logout />} />
             <Route path="/enter-one-time-password" element={<EnterOneTimePassword />} />
             <Route path="/add-article" element={<AddArticle />} />
             <Route path="/browse" element={<BrowseItems />} />

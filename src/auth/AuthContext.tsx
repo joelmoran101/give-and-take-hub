@@ -5,7 +5,18 @@ import axios from 'axios';
 import { BACKEND_HOST } from '../config/config';
 import { useNavigate } from 'react-router-dom';
 
+// import './Logout.sass'
 
+axios.interceptors.request.use(
+  (config: any) => {
+    const token = localStorage.getItem('access_token');
+    if (token) {
+      config.headers['Authorization'] = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
 
 type User = {
   userId: string;
@@ -36,11 +47,11 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect (() => {
     console.log("DEBUG: CHECKING IF USER IS LOGGED IN")
     const token = localStorage.getItem("access_token");
-     axios.get(BACKEND_HOST+'/api/who-is-loggedin-user', {headers: { "authorization": `Bearer ${token}` }})
+     axios.get(import.meta.env.VITE_BACKEND_HOST+'/api/who-is-loggedin-user', {headers: { "authorization": `Bearer ${token}` }})
      .then((response: any) => {
       console.log("RESPONSE:::", response.data)
       setLoggedInUser(response.data.user);
-      localStorage.setItem('token', response.data.token); // Store token in local storage
+      localStorage.setItem('access_token', response.data.token); // Store token in local storage
     })
     .catch((error: any) => {
       setLoggedInUser(null);
