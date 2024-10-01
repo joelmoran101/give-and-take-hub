@@ -1,6 +1,7 @@
 import { Accordion, Button, Container, Dropdown, Form, Nav, Navbar, NavDropdown } from "react-bootstrap";
 import { Filter } from "./BrowseItems";
 import LanguageSelector from "../utilities/LanguageSelector";
+import { Link } from "react-router-dom";
 
 
 function FilterAccordion({ title, filters, handler,selectedFilters }: {
@@ -96,11 +97,11 @@ function Header({
                 <NavDropdown.Item onClick={resetFilters}>Show All</NavDropdown.Item>
               </NavDropdown>
               {loggedInUser ? (
-                <Nav.Link href="/add-article">Post New Article</Nav.Link>
+                <Link to="/add-article">Post New Article</Link>
               ) : (
-                <Nav.Link href="/login">Login</Nav.Link>
+                <Link to="/login">Login</Link>
               )}
-              <Nav.Link href="/about">About</Nav.Link>
+              <Link to="/about">About</Link>
             </Nav>
             <div className='language-button'>Choose Language</div>
             <LanguageSelector />

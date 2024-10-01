@@ -31,7 +31,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
   const { loggedInUser } = useContext(AuthContext);
   const navigate = useNavigate(); // Get the navigation function
   const handleReplyButtonClick = () => {
-    navigate('/reply-to-post'); // Navigate to the ReplyToPost component
+    navigate(`/reply-to-post/${article._id}`, { state: { article } });
   };
   console.log('Aticle data: ', article);
   return (
