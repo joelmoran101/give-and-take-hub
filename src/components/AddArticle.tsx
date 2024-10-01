@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Formik, Form, Field, ErrorMessage, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
 import { Link, useNavigate } from 'react-router-dom';
@@ -21,7 +21,7 @@ interface ArticleCardProps {
 
 const AddArticleSchema = Yup.object().shape({
   article_name: Yup.string().required('Article Name is required'),
-  picture_url: Yup.string().required('Picture URL is required'),
+  picture_url: Yup.string(),
   article_category: Yup.string().required('Category is required'),
   article_description: Yup.string().required('Description is required'),
   username: Yup.string().required('Username is required'),
@@ -32,6 +32,11 @@ const AddArticleSchema = Yup.object().shape({
 
 const AddArticle: React.FC = () => {
   const { loggedInUser } = useContext(AuthContext);
+  const [selectedFile, setSelectedFile] = useState(null);
+
+  const handleFileChange = (event) => {
+    setSelectedFile(event.target.files[0]);
+  };
   const navigate = useNavigate();
 
   const initialValues: ArticleCardProps['article'] = {
@@ -73,10 +78,21 @@ const AddArticle: React.FC = () => {
               <Field name="article_name" placeholder="Article Name" />
               <ErrorMessage name="article_name" component="div" className="error" />
             </div>
+
             <div className='form-group'>
-              <Field name="picture_url" placeholder="Picture URL" />
+              <Field name="picture_url" disabled placeholder="Upload or Take a Picture" />
+              <input
+              type="file"
+              name="picture_url"
+              accept="image/*"
+              onChange={handleFileChange}
+            />
+            {selectedFile && (
+              <img src={URL.createObjectURL(selectedFile)} alt="Selected Image" />
+            )}
               <ErrorMessage name="picture_url" component="div" className="error" />
             </div>
+
             <div className='form-group'>
               <Field name="article_category" placeholder="Category" />
               <ErrorMessage name="article_category" component="div" className="error" />

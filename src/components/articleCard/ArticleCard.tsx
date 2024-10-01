@@ -3,6 +3,8 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import { AuthContext } from '../../auth/AuthContext';
 import "./ArticleCard.scss";
+import ReplyToPost from '../ReplyToPost';
+import { useNavigate } from 'react-router-dom';
 // import { selectedSortOption, handleSortOptionChange } from '../BrowseItems';
 
 interface Location {
@@ -27,6 +29,10 @@ interface ArticleCardProps {
 
 const ArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
   const { loggedInUser } = useContext(AuthContext);
+  const navigate = useNavigate(); // Get the navigation function
+  const handleReplyButtonClick = () => {
+    navigate('/reply-to-post'); // Navigate to the ReplyToPost component
+  };
   console.log('Aticle data: ', article);
   return (
     <Card className='card-container'>
@@ -41,7 +47,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
         <Card.Text>Date: {article.date_time_stamp}</Card.Text>
 
         {loggedInUser && (  
-          <Button variant="primary">Reply to Post</Button>
+          <Button onClick={handleReplyButtonClick} className='reply-button' variant="primary">Reply to Post</Button>
         )}
         
       </Card.Body>
