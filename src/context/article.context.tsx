@@ -232,9 +232,9 @@ function ArticleProvider({ children }:{children: React.ReactNode}) {
     const [articles, setArticles] = useState<Article[] | null>(null)
 
     useEffect(() => {
-        // axios.get('/api/articles')
+        axios.get(import.meta.env.VITE_BACKEND_HOST + '/api/articles')
         // the following line is just to mock the DB 
-        maxios.get('success', data)      
+        // maxios.get('success', data)      
         .then((response: {data: any}) => {
             setArticles(response.data)
         })

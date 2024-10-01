@@ -12,7 +12,6 @@ interface ArticleCardProps {
     picture_url: string;
     article_category: string;
     article_description: string;
-    username: string;
     date_time_stamp: string;
     status: string;
     location: string;
@@ -24,7 +23,6 @@ const AddArticleSchema = Yup.object().shape({
   picture_url: Yup.string(),
   article_category: Yup.string().required('Category is required'),
   article_description: Yup.string().required('Description is required'),
-  username: Yup.string().required('Username is required'),
   date_time_stamp: Yup.string().required('Date and Time is required'),
   status: Yup.string().required('Status is required'),
   location: Yup.string().required('Location is required'),
@@ -44,7 +42,6 @@ const AddArticle: React.FC = () => {
     picture_url: '',
     article_category: '',
     article_description: '',
-    username: loggedInUser?.username || '',
     date_time_stamp: '',
     status: '',
     location: '',
@@ -80,7 +77,7 @@ const AddArticle: React.FC = () => {
             </div>
 
             <div className='form-group'>
-              <Field name="picture_url" disabled placeholder="Upload or Take a Picture" />
+              <Field name="picture_url" disabled placeholder="Upload Picture/s" />
               <input
               type="file"
               name="picture_url"
@@ -100,15 +97,6 @@ const AddArticle: React.FC = () => {
             <div className='form-group'>
               <Field name="article_description" as="textarea" placeholder="Description" />
               <ErrorMessage name="article_description" component="div" className="error" />
-            </div>
-            <div className='form-group'>
-              <Field
-                name="username"
-                disabled
-                value={values.username}
-                className="disabled-field"
-              />
-              <ErrorMessage name="username" component="div" className="error" />
             </div>
             <div className='form-group'>
               <Field name="date_time_stamp" type="datetime-local" />

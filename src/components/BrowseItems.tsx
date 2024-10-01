@@ -46,6 +46,7 @@ const fuseOptions = {
 const fuse = new Fuse(articles?.length ? articles : [], fuseOptions);
 
 function handleSearch(){
+  console.log('THIS SHOULD NOT BE CONSOLE LOGGED :::', searchQuery)
   if(!searchQuery) return articles
 
   const results = fuse.search(searchQuery)

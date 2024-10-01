@@ -1,5 +1,5 @@
-import React, { useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useContext, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { Field, Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
@@ -22,6 +22,7 @@ const LoginSchema = Yup.object().shape({
 const EnterOneTimePassword = () => {
   const userId = useSelector((state: any) => state.user.userId);
   const { setLoggedInUser } = useContext(AuthContext)
+  const [error, setError] = useState('');
   const navigate = useNavigate();
   const initialValues = {
     oneTimePassword: '',
@@ -43,6 +44,7 @@ const EnterOneTimePassword = () => {
       // setLoginCode(response.data);
       navigate('/');
     } catch (error) {
+      setError(error.response.data.message || error.message || 'An error occurred. Please try again.');
       console.error(error);
     }
     finally {
@@ -52,6 +54,7 @@ const EnterOneTimePassword = () => {
   return (
     <div className="login-container">
       <h2>Enter One Time Password</h2>
+      {error && <p className="text-danger">{error}</p>}
       <Formik
         initialValues={initialValues}
         validationSchema={LoginSchema}
@@ -60,10 +63,12 @@ const EnterOneTimePassword = () => {
         {({ isSubmitting }) => (
           <Form className='login-form'>
             <label htmlFor="oneTimePassword" padding-right="1em">Check your email for One Time Password</label>
+            
             <Field type="text" border-radius="10px" id="oneTimePassword" name="oneTimePassword" placeholder="Enter 1-Time Password"/>
             <button className='login-button' type="submit" disabled={isSubmitting}>
               Login
             </button>
+            <Link className='request_new_otp d-block mt-4'  to="/login">Request for a new One Time Password...</Link>
           </Form>
         )}
       </Formik>
