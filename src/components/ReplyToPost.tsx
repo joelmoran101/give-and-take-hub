@@ -59,7 +59,7 @@ const ReplyToPost: React.FC = () => {
     if (!loggedInUser || !article) return;
 
     try {
-      const response = await axios.post(import.meta.env.VITE_BACKEND_HOST + `/api/send-message`, {...values, articleId});
+      const response = await axios.post(import.meta.env.VITE_BACKEND_HOST + `/send-message`, {...values, articleId});
       console.log('Message sent successfully:', response.data);
       setSent(true);
       resetForm();

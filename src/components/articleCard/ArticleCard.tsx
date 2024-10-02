@@ -10,7 +10,6 @@ import { useNavigate } from 'react-router-dom';
 interface Location {
   address: string;
   city: string;
-  // Add any other location properties you have
 }
 
 interface ArticleCardProps {
