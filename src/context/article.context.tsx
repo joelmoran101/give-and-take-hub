@@ -4,6 +4,7 @@ import maxios from '../utilities/maxios'
 
 export type Article={
   _id: string,
+  userId: string,
   article_id: number,
   picture_url: string,
   article_name: string,
@@ -14,8 +15,14 @@ export type Article={
   status: string,
   location: string
 }
+// are used to decribe methods of an object; while type is used to describe any type of data
+interface IArticleContext {
+    articles: Article[] | null,
+    setArticles: React.Dispatch<React.SetStateAction<Article[] | null>>
+    getArticle: (articleId: string) => Article | null
+}
 
-export const ArticleContext = createContext<{articles: Article[] | null, setArticles: React.Dispatch<React.SetStateAction<Article[] | null>>}>({articles: null, setArticles: () => {}})
+export const ArticleContext = createContext<IArticleContext>({articles: null, setArticles: () => {}, getArticle: () => null})
 
 const data = [{
     "_id": {
@@ -247,8 +254,12 @@ function ArticleProvider({ children }:{children: React.ReactNode}) {
         console.log("ARTICLES FETCHED FROM:::", articles)
     }, [articles])
 
+    const getArticle = (articleId: string) => {
+        return articles?.find(article => article._id === articleId) || null
+    }
+
     return (
-        <ArticleContext.Provider value={{ articles, setArticles }}>
+        <ArticleContext.Provider value={{ articles, setArticles, getArticle }}>
             {children}
         </ArticleContext.Provider>
     )

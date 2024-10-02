@@ -1,21 +1,14 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import React, { useState, useContext, useEffect, useMemo } from 'react';
+import { Formik, Form, Field, ErrorMessage, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 import { AuthContext } from '../auth/AuthContext';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
+import { Article, ArticleContext } from '../context/article.context';
 
-interface Article {
-  _id: string;
-  article_name: string;
-  picture_url: string;
-  article_category: string;
-  article_description: string;
-  username: string;
-  date_time_stamp: string;
-  status: string;
-  location: string;
-}
+type FormValues = {
+  message: string;
+};  
 
 const ReplyToPostSchema = Yup.object().shape({
   message: Yup.string().required('Message is required'),
@@ -23,11 +16,17 @@ const ReplyToPostSchema = Yup.object().shape({
 
 const ReplyToPost: React.FC = () => {
   const { loggedInUser } = useContext(AuthContext);
+  const { articles, getArticle } = useContext(ArticleContext);
   const navigate = useNavigate();
   const { articleId } = useParams<{ articleId: string }>();
   const location = useLocation();
   const [sent, setSent] = useState(false);
   const [article, setArticle] = useState<Article | null>(null);
+
+  const currentArticle = useMemo(() => {
+    if (!articles || !articleId) return null;
+    return getArticle(articleId);
+  }, [articles, articleId]);
 
   useEffect(() => {
     if (location.state && location.state.article) {
@@ -36,7 +35,7 @@ const ReplyToPost: React.FC = () => {
       // Fetch article data if not provided in location state
       const fetchArticle = async () => {
         try {
-          const response = await axios.get(`http://localhost:4000/api/articles/${articleId}`);
+          const response: any = await axios.get(`http://localhost:4000/api/articles/${articleId}`);
           setArticle(response.data);
         } catch (error) {
           console.error('Error fetching article:', error);
@@ -47,17 +46,19 @@ const ReplyToPost: React.FC = () => {
     }
   }, [articleId, location.state, navigate]);
 
+
+
   const initialValues = {
     message: '',
   };
 
-  const handleSubmit = async (values, { setSubmitting, resetForm }) => {
-    if (!article) return;
+  const handleSubmit = async (values: FormValues, { setSubmitting, resetForm }: FormikHelpers<FormValues>) => {
+    if (!loggedInUser || !article) return;
 
     try {
       const response = await axios.post(`http://localhost:4000/api/send-message/${article._id}`, {
-        sender: loggedInUser.username,
-        recipient: article.username,
+        sender: loggedInUser.userId,
+        recipient: article.userId,
         message: values.message,
       });
       console.log('Message sent successfully:', response.data);
@@ -70,13 +71,13 @@ const ReplyToPost: React.FC = () => {
     }
   };
 
-  if (!article) {
-    return <div>Loading...</div>;
-  }
+if (!currentArticle) return <h4>Loading...</h4>
+  
 
   return (
     <div className="reply-to-post-container">
-      <h2>Reply to {article.username}</h2>
+      <h2>Reply to {currentArticle.username}</h2>
+      {/* { JSON.stringify(currentArticle) } */}
       <Formik
         initialValues={initialValues}
         validationSchema={ReplyToPostSchema}

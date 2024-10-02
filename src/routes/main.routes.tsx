@@ -8,12 +8,12 @@ import Login from "../pages/Login";
 import BrowseItems from "../components/BrowseItems";
 import ReplyToPost from "../components/ReplyToPost";
 import EnterOneTimePassword from "../pages/EnterOneTimePassword";
-import AddArticle from "../components/AddArticle";
+import AddArticle from "../components/articleCard/AddArticle";
 import About from "../pages/About";
-import DeleteAccount from "../components/DeleteAccount";
+import DeleteAccount from "../components/userProfile/DeleteAccount";
 import ArticleProvider from "../context/article.context";
 import { AuthProvider } from "../auth/AuthContext";
-import UserProfile from "../components/UserProfile";
+import UserProfile from "../components/userProfile/UserProfile";
 import Logout from "../components/Logout";
 export const router=createBrowserRouter(createRoutesFromElements(
 

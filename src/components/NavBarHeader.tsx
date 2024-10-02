@@ -59,7 +59,7 @@ function Header({
     return (
       <Navbar expand="lg" className="bg-body-tertiary">
         <Container fluid>
-          <Navbar.Brand href="#">Navbar</Navbar.Brand>
+          <Navbar.Brand href="/src/assets/images/logo.jpg"><img className="logo" src="/src/assets/images/logo.jpg" alt="logo" /></Navbar.Brand>
           <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll">
             <Nav
@@ -67,7 +67,8 @@ function Header({
               style={{ maxHeight: '100px' }}
               navbarScroll
             >
-              <Nav.Link href="/">Home</Nav.Link>
+            
+              <Link className="nav-link" to="/">Home</Link>
               <NavDropdown title="Sort by:" id="navbarScrollingDropdown">
                 <NavDropdown.Item href="#action3">Date</NavDropdown.Item>
                 <NavDropdown.Item href="#action4">Status</NavDropdown.Item>
@@ -97,11 +98,11 @@ function Header({
                 <NavDropdown.Item onClick={resetFilters}>Show All</NavDropdown.Item>
               </NavDropdown>
               {loggedInUser ? (
-                <Link to="/add-article">Post New Article</Link>
+                <Link className="nav-link" to="/add-article">Post New Article</Link>
               ) : (
-                <Link to="/login">Login</Link>
+                <Link className="nav-link" to="/login">Login</Link>
               )}
-              <Link to="/about">About</Link>
+              <Link className="nav-link" to="/about">About</Link>
             </Nav>
             <div className='language-button'>Choose Language</div>
             <LanguageSelector />
@@ -109,6 +110,7 @@ function Header({
                 <Form.Label className="visually-hidden">Search</Form.Label>
                 <Form.Control
                     type="search"
+                    title="Search article description or who (username) you are looking for..."
                     placeholder="&#128269; Search article description or who (username) you are looking for..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}

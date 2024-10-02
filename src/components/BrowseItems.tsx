@@ -7,7 +7,7 @@ import { AuthContext } from '../auth/AuthContext';
 import Accordion from 'react-bootstrap/Accordion';
 import LanguageSelector from '../utilities/LanguageSelector';
 import Fuse from 'fuse.js'
-import Header from './Header';
+import Header from './NavBarHeader';
 
 export type Filter = {
   category: string[];
