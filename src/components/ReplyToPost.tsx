@@ -5,9 +5,11 @@ import axios from 'axios';
 import { AuthContext } from '../auth/AuthContext';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { Article, ArticleContext } from '../context/article.context';
+import './ReplyToPost.css'
 
 type FormValues = {
   message: string;
+  preferredEmail: string;
 };  
 
 const ReplyToPostSchema = Yup.object().shape({
@@ -48,19 +50,16 @@ const ReplyToPost: React.FC = () => {
 
 
 
-  const initialValues = {
+  const initialValues : FormValues = {
     message: '',
+    preferredEmail: loggedInUser?.email || '',
   };
 
   const handleSubmit = async (values: FormValues, { setSubmitting, resetForm }: FormikHelpers<FormValues>) => {
     if (!loggedInUser || !article) return;
 
     try {
-      const response = await axios.post(`http://localhost:4000/api/send-message/${article._id}`, {
-        sender: loggedInUser.userId,
-        recipient: article.userId,
-        message: values.message,
-      });
+      const response = await axios.post(import.meta.env.VITE_BACKEND_HOST + `/api/send-message`, {...values, articleId});
       console.log('Message sent successfully:', response.data);
       setSent(true);
       resetForm();
@@ -86,6 +85,16 @@ if (!currentArticle) return <h4>Loading...</h4>
         {({ errors, touched, isSubmitting }) => (
           <Form>
             <div className="form-group">
+              <Field
+                as="input"
+                type="email"
+                name="preferredEmail"
+                placeholder="Preferred email to be contacted"
+                className={`form-control ${touched.preferredEmail && errors.preferredEmail ? 'is-invalid' : ''}`}
+              />
+              <ErrorMessage name="preferredEmail" component="div" className="invalid-feedback" />
+            </div>
+            <div className="form-group">              
               <Field
                 as="textarea"
                 name="message"
