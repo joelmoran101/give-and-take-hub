@@ -16,7 +16,7 @@ interface ArticleCardProps {
   article: {
     _id: string; // Changed from article_id to _id
     article_name: string;
-    picture_url: string;
+    photos: string[];
     article_category: string;
     article_description: string;
     username: string;
@@ -35,7 +35,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
   console.log('Aticle data: ', article);
   return (
     <Card className='card-container'>
-      <Card.Img variant="top" src={article.picture_url} />
+      <Card.Img variant="top" src={article.photos[0]} />
       <Card.Body>
         <Card.Title>{article.article_name}</Card.Title>
         <Card.Text>{article.article_description}</Card.Text>

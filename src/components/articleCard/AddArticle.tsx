@@ -9,7 +9,7 @@ import { AuthContext } from '../../auth/AuthContext';
 interface ArticleCardProps {
   article: {
     article_name: string;
-    picture_url: string;
+    photos: string[];
     article_category: string;
     article_description: string;
     date_time_stamp: string;
@@ -20,7 +20,6 @@ interface ArticleCardProps {
 
 const AddArticleSchema = Yup.object().shape({
   article_name: Yup.string().required('Article Name is required'),
-  picture_url: Yup.string(),
   article_category: Yup.string().required('Category is required'),
   article_description: Yup.string().required('Description is required'),
   date_time_stamp: Yup.string().required('Date and Time is required'),
@@ -32,14 +31,16 @@ const AddArticle: React.FC = () => {
   const { loggedInUser } = useContext(AuthContext);
   const [selectedFile, setSelectedFile] = useState(null);
 
-  const handleFileChange = (event) => {
-    setSelectedFile(event.target.files[0]);
+  const handleFileChange = (event, setFieldValue) => {
+    const files= Array.from(event.target.files);
+    setFieldValue('photos', files); // Update the 'photos' field
+    // setSelectedFile(event.target.files[0]);
   };
   const navigate = useNavigate();
 
   const initialValues: ArticleCardProps['article'] = {
     article_name: '',
-    picture_url: '',
+    photos: [],
     article_category: '',
     article_description: '',
     date_time_stamp: '',
@@ -49,7 +50,19 @@ const AddArticle: React.FC = () => {
 
   const handleSubmit = async (values: ArticleCardProps['article'], { setSubmitting, resetForm }: FormikHelpers<ArticleCardProps['article']>) => {
     try {
-      const response = await axios.post('http://localhost:4000/api/add-article', values);
+      const formData = new FormData();
+      values.photos.forEach((photo) => {
+        formData.append('files', photo);
+      })
+
+      formData.append('article_name', values.article_name);
+      formData.append('article_category', values.article_category);
+      formData.append('article_description', values.article_description);
+      formData.append('date_time_stamp', values.date_time_stamp);
+      formData.append('status', values.status);
+      formData.append('location', values.location); 
+
+      const response = await axios.post('http://localhost:4000/api/add-article', formData, {headers: { "Content-Type": "multipart/form-data" }});
       console.log('Article added successfully:', response.data);
       resetForm();
       navigate('/browse'); // Redirect to the browse page after successful submission
@@ -77,17 +90,18 @@ const AddArticle: React.FC = () => {
             </div>
 
             <div className='form-group'>
-              <Field name="picture_url" disabled placeholder="Upload Picture/s" />
+              <Field name="photos" disabled placeholder="Upload Picture/s" />
               <input
               type="file"
-              name="picture_url"
+              name="photos"
               accept="image/*"
               onChange={handleFileChange}
+              multiple
             />
             {selectedFile && (
               <img src={URL.createObjectURL(selectedFile)} alt="Selected Image" />
             )}
-              <ErrorMessage name="picture_url" component="div" className="error" />
+              <ErrorMessage name="photos" component="div" className="error" />
             </div>
 
             <div className='form-group'>
