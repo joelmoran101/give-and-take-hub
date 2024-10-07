@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import ArticleCard from './articleCard/ArticleCard';
 import { Navbar, Button, Container, Form, Nav, NavDropdown, Dropdown } from 'react-bootstrap';
 import './BrowseItems.scss';
@@ -16,10 +17,31 @@ export type Filter = {
 
 function BrowseItems() {
   const { loggedInUser } = useContext(AuthContext);
+  const navigate = useNavigate();
   const { articles } = useContext(ArticleContext);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [selectedArticle, setSelectedArticle] = useState<Article | null>(null);
   const [articlesToBeDisplayed, setArticlesToBeDisplayed] = useState<Article[] | null>(null);
   const [isPending, setIsPending] = useState(false);
   const [errors, setErrors] = useState<string | null>(null);
+
+  const handleDropdownClick = () => {
+    setShowDropdown(!showDropdown);
+  };
+
+  const handleAddClick = () => {
+    navigate('/add-article');
+  };
+
+  const handleEditClick = (article) => {
+    setSelectedArticle(article);
+    navigate(`/edit-article/${article.id}`);
+  };
+
+  const handleDeleteClick = (article) => {
+    setSelectedArticle(article);
+    navigate(`/delete-article/${article.id}`);
+  };
   const [filters, setFilters] = useState<Filter>({
     category: [],
     status: [],

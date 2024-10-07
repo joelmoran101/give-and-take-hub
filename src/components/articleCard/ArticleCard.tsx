@@ -32,6 +32,14 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
   const handleReplyButtonClick = () => {
     navigate(`/reply-to-post/${article._id}`, { state: { article } });
   };
+
+  const handleEditButtonClick = () => {
+    navigate(`/edit-article/${article._id}`, { state: { article } });
+  };
+
+  const handleDeleteButtonClick = () => {
+    navigate(`/delete-article/${article._id}`, { state: { article } });
+  }
   console.log('Aticle data: ', article);
   return (
     <Card className='card-container'>
@@ -45,8 +53,28 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
         <Card.Text>Posted by: {article.username}</Card.Text>
         <Card.Text>Date: {article.date_time_stamp}</Card.Text>
 
-        {loggedInUser && (  
+        {/* {loggedInUser && (  
           <Button onClick={handleReplyButtonClick} className='reply-button' variant="primary">Reply to Post</Button>
+        )} 
+        {loggedInUser && (  
+          <Button onClick={handleEditButtonClick} className='edit-button' variant="primary">Edit Post</Button>
+        )}
+        {loggedInUser && (  
+          <Button onClick={handleDeleteButtonClick} className='delete-button' variant="primary">Delete Post</Button>
+        )} */}
+
+        {loggedInUser && (  
+          <div className='button-container'>
+            <Button onClick={handleReplyButtonClick} className='reply-button' variant="primary">Reply to Post</Button>
+            {loggedInUser && (
+              <>
+                <Button onClick={handleEditButtonClick} className='edit-button' variant="secondary">Edit Post</Button>
+                <Button onClick={handleDeleteButtonClick} className='delete-button' variant="danger">
+                  <i className="fas fa-trash-alt"></i>
+                </Button>
+              </>
+            )}
+          </div>
         )}
         
       </Card.Body>
