@@ -5,6 +5,7 @@ import { AuthContext } from '../../auth/AuthContext';
 import "./ArticleCard.scss";
 import ReplyToPost from '../ReplyToPost';
 import { useNavigate } from 'react-router-dom';
+import { Trash2Icon } from 'lucide-react';
 // import { selectedSortOption, handleSortOptionChange } from '../BrowseItems';
 
 interface Location {
@@ -58,7 +59,8 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
             <Button onClick={handleReplyButtonClick} className='reply-button' variant="primary">Reply to Post</Button>
             <Button onClick={handleEditButtonClick} className='edit-button' variant="secondary">Edit Post</Button>
             <Button onClick={handleDeleteButtonClick} className='delete-button' variant="danger">
-              <i className="fas fa-trash-alt"></i>
+              <Trash2Icon size={18} />
+              {/* <span className="ml-2">Delete Post</span> */}
             </Button>
             
           </div>
