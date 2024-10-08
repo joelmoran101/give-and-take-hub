@@ -34,7 +34,7 @@ export const router=createBrowserRouter(createRoutesFromElements(
             <Route path="/browse" element={<BrowseItems />} />
             <Route path="/reply-to-post/:articleId" element={<ReplyToPost />} />
             <Route path="/add-article" element={<AddArticle />} />
-            <Route path="/edit-article" element={<EditArticle />} />
+            <Route path="/edit-article/:articleId" element={<EditArticle />} />
             <Route path="/delete-article" element={<DeleteArticle />} />
             <Route path="/profile" element={<UserProfile />} />
             <Route path="/delete-account" element={<DeleteAccount />} />

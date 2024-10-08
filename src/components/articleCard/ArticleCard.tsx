@@ -53,30 +53,18 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
         <Card.Text>Posted by: {article.username}</Card.Text>
         <Card.Text>Date: {article.date_time_stamp}</Card.Text>
 
-        {/* {loggedInUser && (  
-          <Button onClick={handleReplyButtonClick} className='reply-button' variant="primary">Reply to Post</Button>
-        )} 
-        {loggedInUser && (  
-          <Button onClick={handleEditButtonClick} className='edit-button' variant="primary">Edit Post</Button>
-        )}
-        {loggedInUser && (  
-          <Button onClick={handleDeleteButtonClick} className='delete-button' variant="primary">Delete Post</Button>
-        )} */}
-
-        {loggedInUser && (  
+              {loggedInUser && (  
           <div className='button-container'>
             <Button onClick={handleReplyButtonClick} className='reply-button' variant="primary">Reply to Post</Button>
-            {loggedInUser && (
-              <>
-                <Button onClick={handleEditButtonClick} className='edit-button' variant="secondary">Edit Post</Button>
-                <Button onClick={handleDeleteButtonClick} className='delete-button' variant="danger">
-                  <i className="fas fa-trash-alt"></i>
-                </Button>
-              </>
-            )}
+            <Button onClick={handleEditButtonClick} className='edit-button' variant="secondary">Edit Post</Button>
+            <Button onClick={handleDeleteButtonClick} className='delete-button' variant="danger">
+              <i className="fas fa-trash-alt"></i>
+            </Button>
+            
           </div>
-        )}
+        )
         
+    }
       </Card.Body>
     </Card>
   );
