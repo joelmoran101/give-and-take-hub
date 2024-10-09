@@ -36,6 +36,18 @@ const AddArticle: React.FC = () => {
     setFieldValue('photos', files); // Update the 'photos' field
     // setSelectedFile(event.target.files[0]);
   };
+
+  const getCurrentDateTime = () => {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+  };
+
+
   const navigate = useNavigate();
 
   const initialValues: ArticleCardProps['article'] = {
@@ -43,7 +55,7 @@ const AddArticle: React.FC = () => {
     photos: [],
     article_category: '',
     article_description: '',
-    date_time_stamp: '',
+    date_time_stamp: getCurrentDateTime(),
     status: '',
     location: '',
   };
@@ -113,7 +125,7 @@ const AddArticle: React.FC = () => {
               <ErrorMessage name="article_description" component="div" className="error" />
             </div>
             <div className='form-group'>
-              <Field name="date_time_stamp" type="datetime-local" />
+              <Field name="date_time_stamp" type="datetime-local" placeholder="Date and Time" value={values.date_time_stamp} onChange={(e) => setFieldValue('date_time_stamp', e.target.value)} />
               <ErrorMessage name="date_time_stamp" component="div" className="error" />
             </div>
             <div className='form-group'>
