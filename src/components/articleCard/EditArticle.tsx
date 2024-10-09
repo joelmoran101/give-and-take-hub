@@ -5,7 +5,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import './EditArticle.scss';
 import { AuthContext } from '../../auth/AuthContext';
-import { ArticleContext } from '../../context/article.context';
+import { Article, ArticleContext } from '../../context/article.context';
 
 interface ArticleFormValues {
   _id: string;
@@ -29,7 +29,7 @@ const EditArticleSchema = Yup.object().shape({
 
 const EditArticle: React.FC = () => {
   const { loggedInUser } = useContext(AuthContext);
-  const { getArticle } = useContext(ArticleContext);
+  const { getArticle, editArticle } = useContext(ArticleContext);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const navigate = useNavigate();
   const { articleId } = useParams<{ articleId: string }>();
@@ -58,23 +58,8 @@ const EditArticle: React.FC = () => {
 
   const handleSubmit = async (values: ArticleFormValues, { setSubmitting }: FormikHelpers<ArticleFormValues>) => {
     try {
-      const formData = new FormData();
-      selectedFiles.forEach((file) => {
-        formData.append('files', file);
-      });
-  
-      formData.append('article_name', values.article_name);
-      formData.append('article_category', values.article_category);
-      formData.append('article_description', values.article_description);
-      formData.append('status', values.status);
-      formData.append('location', values.location);
-  
-      const response = await axios.put(`${import.meta.env.VITE_BACKEND_HOST}/api/edit-article/${articleId}`, formData, {
-        headers: { 
-          "Content-Type": "multipart/form-data"
-        },
-        withCredentials: true
-      });
+      
+      const response = await editArticle(articleId || '', values as Article, selectedFiles);
       
       console.log('Article updated successfully:', response.data);
       navigate('/browse');

@@ -5,8 +5,8 @@ import { Navbar, Button, Container, Form, Nav, NavDropdown, Dropdown } from 'rea
 import './BrowseItems.scss';
 import { Article, ArticleContext } from '../context/article.context';
 import { AuthContext } from '../auth/AuthContext';
-import Accordion from 'react-bootstrap/Accordion';
-import LanguageSelector from '../utilities/LanguageSelector';
+// import Accordion from 'react-bootstrap/Accordion';
+// import LanguageSelector from '../utilities/LanguageSelector';
 import Fuse from 'fuse.js'
 import Header from './NavBarHeader';
 

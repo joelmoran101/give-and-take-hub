@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './AddArticle.css';
 import { AuthContext } from '../../auth/AuthContext';
+import { Article, ArticleContext } from '../../context/article.context';
 
 interface ArticleCardProps {
   article: {
@@ -29,7 +30,8 @@ const AddArticleSchema = Yup.object().shape({
 
 const AddArticle: React.FC = () => {
   const { loggedInUser } = useContext(AuthContext);
-  const [selectedFile, setSelectedFile] = useState(null);
+  const { addArticle } = useContext(ArticleContext);
+  const [selectedFiles, setSelectedFiles] = useState<File [] | undefined>();
 
   const handleFileChange = (event, setFieldValue) => {
     const files= Array.from(event.target.files);
@@ -62,20 +64,7 @@ const AddArticle: React.FC = () => {
 
   const handleSubmit = async (values: ArticleCardProps['article'], { setSubmitting, resetForm }: FormikHelpers<ArticleCardProps['article']>) => {
     try {
-      const formData = new FormData();
-      values.photos.forEach((photo) => {
-        formData.append('files', photo);
-      })
-
-      formData.append('article_name', values.article_name);
-      formData.append('article_category', values.article_category);
-      formData.append('article_description', values.article_description);
-      formData.append('date_time_stamp', values.date_time_stamp);
-      formData.append('status', values.status);
-      formData.append('location', values.location); 
-
-      const response = await axios.post('http://localhost:4000/api/add-article', formData, {headers: { "Content-Type": "multipart/form-data" }});
-      console.log('Article added successfully:', response.data);
+     await addArticle(values as Article, selectedFiles  );
       resetForm();
       navigate('/browse'); // Redirect to the browse page after successful submission
     } catch (error) {
@@ -110,8 +99,8 @@ const AddArticle: React.FC = () => {
               onChange={handleFileChange}
               multiple
             />
-            {selectedFile && (
-              <img src={URL.createObjectURL(selectedFile)} alt="Selected Image" />
+            {selectedFiles && (
+              <img src={URL.createObjectURL(selectedFiles)} alt="Selected Image" />
             )}
               <ErrorMessage name="photos" component="div" className="error" />
             </div>

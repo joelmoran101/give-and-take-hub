@@ -6,6 +6,7 @@ import { AuthContext } from '../../auth/AuthContext';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { Button, Card, Alert } from 'react-bootstrap';
 import './DeleteArticle.scss'
+import { ArticleContext } from '../../context/article.context';
 
 const validationSchema = Yup.object().shape({
   confirmDelete: Yup.boolean()
@@ -24,6 +25,7 @@ interface ArticleData {
 
 const DeleteArticle: React.FC = () => {
   const { loggedInUser } = useContext(AuthContext)
+  const { getArticle, deleteArticle } = useContext(ArticleContext)
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState<string | null>(null)
   const navigate = useNavigate()
@@ -43,10 +45,8 @@ const DeleteArticle: React.FC = () => {
       // Fetch article data if not provided in location state
       const fetchArticle = async () => {
         try {
-          const response = await axios.get(`${import.meta.env.VITE_BACKEND_HOST}/api/getArticle/${articleId}`, {
-            withCredentials: true
-          })
-          setArticle(response.data)
+          const article= getArticle(articleId)
+          setArticle(article)
         } catch (err) {
           setError('Failed to fetch article data')
         }
@@ -58,9 +58,7 @@ const DeleteArticle: React.FC = () => {
   const handleSubmit = async (values: { confirmDelete: boolean }) => {
     if (values.confirmDelete) {
       try {
-        await axios.delete(`${import.meta.env.VITE_BACKEND_HOST}/api/delete-article/${articleId}`, {
-          withCredentials: true
-        })
+        await deleteArticle(articleId || '')
         setSuccess('Article deleted successfully')
         setTimeout(() => navigate('/browse'), 2000)
       } catch (err) {

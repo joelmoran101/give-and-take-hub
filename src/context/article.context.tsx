@@ -1,12 +1,13 @@
 import { createContext, useEffect, useState } from "react";
 import axios from 'axios'
 import maxios from '../utilities/maxios'
+import { Trophy } from "lucide-react";
 
 export type Article={
   _id: string,
   userId: string,
   article_id: number,
-  picture_url: string,
+  photos: string[],
   article_name: string,
   article_category: string,
   article_description: string,
@@ -20,9 +21,19 @@ interface IArticleContext {
     articles: Article[] | null,
     setArticles: React.Dispatch<React.SetStateAction<Article[] | null>>
     getArticle: (articleId: string) => Article | null
+    editArticle: (articleId: string, newArticleData: Article, selectedFiles?: File[]) => Promise<any>
+    deleteArticle: (articleId: string) => Promise<any>,
+    addArticle: (newArticleData: Article, selectedFiles?: File[]) => Promise<any>
 }
 
-export const ArticleContext = createContext<IArticleContext>({articles: null, setArticles: () => {}, getArticle: () => null})
+export const ArticleContext = createContext<IArticleContext>({
+  articles: null, 
+  setArticles: () => {}, 
+  getArticle: () => null,
+  editArticle: async () => {},
+  deleteArticle: async () => {},
+  addArticle: async () => {}
+})
 
 const data = [{
     "_id": {
@@ -239,27 +250,97 @@ function ArticleProvider({ children }:{children: React.ReactNode}) {
     const [articles, setArticles] = useState<Article[] | null>(null)
 
     useEffect(() => {
-        axios.get(import.meta.env.VITE_BACKEND_HOST + '/api/articles')
-        // the following line is just to mock the DB 
-        // maxios.get('success', data)      
-        .then((response: {data: any}) => {
-            setArticles(response.data)
-        })
-        .catch((error) => {
-            console.log(error)
-        })
+      fetchAllArticles()
     }, [])
 
     useEffect(() => {
         console.log("ARTICLES FETCHED FROM:::", articles)
     }, [articles])
 
+    const fetchAllArticles = async () => {
+      axios.get(import.meta.env.VITE_BACKEND_HOST + '/api/articles')
+      // the following line is just to mock the DB 
+      // maxios.get('success', data)      
+      .then((response: {data: any}) => {
+          setArticles(response.data)
+      })
+      .catch((error) => {
+          console.log(error)
+      })
+    }
     const getArticle = (articleId: string) => {
         return articles?.find(article => article._id === articleId) || null
     }
 
+    const addArticle = async (newArticleData: Article, selectedFiles?: File[]) => {
+      const formData = new FormData();
+      if (selectedFiles) selectedFiles.forEach((photo) => {
+        formData.append('files', photo);
+      })
+
+      formData.append('article_name', newArticleData.article_name);
+      formData.append('article_category', newArticleData.article_category);
+      formData.append('article_description', newArticleData.article_description);
+      formData.append('date_time_stamp', newArticleData.date_time_stamp);
+      formData.append('status', newArticleData.status);
+      formData.append('location', newArticleData.location); 
+
+      const response:any = await axios.post('http://localhost:4000/api/add-article', formData, {headers: { "Content-Type": "multipart/form-data" }});
+      console.log('Article added successfully:', response.data); 
+      if (response.data.article) {
+        setArticles([response.data.article, ...articles!])
+      }
+    }
+
+    const editArticle = async (articleId: string, newArticleData: Article, selectedFiles?: File[]) => {
+      const formData = new FormData();
+      if (selectedFiles) selectedFiles.forEach((file) => {
+        formData.append('files', file);
+      });
+  
+      formData.append('article_name', newArticleData.article_name);
+      formData.append('article_category', newArticleData.article_category);
+      formData.append('article_description', newArticleData.article_description);
+      formData.append('status', newArticleData.status);
+      formData.append('location', newArticleData.location);
+      try {
+        const response = await axios.put(`${import.meta.env.VITE_BACKEND_HOST}/api/edit-article/${articleId}`, formData, {
+          headers: { 
+            "Content-Type": "multipart/form-data"
+          },
+          withCredentials: true
+        })
+        const newList = articles?.map(article => {
+          if (article._id === articleId) {
+            article.article_name = newArticleData.article_name
+            article.article_category = newArticleData.article_category
+            article.article_description = newArticleData.article_description
+            article.status = newArticleData.status
+            article.location = newArticleData.location
+          }
+          return article
+        })
+        setArticles(newList || articles)
+        return response
+      }
+      catch (error) {
+        console.log(error)
+        throw error
+
+      }
+    };
+    const deleteArticle = async (articleId: string) => {
+      const response = await axios.delete(`${import.meta.env.VITE_BACKEND_HOST}/api/delete-article/${articleId}`, {
+        withCredentials: true
+        
+      })
+      const newList = articles?.filter(article => article._id !== articleId)
+      setArticles(newList || articles)
+      return response
+    };
+
     return (
-        <ArticleContext.Provider value={{ articles, setArticles, getArticle }}>
+        <ArticleContext.Provider value={{ articles, setArticles, getArticle, editArticle, deleteArticle, addArticle }}>
             {children}
         </ArticleContext.Provider>
     )
