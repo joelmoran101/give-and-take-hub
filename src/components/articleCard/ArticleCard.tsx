@@ -60,7 +60,6 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
             <Button onClick={handleEditButtonClick} className='edit-button' variant="secondary">Edit Post</Button>
             <Button onClick={handleDeleteButtonClick} className='delete-button' variant="danger">
               <Trash2Icon size={18} />
-              {/* <span className="ml-2">Delete Post</span> */}
             </Button>
             
           </div>
