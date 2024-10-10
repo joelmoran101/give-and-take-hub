@@ -54,7 +54,7 @@ const UserProfile: React.FC = () => {
   }, [loggedInUser, navigate])
 
   const handleEditClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault()
+    e.preventDefault() // Prevent redundant form submission which would reset the form and isEditing state back to false. This was causing the form to be submitted twice preventing the user from editing their profile again. 
     console.log( 'HANDLE EDIT CLICK TRIGGERED :::' )
     setIsEditing(true)
   }
