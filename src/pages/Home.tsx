@@ -33,7 +33,7 @@ const Home = () => {
                         {!loggedInUser && (
                           <>
                             <li><Link className="nav-link" to="/register">Join</Link></li>
-                            <li><Link className="nav-link" o="/login">Login</Link></li>
+                            <li><Link className="nav-link" to="/login">Login</Link></li>
                           </>
                         )}
 
@@ -55,15 +55,15 @@ const Home = () => {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-  
 
-      <Hero />
-      
       <div className='mt-5 d-flex flex-column justify-content-center text-center align-items-center'>
         <h1 className="home-heading display-1">Welcome</h1>
         <h1 className="home-heading display-3">to the</h1>
         <h1 className="home-heading display-1">Give and Take Hub</h1>
       </div>
+      
+      <Hero />
+      
     </div>
   );
 }

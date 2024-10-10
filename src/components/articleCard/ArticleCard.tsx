@@ -34,11 +34,11 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
     navigate(`/reply-to-post/${article._id}`, { state: { article } });
   };
 
-  const handleEditButtonClick = () => {
+  const handleEditPostButtonClick = () => {
     navigate(`/edit-article/${article._id}`, { state: { article } });
   };
 
-  const handleDeleteButtonClick = () => {
+  const handleDeletePostButtonClick = () => {
     navigate(`/delete-article/${article._id}`, { state: { article } });
   }
   console.log('Aticle data: ', article);
@@ -57,8 +57,8 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
               {loggedInUser && (  
           <div className='button-container'>
             <Button onClick={handleReplyButtonClick} className='reply-button' variant="primary">Reply to Post</Button>
-            <Button onClick={handleEditButtonClick} className='edit-button' variant="secondary">Edit Post</Button>
-            <Button onClick={handleDeleteButtonClick} className='delete-button' variant="danger">
+            <Button onClick={handleEditPostButtonClick} className='edit-button' variant="secondary">Edit Post</Button>
+            <Button onClick={handleDeletePostButtonClick} className='delete-button' variant="danger">
               <Trash2Icon size={18} />
             </Button>
             

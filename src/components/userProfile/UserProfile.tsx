@@ -77,7 +77,6 @@ const UserProfile: React.FC = () => {
     }
   
     try {
-      const hostname = window.location.hostname
       const url = `${import.meta.env.VITE_BACKEND_HOST}/delete-account`
       await axios.delete(url)
       setLoggedInUser(null)
@@ -88,6 +87,10 @@ const UserProfile: React.FC = () => {
     } finally {
       setSubmitting(false)
     }
+  }
+
+  const handleEditClick = () => {
+    setIsEditing(true)
   }
 
   if (!loggedInUser) {
@@ -129,7 +132,7 @@ const UserProfile: React.FC = () => {
                   </>
                 ) : (
                   <>
-                    <button type="button" className="edit-button" onClick={() => setIsEditing(true)}>
+                    <button type="button" className="edit-button" onClick={handleEditClick}>
                       Edit Profile
                     </button>
                     <button type="button" className="delete-button" onClick={() => setIsDeleting(true)}>
