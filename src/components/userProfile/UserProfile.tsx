@@ -53,7 +53,17 @@ const UserProfile: React.FC = () => {
     }
   }, [loggedInUser, navigate])
 
+  const handleEditClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault()
+    console.log( 'HANDLE EDIT CLICK TRIGGERED :::' )
+    setIsEditing(true)
+  }
+  useEffect(() => {
+    console.log('is editting', isEditing)
+  }, [isEditing])
+
   const handleProfileUpdate = async (values: UserProfile, { setSubmitting }: any) => {
+    console.log('HANDDLE PROFILE UPDATE TRIGGERED :::', values)
     try {
       const response: any = await axios.put(`${import.meta.env.VITE_BACKEND_HOST}/edit-user-profile`, values)
       if (setLoggedInUser) {
@@ -89,10 +99,6 @@ const UserProfile: React.FC = () => {
     }
   }
 
-  const handleEditClick = () => {
-    setIsEditing(true)
-  }
-
   if (!loggedInUser) {
     return <div className="user-profile-container">Loading...</div>
   }
@@ -123,7 +129,7 @@ const UserProfile: React.FC = () => {
               <div className="button-container">
                 {isEditing ? (
                   <>
-                    <button type="submit" className="save-button" disabled={isSubmitting}>
+                    <button type="submit" className="save-button" disabled={isSubmitting} >
                       Save Changes
                     </button>
                     <button type="button" className="cancel-button" onClick={() => setIsEditing(false)}>
