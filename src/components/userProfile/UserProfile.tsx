@@ -31,7 +31,7 @@ const validationSchema = Yup.object().shape({
   lastname: Yup.string().required('Last name is required'),
   username: Yup.string().required('Username is required'),
   email: Yup.string().email('Invalid email').required('Email is required'),
-  phone: Yup.string().matches(/^[0-9]{10}$/, 'Phone number must be 10 digits')
+  phone: Yup.string().matches(/^(?:\+|00)?\d{5,15}$/, 'Phone number must be at least 5 digits...')
 })
 
 const deleteAccountValidationSchema = Yup.object().shape({

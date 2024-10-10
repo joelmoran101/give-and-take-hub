@@ -2,6 +2,7 @@ import { createContext, useEffect, useState } from "react";
 import axios from 'axios'
 import maxios from '../utilities/maxios'
 import { Trophy } from "lucide-react";
+import { useAuth } from "../auth/AuthContext";
 
 export type Article={
   _id: string,
@@ -247,6 +248,7 @@ const data = [{
   }]
 
 function ArticleProvider({ children }:{children: React.ReactNode}) {
+    const { loggedInUser } = useAuth()
     const [articles, setArticles] = useState<Article[] | null>(null)
 
     useEffect(() => {
@@ -288,7 +290,7 @@ function ArticleProvider({ children }:{children: React.ReactNode}) {
       const response:any = await axios.post('http://localhost:4000/api/add-article', formData, {headers: { "Content-Type": "multipart/form-data" }});
       console.log('Article added successfully:', response.data); 
       if (response.data.article) {
-        setArticles([response.data.article, ...articles!])
+        setArticles([{...response.data.article, username: loggedInUser?.username}, ...articles!])
       }
     }
 

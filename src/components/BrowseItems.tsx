@@ -38,9 +38,9 @@ function BrowseItems() {
     navigate(`/edit-article/${article.id}`);
   };
 
-  const handleDeleteClick = (article) => {
+  const handleDeleteClick = (article: Article) => {
     setSelectedArticle(article);
-    navigate(`/delete-article/${article.id}`);
+    navigate(`/delete-article/${article._id}`);
   };
   const [filters, setFilters] = useState<Filter>({
     category: [],

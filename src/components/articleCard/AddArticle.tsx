@@ -33,7 +33,7 @@ const AddArticle: React.FC = () => {
   const { addArticle } = useContext(ArticleContext);
   const [selectedFiles, setSelectedFiles] = useState<File [] | undefined>();
 
-  const handleFileChange = (event, setFieldValue) => {
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>, setFieldValue: (field: string, value: any) => void) => {
     const files= Array.from(event.target.files);
     setFieldValue('photos', files); // Update the 'photos' field
     // setSelectedFile(event.target.files[0]);
@@ -69,6 +69,7 @@ const AddArticle: React.FC = () => {
       navigate('/browse'); // Redirect to the browse page after successful submission
     } catch (error) {
       console.error('Error adding article:', error);
+      alert('Error adding article: ' + error);
       // Handle error (e.g., show error message to user)
     } finally {
       setSubmitting(false);
