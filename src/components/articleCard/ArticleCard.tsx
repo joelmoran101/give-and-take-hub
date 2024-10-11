@@ -6,6 +6,8 @@ import "./ArticleCard.scss";
 import ReplyToPost from '../ReplyToPost';
 import { useNavigate } from 'react-router-dom';
 import { Trash2Icon } from 'lucide-react';
+import { t } from 'i18next';
+import { useTranslation } from 'react-i18next';
 // import { Article, ArticleContext } from '../../context/article.context';
 // import ArticleProvider from '../../context/article.context';
 // import { selectedSortOption, handleSortOptionChange } from '../BrowseItems';
@@ -34,6 +36,7 @@ interface ArticleCardProps {
 }
 
 const ArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
+  const { t } = useTranslation(); // i18n hook to be added to all pages and components that need it to translate text contents which have to be previously defined as key value pairs on the i18n.js file
   const { loggedInUser } = useContext(AuthContext);
   const navigate = useNavigate(); // Get the navigation function
   const handleReplyButtonClick = () => {
@@ -60,18 +63,18 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
       <Card.Body>
         <Card.Title>{article.article_name}</Card.Title>
         <Card.Text>{article.article_description}</Card.Text>
-        <Card.Text>Category: {article.article_category}</Card.Text>
+        <Card.Text>{t('Category')} {article.article_category}</Card.Text>
         <Card.Text>Status: {article.status}</Card.Text>
-        <Card.Text>Location: {article.location}</Card.Text>
-        <Card.Text>Posted by: {article.username}</Card.Text>
-        <Card.Text>Date: {new Date(article.date_time_stamp).toLocaleString()}</Card.Text>
+        <Card.Text>{t('Location')} {article.location}</Card.Text>
+        <Card.Text>{t('Posted by')} {article.username}</Card.Text>
+        <Card.Text>{t('Date')} {new Date(article.date_time_stamp).toLocaleString()}</Card.Text>
 
 {loggedInUser && (  
   <div className='button-container'>
-    <Button onClick={handleReplyButtonClick} className='reply-button' variant="primary">Reply to Post</Button>
+    <Button onClick={handleReplyButtonClick} className='reply-button' variant="primary">{t('Reply to Post')}</Button>
     {isOwner && (
       <>
-        <Button onClick={handleEditPostButtonClick} className='edit-button' variant="secondary">Edit Post</Button>
+        <Button onClick={handleEditPostButtonClick} className='edit-button' variant="secondary">{t('Edit Post')}</Button>
         <Button onClick={handleDeletePostButtonClick} className='delete-button' variant="danger">
           <Trash2Icon size={18} />
         </Button>

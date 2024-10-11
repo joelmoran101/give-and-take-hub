@@ -9,6 +9,8 @@ import { AuthContext } from '../auth/AuthContext';
 // import LanguageSelector from '../utilities/LanguageSelector';
 import Fuse from 'fuse.js'
 import Header from './NavBarHeader';
+import { t } from 'i18next';
+import { useTranslation } from 'react-i18next';
 
 export type Filter = {
   category: string[];
@@ -16,6 +18,7 @@ export type Filter = {
 }
 
 function BrowseItems() {
+  const { t } = useTranslation(); // i18n hook to be added to all pages and components that need it to translate text contents which have to be previously defined as key value pairs on the i18n.js file
   const { loggedInUser } = useContext(AuthContext);
   const navigate = useNavigate();
   const { articles } = useContext(ArticleContext);
@@ -163,7 +166,7 @@ const searchResult = useMemo(() => {
         onClick={scrollToTop}
         aria-label="Scroll back to top"
       >
-        Back to Top
+        {t('Back to Top')}
       </Button>
     </div>
   );

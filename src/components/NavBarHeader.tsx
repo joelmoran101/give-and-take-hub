@@ -4,6 +4,8 @@ import LanguageSelector from "../utilities/LanguageSelector";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../auth/AuthContext";
+import { useTranslation } from "react-i18next";
+
 
 function FilterAccordion({ title, filters, handler, selectedFilters }: {
   title: string;
@@ -11,6 +13,8 @@ function FilterAccordion({ title, filters, handler, selectedFilters }: {
   selectedFilters: string[];
   handler: (criteria: string) => void;
 }) {
+
+
   return (
     <Dropdown>
       <Accordion onClick={e => e.stopPropagation()}>
@@ -56,6 +60,8 @@ function Header({
 }: HeaderProps ) {
   const { loggedInUser } = useContext(AuthContext);
 
+  const { t } = useTranslation(); // i18n hook to be added to all pages and components that need it to translate text contents which have to be previously defined as key value pairs on the i18n.js file
+
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
       <Container fluid>
@@ -70,17 +76,17 @@ function Header({
             style={{ maxHeight: '100px' }}
             navbarScroll
           >
-            <Link className="nav-link" to="/">Home</Link>
-            <NavDropdown title="Sort by:" id="navbarScrollingDropdown">
-              <NavDropdown.Item href="#action3">Date</NavDropdown.Item>
-              <NavDropdown.Item href="#action4">Status</NavDropdown.Item>
+            <Link className="nav-link" to="/">{t('Home')}</Link>
+            <NavDropdown title={t('Sort by:')} id="navbarScrollingDropdown">
+              <NavDropdown.Item href="#action3">{t('Date')}</NavDropdown.Item>
+              <NavDropdown.Item href="#action4">{t('Status')}</NavDropdown.Item>
               <NavDropdown.Divider />
-              <NavDropdown.Item href="#action5">Show All Articles</NavDropdown.Item>
+              <NavDropdown.Item href="#action5">{t('Show All')}</NavDropdown.Item>
             </NavDropdown>
-            <NavDropdown title="Filter by:" id="navbarScrollingDropdown">
+            <NavDropdown title={t('Filter by:')} id="navbarScrollingDropdown">
               <NavDropdown.Item>
                 <FilterAccordion 
-                  title="Categories" 
+                  title={t('Categories')} 
                   selectedFilters={filters.category}
                   filters={allCategories}
                   handler={handleCategory}
@@ -95,23 +101,23 @@ function Header({
                 />
               </NavDropdown.Item>
               <NavDropdown.Divider />
-              <NavDropdown.Item onClick={resetFilters}>Show All</NavDropdown.Item>
+              <NavDropdown.Item onClick={resetFilters}>{t('Show All')}</NavDropdown.Item>
             </NavDropdown>
             {loggedInUser ? (
-              <Link className="nav-link" to="/add-article">Post New Article</Link>
+              <Link className="nav-link" to="/add-article">{t('Post New Article')}</Link>
             ) : (
-              <Link className="nav-link" to="/login">Login</Link>
+              <Link className="nav-link" to="/login">{t('Login')}</Link>
             )}
-            <Link className="nav-link" to="/about">About</Link>
+            <Link className="nav-link" to="/about">{t('About')}</Link>
           </Nav>
-          <div className='language-button'>Choose Language</div>
+          <div className='language-button'>{t('Choose Language')}</div>
           <LanguageSelector />
           <Form.Group className="mb-3" controlId="searchQuery">
-            <Form.Label className="visually-hidden">Search</Form.Label>
+            <Form.Label className="visually-hidden">{t('Search')}</Form.Label>
             <Form.Control
               type="search"
-              title="Search article description or who (username) you are looking for..."
-              placeholder="&#128269; Search article description or who (username) you are looking for..."
+              title="Search"
+              placeholder= {"🔍 " + t('Search Articles')}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
