@@ -6,6 +6,7 @@ import axios from 'axios';
 import './AddArticle.css';
 import { AuthContext } from '../../auth/AuthContext';
 import { Article, ArticleContext } from '../../context/article.context';
+import { useTranslation } from 'react-i18next';
 
 interface ArticleCardProps {
   article: {
@@ -29,6 +30,7 @@ const AddArticleSchema = Yup.object().shape({
 });
 
 const AddArticle: React.FC = () => {
+  const { t } = useTranslation(); // i18n hook to be added to all pages and components that need it to translate text contents which have to be previously defined as key value pairs on the i18n.js file
   const { loggedInUser } = useContext(AuthContext);
   const { addArticle } = useContext(ArticleContext);
   const [selectedFiles, setSelectedFiles] = useState<File [] | undefined>();
@@ -78,7 +80,7 @@ const AddArticle: React.FC = () => {
 
   return (
     <div className='add-article'>
-      <h2>Add an Article</h2>
+      <h2>{t('Add an Article')}</h2>
       <Formik
         initialValues={initialValues}
         validationSchema={AddArticleSchema}
@@ -87,12 +89,12 @@ const AddArticle: React.FC = () => {
         {({ errors, touched, isSubmitting, values }) => (
           <Form>
             <div className='form-group'>
-              <Field name="article_name" placeholder="Article Name" />
+              <Field name="article_name" placeholder={t('Article Name')} />
               <ErrorMessage name="article_name" component="div" className="error" />
             </div>
 
             <div className='form-group'>
-              <Field name="photos" disabled placeholder="Upload Picture/s" />
+              <Field name="photos" disabled placeholder={(t('Upload Picture/s'))} />
               <input
               type="file"
               name="photos"
@@ -107,11 +109,11 @@ const AddArticle: React.FC = () => {
             </div>
 
             <div className='form-group'>
-              <Field name="article_category" placeholder="Category" />
+              <Field name="article_category" placeholder={t('Category')} />
               <ErrorMessage name="article_category" component="div" className="error" />
             </div>
             <div className='form-group'>
-              <Field name="article_description" as="textarea" placeholder="Description" />
+              <Field name="article_description" as="textarea" placeholder={t('Description')} />
               <ErrorMessage name="article_description" component="div" className="error" />
             </div>
             <div className='form-group'>
@@ -120,24 +122,24 @@ const AddArticle: React.FC = () => {
             </div>
             <div className='form-group'>
               <Field name="status" as="select">
-                <option value="">Select Status</option>
-                <option value="available">Available</option>
-                <option value="reserved">Reserved</option>
-                <option value="taken">Taken</option>
-                <option value="needed">Needed</option>
+                <option value="">{t('Select Status')}</option>
+                <option value="available">{t('Available')}</option>
+                <option value="reserved">{t('Reserved')}</option>
+                <option value="taken">{t('Taken')}</option>
+                <option value="needed">{t('Needed')}</option>
               </Field>
               <ErrorMessage name="status" component="div" className="error" />
             </div>
             <div className='form-group'>
-              <Field name="location" placeholder="Location" />
+              <Field name="location" placeholder={t('Location')} />
               <ErrorMessage name="location" component="div" className="error" />
             </div>
 
             <div className="button-container">
-              <button className='submit-button' type="submit" disabled={isSubmitting}>
-                {isSubmitting ? 'Submitting...' : 'Submit'}
+            <button className='submit-button' type="submit" disabled={isSubmitting}>
+                {isSubmitting ? t('Submitting...') : t('Submit')}
               </button>
-              <Link to="/browse" className="back-button">Go back to browsing</Link>
+              <Link to="/browse" className="back-button">{t('Go back to browsing')}</Link>
             </div>
           </Form>
         )}

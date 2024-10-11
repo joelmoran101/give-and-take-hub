@@ -13,7 +13,7 @@ const Hero = () => {
     <div className="hero-container" aria-label='main hero'>
       <h1>{t('A Sharing Platform')}</h1>
       <p className="hero-description font" style={{ fontSize: '1.4rem' }}>
-        <strong>{t('Core Concept:')}</strong> 
+        <strong>{t('Core Concept')}</strong> 
           <p>
               {t('Hero paragraph1')} 
               <a href="https://gradido.net" target="_blank" rel="noopener noreferrer">{t('GraDiDo')}</a>. 
