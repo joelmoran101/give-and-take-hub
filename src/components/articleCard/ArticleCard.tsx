@@ -1,9 +1,11 @@
 import React, { useContext, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+import Carousel from 'react-bootstrap/Carousel';
+import Image from 'react-bootstrap/Image';
 import { AuthContext } from '../../context/auth/AuthContext';
 import "./ArticleCard.scss";
-import ReplyToPost from '../ReplyToPost';
+import ReplyToPost from '../replyToPost/ReplyToPost';
 import { useNavigate } from 'react-router-dom';
 import { Trash2Icon } from 'lucide-react';
 import { t } from 'i18next';
@@ -35,6 +37,12 @@ interface ArticleCardProps {
   };
 }
 
+const fakeImages = [
+  'https://picsum.photos/id/1/200/300',
+  'https://picsum.photos/id/2/200/300',
+  'https://picsum.photos/id/3/200/300',
+];
+
 const ArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
   const { t } = useTranslation(); // i18n hook to be added to all pages and components that need it to translate text contents which have to be previously defined as key value pairs on the i18n.js file
   const { loggedInUser } = useContext(AuthContext);
@@ -59,7 +67,20 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
 
   return (
     <Card className='card-container'>
-      <Card.Img variant="top" src={article.photos[0]} />
+      {
+        fakeImages &&fakeImages?.length === 1 ? (
+          <Image src={fakeImages[0]} />
+        ): fakeImages.length > 1 ? (
+            <Carousel interval={null}>
+                {fakeImages.map((image, index) => (
+                  <Carousel.Item key={index}>
+                  <img src={image}  alt="Article Image"/>
+                  </Carousel.Item>
+                ))}
+            </Carousel>
+        ): ("")
+      }
+
       <Card.Body>
         <Card.Title>{article.article_name}</Card.Title>
         <Card.Text>{article.article_description}</Card.Text>

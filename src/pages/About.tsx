@@ -1,6 +1,7 @@
 import React from 'react'
 import './About.css'
 import { Link } from 'react-router-dom'
+import { t } from 'i18next'
 
 <h1>About page</h1>
 function About() {
@@ -14,14 +15,18 @@ function About() {
         </Link>
       </div>
       
-      <h1>About Us</h1>
+     
       <img className="about-image" src="src/assets/images/TogetherImgPuzzle_noBG.png" alt="Image of people from diverse backgrounds coming together, with a subtle puzzle piece pattern in the background." />
-      <h3>Core Concept: </h3>
-        <p>Welcome to the "Give and Take Hub", a platform where users can anonymously offer or request items or services for free. Our core concept is rooted in the belief that unconditional giving and sharing can bring people together, foster a sense of community, and create a more sustainable future.</p>
-      <h3>The Power of Unconditional Giving: </h3>
-        <p>Research has shown that giving without expecting anything in return can have a profound impact on both the giver and the receiver. It can increase feelings of happiness, empathy, and social connection. By providing a platform for people to give and receive freely, we aim to create a ripple effect of kindness that can spread far and wide.</p>
-      <h3>Our Logo:</h3>
-        <p>The logo features two interlocking puzzle pieces, symbolizing collaboration and connectivity. The design highlights unity and harmony, which are essential elements for a sustainable future. Just as puzzle pieces fit together to form a complete picture, we believe that individuals coming together can create a more complete and compassionate community.</p>
+      
+      <h1>{t('About')}</h1>
+      <h3>{t('Core Concept')}</h3>
+        <p>{t('About paragraph1')}</p>
+      <h3>{t('Unconditional giving')}</h3>
+      <p>{t('About paragraph2')}</p>
+      <p>{t('About paragraph3')}</p>
+
+      <h3>{t('Our Logo')}</h3>
+        <p>{t('Logo description')}</p>
       <h2 className="about-quote">"There is enough for everybody's needs but not enough for everyone's greed." - Mahatma Gandhi</h2>
         <p>We believe that by sharing what we have, we can help create a better world where everyone's needs could be met, and hopefully, where greed and scarcity are a thing of the past.</p>
       <h3>Our Purpose: </h3>

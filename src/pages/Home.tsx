@@ -14,7 +14,7 @@ const Home = () => {
     <div className='Home d-flex flex-column'>
       <Navbar expand="lg" className="bg-body-tertiary">
         <Container fluid>
-        <Navbar.Brand href="/src/assets/images/logo.jpg"><img className="logo" src="/src/assets/images/logo.jpg" alt="logo"/>
+        <Navbar.Brand href="src/assets/images/logo.jpg"><img className="logo" src="src/assets/images/logo.jpg" alt="logo"/>
           <div>Give and Take</div>
         </Navbar.Brand>
           <Navbar.Toggle aria-controls="navbarScroll" />
