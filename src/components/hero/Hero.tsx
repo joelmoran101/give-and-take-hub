@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { AuthContext } from '../../auth/AuthContext';
+import { AuthContext } from '../../context/auth/AuthContext';
 import './Hero.css';
 import { useTranslation } from 'react-i18next';
 

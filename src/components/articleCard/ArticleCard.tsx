@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
-import { AuthContext } from '../../auth/AuthContext';
+import { AuthContext } from '../../context/auth/AuthContext';
 import "./ArticleCard.scss";
 import ReplyToPost from '../ReplyToPost';
 import { useNavigate } from 'react-router-dom';

@@ -3,7 +3,7 @@ import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
-import { AuthContext } from '../../auth/AuthContext'
+import { AuthContext } from '../../context/auth/AuthContext'
 import './DeleteAccount.sass'
 
 const validationSchema = Yup.object().shape({

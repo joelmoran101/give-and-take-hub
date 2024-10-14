@@ -2,7 +2,7 @@ import { createContext, useEffect, useState } from "react";
 import axios from 'axios'
 import maxios from '../utilities/maxios'
 import { Trophy } from "lucide-react";
-import { useAuth } from "../auth/AuthContext";
+import { useAuth } from "./auth/AuthContext";
 
 export type Article={
   _id: string,

@@ -6,7 +6,7 @@ import axios from 'axios';
 import './Login.css';
 import { useSelector } from 'react-redux';
 import { BACKEND_HOST } from '../config/config';
-import { AuthContext } from '../auth/AuthContext';
+import { AuthContext } from '../context/auth/AuthContext';
 
 type FormValues = {
   oneTimePassword: string;

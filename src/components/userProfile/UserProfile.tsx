@@ -3,7 +3,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 import axios from 'axios'
 import { Link, useNavigate } from 'react-router-dom'
-import { AuthContext } from '../../auth/AuthContext'
+import { AuthContext } from '../../context/auth/AuthContext'
 import './UserProfile.sass'
 
 interface UserProfile {
@@ -114,7 +114,7 @@ const UserProfile: React.FC = () => {
           onSubmit={handleProfileUpdate}
           enableReinitialize
         >
-          {({ isSubmitting }) => (
+          {({ isSubmitting, handleReset }) => (
             <Form>
               <div className="profile-picture">
                 <img src={loggedInUser.profilePic || defaultUser.profilePic} alt={`${loggedInUser.firstname} ${loggedInUser.lastname}`} />
@@ -132,7 +132,7 @@ const UserProfile: React.FC = () => {
                     <button type="submit" className="save-button" disabled={isSubmitting} >
                       Save Changes
                     </button>
-                    <button type="button" className="cancel-button" onClick={() => setIsEditing(false)}>
+                    <button type="button" className="cancel-button" onClick={() => setTimeout(() => {setIsEditing(false); handleReset()}, 300)}>
                       Cancel
                     </button>
                   </>

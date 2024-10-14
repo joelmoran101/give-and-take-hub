@@ -3,7 +3,7 @@ import Hero from '../components/hero/Hero';
 import './Home.css';
 import { Link } from 'react-router-dom';
 import LanguageSelector from '../utilities/LanguageSelector';
-import { AuthContext } from '../auth/AuthContext';
+import { AuthContext } from '../context/auth/AuthContext';
 import { Container, Nav, Navbar } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 

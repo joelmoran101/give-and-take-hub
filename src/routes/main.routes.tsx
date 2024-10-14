@@ -5,16 +5,16 @@ import About from "../pages/About";
 import Register from "../pages/Register";
 import Login from "../pages/Login";
 import EnterOneTimePassword from "../pages/EnterOneTimePassword";
-import Logout from "../components/Logout";
-import BrowseItems from "../components/BrowseItems";
-import ReplyToPost from "../components/ReplyToPost";
+import Logout from "../components/logout/Logout";
+import BrowseItems from "../components/browseItems/BrowseItems";
+import ReplyToPost from "../components/replyToPost/ReplyToPost";
 import AddArticle from "../components/articleCard/AddArticle";
 import EditArticle from "../components/articleCard/EditArticle";
 import DeleteArticle from "../components/articleCard/DeleteArticle";
 import UserProfile from "../components/userProfile/UserProfile";
 import DeleteAccount from "../components/userProfile/DeleteAccount";
 import ArticleProvider from "../context/article.context";
-import { AuthProvider } from "../auth/AuthContext";
+import { AuthProvider } from "../context/auth/AuthContext";
 export const router=createBrowserRouter(createRoutesFromElements(
 
         <Route element={

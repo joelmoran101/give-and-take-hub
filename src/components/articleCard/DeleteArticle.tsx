@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from 'react'
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
-import { AuthContext } from '../../auth/AuthContext';
+import { AuthContext } from '../../context/auth/AuthContext';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { Button, Card, Alert } from 'react-bootstrap';
 import './DeleteArticle.scss'
