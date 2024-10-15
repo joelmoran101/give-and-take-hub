@@ -72,12 +72,12 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
           <Image src={fakeImages[0]} />
         ): fakeImages.length > 1 ? (
             <Carousel interval={null}>
-                {fakeImages.map((image, index) => (
-                  <Carousel.Item key={index}>
-                  <img src={image}  alt="Article Image"/>
-                  </Carousel.Item>
-                ))}
-            </Carousel>
+  {fakeImages.map((image, index) => (
+    <Carousel.Item key={index} className="carousel-item">
+      <img src={image}  alt="Article Image" className="carousel-inner img-fluid"/>
+    </Carousel.Item>
+  ))}
+</Carousel>
         ): ("")
       }
 
