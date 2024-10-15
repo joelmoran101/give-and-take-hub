@@ -71,13 +71,15 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
         fakeImages &&fakeImages?.length === 1 ? (
           <Image src={fakeImages[0]} />
         ): fakeImages.length > 1 ? (
-            <Carousel interval={null}>
-                {fakeImages.map((image, index) => (
-                  <Carousel.Item key={index}>
-                  <img src={image}  alt="Article Image"/>
-                  </Carousel.Item>
-                ))}
-            </Carousel>
+          <Carousel interval={null}>
+          {fakeImages.map((image, index) => (
+            <Carousel.Item key={index}>
+              <div className="carousel-inner">
+                <img src={image}  alt="Article Image"/>
+              </div>
+            </Carousel.Item>
+          ))}
+        </Carousel>
         ): ("")
       }
 
