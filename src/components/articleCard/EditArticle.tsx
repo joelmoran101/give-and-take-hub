@@ -21,6 +21,7 @@ interface ArticleFormValues {
 
 const EditArticleSchema = Yup.object().shape({
   article_name: Yup.string().required('Article Name is required'),
+  photos: Yup.array(),
   article_category: Yup.string().required('Category is required'),
   article_description: Yup.string().required('Description is required'),
   status: Yup.string().required('Status is required'),
