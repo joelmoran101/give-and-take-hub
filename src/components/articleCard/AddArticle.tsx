@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Formik, Form, Field, ErrorMessage, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
 import { Link, useNavigate } from 'react-router-dom';
@@ -35,10 +35,14 @@ const AddArticle: React.FC = () => {
   const { addArticle } = useContext(ArticleContext);
   const [selectedFiles, setSelectedFiles] = useState<File [] | undefined>();
 
+  useEffect(() => {
+    console.log("SELECTED FILES:::", selectedFiles);// Log the received Article;
+  }, [selectedFiles]);
+
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>, setFieldValue: (field: string, value: any) => void) => {
     const files= Array.from(event.target.files);
-    setFieldValue('photos', files); // Update the 'photos' field
-    // setSelectedFile(event.target.files[0]);
+    // setFieldValue('photos', files); // Update the 'photos' field
+    setSelectedFiles(files);
   };
 
   const getCurrentDateTime = () => {
@@ -103,7 +107,9 @@ const AddArticle: React.FC = () => {
               multiple
             />
             {selectedFiles && (
-              <img src={URL.createObjectURL(selectedFiles)} alt="Selected Image" />
+              selectedFiles.map((file, index) => (
+                <img className='w-25' src={URL.createObjectURL(file)} alt="Selected Image" />
+              ))
             )}
               <ErrorMessage name="photos" component="div" className="error" />
             </div>

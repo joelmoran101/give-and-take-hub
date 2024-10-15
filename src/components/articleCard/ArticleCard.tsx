@@ -68,11 +68,11 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
   return (
     <Card className='card-container'>
       {
-        fakeImages &&fakeImages?.length === 1 ? (
-          <Image src={fakeImages[0]} />
-        ): fakeImages.length > 1 ? (
+        article.photos && article.photos?.length === 1 ? (
+          <Image src={article.photos[0]} className='card-image'/>
+        ): article.photos.length > 1 ? (
             <Carousel interval={null}>
-  {fakeImages.map((image, index) => (
+  {article.photos.map((image, index) => (
     <Carousel.Item key={index} className="carousel-item">
       <img src={image}  alt="Article Image" className="carousel-inner img-fluid"/>
     </Carousel.Item>
@@ -96,7 +96,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
     {isOwner && (
       <>
         <Button onClick={handleEditPostButtonClick} className='edit-button' variant="secondary">{t('Edit Post')}</Button>
-        <Button onClick={handleDeletePostButtonClick} className='delete-button' variant="danger">
+        <Button onClick={handleDeletePostButtonClick} className='delete-button' variant="danger" title={t('Delete Post')}>
           <Trash2Icon size={18} />
         </Button>
       </>
