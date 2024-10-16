@@ -68,20 +68,6 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
   return (
     <Card className='card-container'>
       {
-<<<<<<< HEAD
-        fakeImages &&fakeImages?.length === 1 ? (
-          <Image src={fakeImages[0]} />
-        ): fakeImages.length > 1 ? (
-          <Carousel interval={null}>
-          {fakeImages.map((image, index) => (
-            <Carousel.Item key={index}>
-              <div className="carousel-inner">
-                <img src={image}  alt="Article Image"/>
-              </div>
-            </Carousel.Item>
-          ))}
-        </Carousel>
-=======
         article.photos && article.photos?.length === 1 ? (
           <Image src={article.photos[0]} className='card-image'/>
         ): article.photos.length > 1 ? (
@@ -92,7 +78,6 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
     </Carousel.Item>
   ))}
 </Carousel>
->>>>>>> jm
         ): ("")
       }
 
