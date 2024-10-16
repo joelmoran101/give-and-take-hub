@@ -13,6 +13,7 @@ type FormValues = {
 };  
 
 const ReplyToPostSchema = Yup.object().shape({
+  email: Yup.string().email('Invalid email').required('Email is required'),
   message: Yup.string().required('Message is required'),
 });
 
@@ -90,7 +91,7 @@ if (!currentArticle) return <h4>Loading...</h4>
                 type="email"
                 name="preferredEmail"
                 placeholder="Preferred email to be contacted"
-                className={`form-control ${touched.preferredEmail && errors.preferredEmail ? 'is-invalid' : ''}`}
+                className={`form-control ${touched.preferredEmail && errors.preferredEmail ? 'is-invalid' : ''} required`}
               />
               <ErrorMessage name="preferredEmail" component="div" className="invalid-feedback" />
             </div>

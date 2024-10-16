@@ -103,8 +103,12 @@ function Header({
               <NavDropdown.Divider />
               <NavDropdown.Item onClick={resetFilters}>{t('Show All')}</NavDropdown.Item>
             </NavDropdown>
-            {loggedInUser ? (
-              <Link className="nav-link" to="/add-article">{t('Post New Article')}</Link>
+            {loggedInUser ?(
+              <>
+                <Link className="nav-link" to="/add-article">{t('Post New Article')}</Link>
+                <Link className="nav-link" to="/profile">{t('Profile')}</Link>
+                <Link className="nav-link" to="/logout">{t('Logout')}</Link>
+              </>
             ) : (
               <Link className="nav-link" to="/login">{t('Login')}</Link>
             )}
