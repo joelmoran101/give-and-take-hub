@@ -38,7 +38,7 @@ const ReplyToPost: React.FC = () => {
       // Fetch article data if not provided in location state
       const fetchArticle = async () => {
         try {
-          const response: any = await axios.get(`http://localhost:4000/api/articles/${articleId}`);
+          const response: any = await axios.get(import.meta.env.VITE_BACKEND_HOST+`/api/articles/${articleId}`);
           setArticle(response.data);
         } catch (error) {
           console.error('Error fetching article:', error);
@@ -57,6 +57,7 @@ const ReplyToPost: React.FC = () => {
   };
 
   const handleSubmit = async (values: FormValues, { setSubmitting, resetForm }: FormikHelpers<FormValues>) => {
+    console.log('MESSAGE SUBMITTED:::')
     if (!loggedInUser || !article) return;
 
     try {
@@ -80,7 +81,7 @@ if (!currentArticle) return <h4>Loading...</h4>
       {/* { JSON.stringify(currentArticle) } */}
       <Formik
         initialValues={initialValues}
-        validationSchema={ReplyToPostSchema}
+        // validationSchema={ReplyToPostSchema}
         onSubmit={handleSubmit}
       >
         {({ errors, touched, isSubmitting }) => (

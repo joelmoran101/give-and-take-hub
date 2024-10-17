@@ -21,12 +21,16 @@ function BrowseItems() {
   const { t } = useTranslation(); // i18n hook to be added to all pages and components that need it to translate text contents which have to be previously defined as key value pairs on the i18n.js file
   const { loggedInUser } = useContext(AuthContext);
   const navigate = useNavigate();
-  const { articles } = useContext(ArticleContext);
+  const { articles, fetchAllArticles } = useContext(ArticleContext);
   const [showDropdown, setShowDropdown] = useState(false);
   const [selectedArticle, setSelectedArticle] = useState<Article | null>(null);
   const [articlesToBeDisplayed, setArticlesToBeDisplayed] = useState<Article[] | null>(null);
   const [isPending, setIsPending] = useState(false);
   const [errors, setErrors] = useState<string | null>(null);
+
+  useEffect(() => {
+    fetchAllArticles();
+  },[])
 
   const handleDropdownClick = () => {
     setShowDropdown(!showDropdown);
@@ -71,7 +75,6 @@ const fuseOptions = {
 const fuse = new Fuse(articles?.length ? articles : [], fuseOptions);
 
 function handleSearch(){
-  console.log('THIS SHOULD NOT BE CONSOLE LOGGED :::', searchQuery)
   if(!searchQuery) return articles
 
   const results = fuse.search(searchQuery)
@@ -120,7 +123,6 @@ const searchResult = useMemo(() => {
   }, [articles, filters]) // these dependencies will cause the effect to re-run when they change
 
   function resetFilters() {
-    console.log('DEBUG: resetting filters')
     setFilters({
       category: [],
       status: [],

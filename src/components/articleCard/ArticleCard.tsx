@@ -51,10 +51,6 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
     navigate(`/reply-to-post/${article._id}`, { state: { article } });
   };
 
-  useEffect(() => {
-    console.log('ArticleCard received article:', article);
-  }, [article]);
-
   const handleEditPostButtonClick = () => {
     navigate(`/edit-article/${article._id}`, { state: { article } });
   };

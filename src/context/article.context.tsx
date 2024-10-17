@@ -24,7 +24,8 @@ interface IArticleContext {
     getArticle: (articleId: string) => Article | null
     editArticle: (articleId: string, newArticleData: Article, selectedFiles?: File[]) => Promise<any>
     deleteArticle: (articleId: string) => Promise<any>,
-    addArticle: (newArticleData: Article, selectedFiles?: File[]) => Promise<any>
+    addArticle: (newArticleData: Article, selectedFiles?: File[]) => Promise<any>,
+    fetchAllArticles: () => void
 }
 
 export const ArticleContext = createContext<IArticleContext>({
@@ -33,7 +34,8 @@ export const ArticleContext = createContext<IArticleContext>({
   getArticle: () => null,
   editArticle: async () => {},
   deleteArticle: async () => {},
-  addArticle: async () => {}
+  addArticle: async () => {},
+  fetchAllArticles: async () => {}
 })
 
 const data = [{
@@ -251,15 +253,16 @@ function ArticleProvider({ children }:{children: React.ReactNode}) {
     const { loggedInUser } = useAuth()
     const [articles, setArticles] = useState<Article[] | null>(null)
 
-    useEffect(() => {
-      fetchAllArticles()
-    }, [])
+    // useEffect(() => {
+    //   fetchAllArticles()
+    // }, [])
 
-    useEffect(() => {
-        console.log("ARTICLES FETCHED FROM:::", articles)
-    }, [articles])
+    // useEffect(() => {
+    //     console.log("ARTICLES FETCHED FROM:::", articles)
+    // }, [articles])
 
     const fetchAllArticles = async () => {
+      console.log('FETCHING ARTICLES:::')
       axios.get(import.meta.env.VITE_BACKEND_HOST + '/api/articles')
       // the following line is just to mock the DB 
       // maxios.get('success', data)      
@@ -342,7 +345,7 @@ function ArticleProvider({ children }:{children: React.ReactNode}) {
     };
 
     return (
-        <ArticleContext.Provider value={{ articles, setArticles, getArticle, editArticle, deleteArticle, addArticle }}>
+        <ArticleContext.Provider value={{ articles, setArticles, getArticle, editArticle, deleteArticle, addArticle, fetchAllArticles }}>
             {children}
         </ArticleContext.Provider>
     )
