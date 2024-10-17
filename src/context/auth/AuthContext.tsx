@@ -53,7 +53,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         console.error("Error fetching logged-in user:", error); // New console.log
         setLoggedInUser(null);
         localStorage.clear();
-        navigate('/login');
+        navigate('/');
       })
   }, []);
 

@@ -32,6 +32,9 @@ const ReplyToPost: React.FC = () => {
   }, [articles, articleId]);
 
   useEffect(() => {
+    if (!loggedInUser) {
+      navigate('/');
+    }
     if (location.state && location.state.article) {
       setArticle(location.state.article);
     } else {
