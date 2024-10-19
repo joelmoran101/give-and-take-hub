@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { ArrowUp } from 'react-bootstrap-icons';
+import { Link, useNavigate } from 'react-router-dom';
 import ArticleCard from '../articleCard/ArticleCard';
 import { Navbar, Button, Container, Form, Nav, NavDropdown, Dropdown } from 'react-bootstrap';
 import './BrowseItems.scss';
@@ -161,15 +162,20 @@ const searchResult = useMemo(() => {
           ))
         )}
       </div>
+        
+      <div className='d-flex justify-content-center'>
+          <Link to="/login"><button className="login-browse-btn">Login</button></Link>
+          
+          <Button 
+            variant="primary" 
+            className="scroll-to-top-btn" 
+            onClick={scrollToTop}
+            aria-label="Scroll back to top"
+          >
+            <ArrowUp size={30} />
+          </Button>
+      </div>
 
-      <Button 
-        variant="primary" 
-        className="scroll-to-top-btn" 
-        onClick={scrollToTop}
-        aria-label="Scroll back to top"
-      >
-        {t('Back to Top')}
-      </Button>
     </div>
   );
 }

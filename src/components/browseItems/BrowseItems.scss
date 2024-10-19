@@ -6,7 +6,24 @@
   position: fixed;
   bottom: 20px;
   right: 20px;
+  margin-left: 10px;
 }
+.login-browse-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 75px;
+  margin-right: 10px;
+  padding: 10px 20px;
+  margin: 0 10px;
+  background: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+
 
 .active-filter {
   background-color: dodgerblue;
