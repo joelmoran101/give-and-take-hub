@@ -1,0 +1,21 @@
+.reminder {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #ef6969;
+    padding: 10px;
+    text-align: center;
+    border-bottom: 1px solid #ccc;
+    z-index: 1000; /* make sure it's on top of other elements */
+  
+    box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 0 0 5px 5px;
+  
+    .reminder p {
+      margin: 0;
+      font-size: 16px;
+      font-weight: bold;
+      color: #333;
+    }
+  }

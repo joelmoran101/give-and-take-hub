@@ -12,6 +12,7 @@ import Fuse from 'fuse.js'
 import Header from './NavBarHeader';
 import { t } from 'i18next';
 import { useTranslation } from 'react-i18next';
+import Reminder from './Reminder';
 
 export type Filter = {
   category: string[];
@@ -149,6 +150,8 @@ const searchResult = useMemo(() => {
         allStatuses={allStatuses}
         resetFilters={resetFilters}
       />
+
+      <Reminder />
 
       <div className="article-cards mx-auto">
         {isPending ? (

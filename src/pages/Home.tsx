@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import Hero from '../components/hero/Hero';
 import './Home.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import LanguageSelector from '../utilities/LanguageSelector';
 import { AuthContext } from '../context/auth/AuthContext';
 import { Container, Nav, Navbar } from 'react-bootstrap';
@@ -10,13 +10,28 @@ import { useTranslation } from 'react-i18next';
 const Home = () => {
   const { t } = useTranslation(); // i18n hook to be added to all pages and components that need it to translate text contents which have to be previously defined as key value pairs on the i18n.js file
   const { loggedInUser } = useContext(AuthContext);
+
+  const navigate = useNavigate();
   return (
     <div className='Home d-flex flex-column'>
       <Navbar expand="lg" className="bg-body-tertiary">
         <Container fluid>
-        <Navbar.Brand href="src/assets/images/logo.jpg"><img className="logo" src="src/assets/images/logo.jpg" alt="logo"/>
-          <div>Give and Take</div>
+        <Navbar.Brand>
+          <img 
+            className="logo" 
+            src="/src/assets/images/logo.jpg" 
+            alt="logo" 
+            onClick={() => navigate('/')}
+            style={{ cursor: 'pointer' }}
+          />
+          <div 
+            onClick={() => navigate('/browse')}
+            style={{ cursor: 'pointer' }}
+          >
+            Give and Take
+          </div>
         </Navbar.Brand>
+
           <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll">
             <Nav
