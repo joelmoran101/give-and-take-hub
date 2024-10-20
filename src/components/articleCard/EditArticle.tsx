@@ -2,15 +2,15 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Formik, Form, Field, ErrorMessage, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import axios from 'axios';
-import './EditArticle.scss';
 import { AuthContext } from '../../context/auth/AuthContext';
 import { Article, ArticleContext } from '../../context/article.context';
+import './EditArticle.scss';
 
 interface ArticleFormValues {
   _id: string;
   article_name: string;
   photos: string[];
+  images: string[];
   article_category: string;
   article_description: string;
   username: string;
@@ -22,6 +22,7 @@ interface ArticleFormValues {
 const EditArticleSchema = Yup.object().shape({
   article_name: Yup.string().required('Article Name is required'),
   photos: Yup.array(),
+  images: Yup.array(),
   article_category: Yup.string().required('Category is required'),
   article_description: Yup.string().required('Description is required'),
   status: Yup.string().required('Status is required'),
@@ -35,6 +36,39 @@ const EditArticle: React.FC = () => {
   const navigate = useNavigate();
   const { articleId } = useParams<{ articleId: string }>();
   const [initialValues, setInitialValues] = useState<ArticleFormValues | null>(null);
+
+  const [deletedPhotos, setDeletedPhotos] = useState<string[]>([]);
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>, setFieldValue: (field: string, value: any) => void) => {
+    const files = Array.from(event.target.files || []);
+    setSelectedFiles(prevFiles => [...prevFiles, ...files]);
+    setFieldValue('photos', [...(initialValues?.photos || []), ...files.map(file => URL.createObjectURL(file))]);
+  };
+
+
+  const handleDeleteImage = (index: number, setFieldValue: (field: string, value: any) => void) => {
+    setInitialValues((prevValues) => {
+      if (!prevValues) return null;
+      const newPhotos = prevValues.photos.filter((_, i) => i !== index);
+      setFieldValue('photos', newPhotos);
+
+      const deletedPhoto = prevValues.photos[index];
+      setDeletedPhotos(prev => [...prev, deletedPhoto]);
+
+      return { ...prevValues, photos: newPhotos };
+    });
+    setSelectedFiles(prevFiles => prevFiles.filter((_, i) => i !== index));
+  };
+
+  const handleAddImages = (event: React.ChangeEvent<HTMLInputElement>, setFieldValue: (field: string, value: any) => void) => {
+    handleFileChange(event, setFieldValue);
+    setInitialValues(prevValues => {
+      if (!prevValues) return null;
+      return {
+        ...prevValues,
+        photos: [...prevValues.photos, ...Array.from(event.target.files || []).map(file => URL.createObjectURL(file))]
+      };
+    });
+  };
 
   useEffect(() => {
     const fetchArticle = async () => {
@@ -51,22 +85,22 @@ const EditArticle: React.FC = () => {
     fetchArticle();
   }, [articleId, getArticle, navigate]);
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>, setFieldValue: (field: string, value: any) => void) => {
-    const files = Array.from(event.target.files || []);
-    setSelectedFiles(files);
-    setFieldValue('photos', files);
-  };
-
   const handleSubmit = async (values: ArticleFormValues, { setSubmitting }: FormikHelpers<ArticleFormValues>) => {
     try {
+      const updatedPhotos = values.photos.filter(photo => !deletedPhotos.includes(photo));
       
-      const response = await editArticle(articleId || '', values as Article, selectedFiles);
-      
+      const updatedValues = {
+        ...values, 
+        photos: updatedPhotos,
+        userId: loggedInUser?.username,
+        article_id: articleId || null
+      };
+
+      const response = await editArticle(articleId || '', updatedValues as Article, selectedFiles);
       console.log('Article updated successfully:', response.data);
       navigate('/browse');
     } catch (error) {
       console.error('Error updating article:', error);
-      // You might want to add some user feedback here
     } finally {
       setSubmitting(false);
     }
@@ -92,18 +126,38 @@ const EditArticle: React.FC = () => {
               <ErrorMessage name="article_name" component="div" className="error" />
             </div>
 
+            <div className="images-container">
+              {initialValues.photos.length > 0 ? (
+                initialValues.photos.map((image, index) => (
+                  <div key={index} className="image-thumbnail-container">
+                    <img
+                      src={image}
+                      alt={`Image ${index + 1}`}
+                      className="image-thumbnail"
+                    />
+                    <button
+                      type="button"
+                      className="delete-image-button"
+                      aria-label='Delete Image'
+                      title='Delete Image'
+                      onClick={() => handleDeleteImage(index, setFieldValue)}
+                    >
+                      &#10005;
+                    </button>
+                  </div>
+                ))
+              ) : (
+                <p>No images yet; choose and add now</p>
+              )}
+            </div>
+
             <div className='form-group'>
               <input
                 type="file"
-                name="photos"
-                accept="image/*"
-                onChange={(event) => handleFileChange(event, setFieldValue)}
+                onChange={(event) => handleAddImages(event, setFieldValue)}
                 multiple
+                accept="image/*"
               />
-              {selectedFiles.map((file, index) => (
-                <img key={index} src={URL.createObjectURL(file)} alt={`Selected Image ${index + 1}`} className="preview-image" />
-              ))}
-              <ErrorMessage name="photos" component="div" className="error" />
             </div>
 
             <div className='form-group'>

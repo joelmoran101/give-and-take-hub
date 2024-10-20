@@ -7,8 +7,9 @@ import { useAuth } from "./auth/AuthContext";
 export type Article={
   _id: string,
   userId: string,
-  article_id: number,
+  article_id: string | null,
   photos: string[],
+  images: string[],
   article_name: string,
   article_category: string,
   article_description: string,
