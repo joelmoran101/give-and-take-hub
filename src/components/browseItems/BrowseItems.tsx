@@ -167,7 +167,11 @@ const searchResult = useMemo(() => {
       </div>
         
       <div className='d-flex justify-content-center'>
-          <Link to="/login"><button className="login-browse-btn">Login</button></Link>
+          {!loggedInUser && (
+              <Link to="/login">
+                <button className="login-browse-btn">{t('Login')}</button>
+              </Link>
+          )}
           
           <Button 
             variant="primary" 

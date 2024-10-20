@@ -1,17 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import './Reminder.scss'
+import { AuthContext } from '../../context/auth/AuthContext';
 
 const Reminder = () => {
+  const { loggedInUser} = useContext(AuthContext);
+
   const [showReminder, setShowReminder] = useState(true);
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowReminder(false);
-    }, 10000); // 10 seconds
+    }, 5000); // 5 seconds
     return () => clearTimeout(timer);
   }, []);
 
   if (!showReminder) {
+    return null;
+  }
+
+  if (loggedInUser) {
     return null;
   }
 
