@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useMemo } from 'react';
 import { Formik, Form, Field, ErrorMessage, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
 import { Link, useNavigate, useParams } from 'react-router-dom';
@@ -47,6 +47,12 @@ const EditArticle: React.FC = () => {
     console.log('EDIT FORM VALUES:::', initialValues)
     
   },[initialValues])
+
+  const thumbnails = useMemo(() => {
+      const newUrls = newAddedPhotos.map((file) => URL.createObjectURL(file));
+      const oldUrls = (initialValues?.photos || []).map((url) => url);
+      return [ ...oldUrls, ...newUrls];
+  }, [initialValues, newAddedPhotos]);
 
   // const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>, setFieldValue: (field: string, value: any) => void) => {
   //   const files = Array.from(event.target.files || []);
@@ -138,8 +144,8 @@ const EditArticle: React.FC = () => {
             </div>
 
             <div className="images-container">
-              {initialValues.photos.length > 0 ? (
-                initialValues.photos.map((image, index) => (
+              {thumbnails.length > 0 ? (
+                thumbnails.map((image, index) => (
                   <div key={index} className="image-thumbnail-container">
                     <img
                       src={image}
