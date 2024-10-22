@@ -4,6 +4,7 @@ import Home from "../pages/Home";
 import About from "../pages/About";
 import Register from "../pages/Register";
 import Login from "../pages/Login";
+import Health from "../../src/components/Health";
 import EnterOneTimePassword from "../pages/EnterOneTimePassword";
 import Logout from "../components/logout/Logout";
 import BrowseItems from "../components/browseItems/BrowseItems";
@@ -26,6 +27,7 @@ export const router=createBrowserRouter(createRoutesFromElements(
         } >
 
             <Route path="/" element={ <Home/> } />
+            <Route path="/health" element={ <Health/> } />
             <Route path="/about" element={<About />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />

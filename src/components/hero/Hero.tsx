@@ -12,7 +12,7 @@ const Hero = () => {
   return (
     <div className="hero-container" aria-label='main hero'>
       <h1>{t('A Sharing Platform')}</h1>
-      <p className="hero-description font" style={{ fontSize: '1.4rem' }}>
+      <div className="hero-description font" style={{ fontSize: '1.4rem' }}>
         <strong>{t('Core Concept')}</strong> 
           <p>
               {t('Hero paragraph1')} 
@@ -21,7 +21,7 @@ const Hero = () => {
           </p>
         <br/>
         <strong>{t('Hero paragraph3')}</strong>
-      </p>
+      </div>
       <div className="hero-buttons">
         {!loggedInUser && (
           <>
