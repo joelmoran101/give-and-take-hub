@@ -10,7 +10,7 @@ const Reminder = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowReminder(false);
-    }, 5000); // 5 seconds
+    }, 7000); // 7 seconds
     return () => clearTimeout(timer);
   }, []);
 

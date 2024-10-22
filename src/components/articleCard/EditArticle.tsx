@@ -5,6 +5,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { AuthContext } from '../../context/auth/AuthContext';
 import { Article, ArticleContext } from '../../context/article.context';
 import './EditArticle.scss';
+import { use } from 'i18next';
 
 interface ArticleFormValues {
   _id: string;
@@ -35,14 +36,23 @@ const EditArticle: React.FC = () => {
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const navigate = useNavigate();
   const { articleId } = useParams<{ articleId: string }>();
+  
   const [initialValues, setInitialValues] = useState<ArticleFormValues | null>(null);
 
-  const [deletedPhotos, setDeletedPhotos] = useState<string[]>([]);
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>, setFieldValue: (field: string, value: any) => void) => {
-    const files = Array.from(event.target.files || []);
-    setSelectedFiles(prevFiles => [...prevFiles, ...files]);
-    setFieldValue('photos', [...(initialValues?.photos || []), ...files.map(file => URL.createObjectURL(file))]);
-  };
+  // const [deletedPhotos, setDeletedPhotos] = useState<string[]>([]);
+
+  const [newAddedPhotos, setNewAddedPhotos] = useState<File[]>([]);
+
+  useEffect(() => {
+    console.log('EDIT FORM VALUES:::', initialValues)
+    
+  },[initialValues])
+
+  // const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>, setFieldValue: (field: string, value: any) => void) => {
+  //   const files = Array.from(event.target.files || []);
+  //   setSelectedFiles(prevFiles => [...prevFiles, ...files]);
+  //   setFieldValue('photos', [...(initialValues?.photos || []), ...files.map(file => URL.createObjectURL(file))]);
+  // };
 
 
   const handleDeleteImage = (index: number, setFieldValue: (field: string, value: any) => void) => {
@@ -51,23 +61,29 @@ const EditArticle: React.FC = () => {
       const newPhotos = prevValues.photos.filter((_, i) => i !== index);
       setFieldValue('photos', newPhotos);
 
-      const deletedPhoto = prevValues.photos[index];
-      setDeletedPhotos(prev => [...prev, deletedPhoto]);
+      // const deletedPhoto = prevValues.photos[index];
+      // setDeletedPhotos(prev => [...prev, deletedPhoto]);
 
       return { ...prevValues, photos: newPhotos };
     });
-    setSelectedFiles(prevFiles => prevFiles.filter((_, i) => i !== index));
+    // setSelectedFiles(prevFiles => prevFiles.filter((_, i) => i !== index));
   };
 
+  // const handleAddImages = (event: React.ChangeEvent<HTMLInputElement>, setFieldValue: (field: string, value: any) => void) => {
+  //   handleFileChange(event, setFieldValue);
+  //   setInitialValues(prevValues => {
+  //     if (!prevValues) return null;
+  //     return {
+  //       ...prevValues,
+  //       photos: [...prevValues.photos, ...Array.from(event.target.files || []).map(file => URL.createObjectURL(file))]
+  //     };
+  //   });
+  // };
+
   const handleAddImages = (event: React.ChangeEvent<HTMLInputElement>, setFieldValue: (field: string, value: any) => void) => {
-    handleFileChange(event, setFieldValue);
-    setInitialValues(prevValues => {
-      if (!prevValues) return null;
-      return {
-        ...prevValues,
-        photos: [...prevValues.photos, ...Array.from(event.target.files || []).map(file => URL.createObjectURL(file))]
-      };
-    });
+    const files= Array.from(event.target.files);
+    // setFieldValue('photos', files); // Update the 'photos' field
+    setNewAddedPhotos(files);
   };
 
   useEffect(() => {
@@ -86,17 +102,12 @@ const EditArticle: React.FC = () => {
   }, [articleId, getArticle, navigate]);
 
   const handleSubmit = async (values: ArticleFormValues, { setSubmitting }: FormikHelpers<ArticleFormValues>) => {
-    try {
-      const updatedPhotos = values.photos.filter(photo => !deletedPhotos.includes(photo));
-      
-      const updatedValues = {
-        ...values, 
-        photos: updatedPhotos,
-        userId: loggedInUser?.username,
-        article_id: articleId || null
-      };
 
-      const response = await editArticle(articleId || '', updatedValues as Article, selectedFiles);
+
+    try {
+
+
+      const response = await editArticle(articleId || '', values as Article, newAddedPhotos);
       console.log('Article updated successfully:', response.data);
       navigate('/browse');
     } catch (error) {
