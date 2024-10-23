@@ -75,6 +75,16 @@ const ReplyToPost: React.FC = () => {
     }
   };
 
+  useEffect(() => {
+    if (sent) {
+      const timer = setTimeout(() => {
+        setSent(false);
+        navigate('/browse');
+      }, 2500); // 2.5 seconds
+      return () => clearTimeout(timer);
+    }
+  }, [sent]);
+
 if (!currentArticle) return <h4>Loading...</h4>
   
 
@@ -118,6 +128,7 @@ if (!currentArticle) return <h4>Loading...</h4>
         )}
       </Formik>
     </div>
+
   );
 };
 
