@@ -1,4 +1,4 @@
-import { createBrowserRouter, createRoutesFromElements, Route } from "react-router-dom";
+import { createBrowserRouter, createRoutesFromElements, Link, Navigate, Route } from "react-router-dom";
 import App from "../App";
 import Home from "../pages/Home";
 import About from "../pages/About";
@@ -16,6 +16,7 @@ import UserProfile from "../components/userProfile/UserProfile";
 import DeleteAccount from "../components/userProfile/DeleteAccount";
 import ArticleProvider from "../context/article.context";
 import { AuthProvider } from "../context/auth/AuthContext";
+
 export const router=createBrowserRouter(createRoutesFromElements(
 
         <Route element={
@@ -24,7 +25,8 @@ export const router=createBrowserRouter(createRoutesFromElements(
                     <App />
                 </ArticleProvider>
             </AuthProvider>
-        } >
+        } errorElement={<div>Error<Link to="/">Go Back</Link></div>} >
+            //to be replaced by a 404 page later
 
             <Route path="/" element={ <Home/> } />
             <Route path="/health" element={ <Health/> } />

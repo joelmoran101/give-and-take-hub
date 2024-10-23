@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { matchPath, useLocation, useNavigate } from 'react-router-dom';
 
 axios.interceptors.request.use(
   (config: any) => {
@@ -35,10 +35,24 @@ const AuthContext = createContext<IAuthContext>({
   logout: () => {},
 });
 
+const protectedRoutes = [
+  "/delete-account" ,
+  "/edit-user-profile",
+  "/profile",
+  "/add-article",
+  "/edit-article/:articleId",
+  "/delete-article/:articleId",
+  "/reply-to-post/:articleId",
+  "/edit-article",
+  "/delete-article",
+  "/reply-to-post",
+]
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [loggedInUser, setLoggedInUser] = useState<User | null>(null);
   const navigate = useNavigate();
-  
+
+  const location = useLocation();
+
   useEffect(() => {
     console.log("DEBUG: CHECKING IF USER IS LOGGED IN")
     const token = localStorage.getItem("access_token");
@@ -53,7 +67,13 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         console.error("Error fetching logged-in user:", error); // New console.log
         setLoggedInUser(null);
         localStorage.clear();
-        navigate('/');
+
+        const isProtectedRoute = protectedRoutes.some(route => matchPath(route, location.pathname))
+
+        if (isProtectedRoute) {
+          navigate('/login');
+        }
+
       })
   }, []);
 
