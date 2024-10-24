@@ -3,7 +3,7 @@ import { Formik, Form, Field, ErrorMessage, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 import { AuthContext } from '../../context/auth/AuthContext';
-import { useNavigate, useParams, useLocation } from 'react-router-dom';
+import { useNavigate, useParams, useLocation, Link } from 'react-router-dom';
 import { Article, ArticleContext } from '../../context/article.context';
 import './ReplyToPost.css'
 
@@ -124,6 +124,7 @@ if (!currentArticle) return <h4>Loading...</h4>
             {sent && (
               <p>Message sent successfully!</p>
             )}
+             <Link to="/browse" className="back-button">Go back to browsing</Link>
           </Form>
         )}
       </Formik>

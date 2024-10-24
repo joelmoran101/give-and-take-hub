@@ -48,7 +48,8 @@
   "scripts": {
     "start": "vite",
     "dev": "nodemon -r ArticleCard.tsx",
-    "build": "vite build",
+    "build": "vite build --mode production",
+    "build:dev": "vite build",
     "test": "vitest",
     "preview": "vite preview"
   },
