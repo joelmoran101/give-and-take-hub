@@ -31,7 +31,7 @@ const EnterOneTimePassword = () => {
     setSubmitting(true);
     try {
       // response any has to be changed later
-      const response:any = await axios.post(BACKEND_HOST+'/api/login', { 
+      const response:any = await axios.post(BACKEND_HOST+'/login', { 
         userId,
         oneTimePassword: values.oneTimePassword.toUpperCase(), 
       });

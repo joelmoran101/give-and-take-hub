@@ -24,7 +24,7 @@ const DeleteAccount: React.FC = () => {
 
   const handleDeleteAccount = async () => {
     try {
-      await axios.delete(`http://localhost:4000/api/delete-account/${loggedInUser.userId}`)
+      await axios.delete(`${import.meta.env.VITE_BACKEND_HOST}/delete-account/${loggedInUser.userId}`)
       setLoggedInUser(null)
       navigate('/')
     } catch (error) {

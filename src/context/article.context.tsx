@@ -53,7 +53,7 @@ function ArticleProvider({ children }:{children: React.ReactNode}) {
 
     const fetchAllArticles = async () => {
       console.log('FETCHING ARTICLES:::')
-      axios.get(import.meta.env.VITE_BACKEND_HOST + '/api/articles')
+      axios.get(import.meta.env.VITE_BACKEND_HOST + '/articles')
       // the following line is just to mock the DB 
       // maxios.get('success', data)      
       .then((response: {data: any}) => {
@@ -80,7 +80,7 @@ function ArticleProvider({ children }:{children: React.ReactNode}) {
       formData.append('status', newArticleData.status);
       formData.append('location', newArticleData.location); 
 
-      const response:any = await axios.post('http://localhost:4000/api/add-article', formData, {headers: { "Content-Type": "multipart/form-data" }});
+      const response:any = await axios.post(import.meta.env.VITE_BACKEND_HOST +'/add-article', formData, {headers: { "Content-Type": "multipart/form-data" }});
       console.log('Article added successfully:', response.data); 
       if (response.data.article) {
         setArticles([{...response.data.article, username: loggedInUser?.username}, ...articles!])
@@ -105,7 +105,7 @@ function ArticleProvider({ children }:{children: React.ReactNode}) {
       }
       
       try {
-        const response = await axios.put(`${import.meta.env.VITE_BACKEND_HOST}/api/edit-article/${articleId}`, formData, {
+        const response = await axios.put(`${import.meta.env.VITE_BACKEND_HOST}/edit-article/${articleId}`, formData, {
           headers: { 
             "Content-Type": "multipart/form-data"
           },
@@ -131,7 +131,7 @@ function ArticleProvider({ children }:{children: React.ReactNode}) {
       }
     };
     const deleteArticle = async (articleId: string) => {
-      const response = await axios.delete(`${import.meta.env.VITE_BACKEND_HOST}/api/delete-article/${articleId}`, {
+      const response = await axios.delete(`${import.meta.env.VITE_BACKEND_HOST}/delete-article/${articleId}`, {
         withCredentials: true
         
       })

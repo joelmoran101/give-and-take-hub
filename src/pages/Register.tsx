@@ -34,7 +34,7 @@ const initialValues = {
 const navigate = useNavigate();
 
   const handleSubmit = (values: FormValues, { resetForm }: FormikHelpers<FormValues>) => {
-    axios.post('http://localhost:4000/api/register', values).then((response) => {
+    axios.post(import.meta.env.VITE_BACKEND_HOST +'/register', values).then((response) => {
       console.log(response.data);
       resetForm(); // Reset the form after submission
       navigate('/login');

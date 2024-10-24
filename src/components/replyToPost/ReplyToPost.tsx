@@ -41,7 +41,7 @@ const ReplyToPost: React.FC = () => {
       // Fetch article data if not provided in location state
       const fetchArticle = async () => {
         try {
-          const response: any = await axios.get(import.meta.env.VITE_BACKEND_HOST+`/api/articles/${articleId}`);
+          const response: any = await axios.get(import.meta.env.VITE_BACKEND_HOST+`/articles/${articleId}`);
           setArticle(response.data);
         } catch (error) {
           console.error('Error fetching article:', error);

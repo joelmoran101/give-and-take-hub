@@ -56,7 +56,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     console.log("DEBUG: CHECKING IF USER IS LOGGED IN")
     const token = localStorage.getItem("access_token");
-    axios.get(import.meta.env.VITE_BACKEND_HOST+'/api/who-is-loggedin-user', {headers: { "authorization": `Bearer ${token}` }})
+    axios.get(import.meta.env.VITE_BACKEND_HOST+'/who-is-loggedin-user', {headers: { "authorization": `Bearer ${token}` }})
       .then((response: any) => {
         console.log("RESPONSE:::", response.data)
         setLoggedInUser(response.data.user);

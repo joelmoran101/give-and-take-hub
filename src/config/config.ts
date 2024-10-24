@@ -1,1 +1,1 @@
-export const BACKEND_HOST = 'http://localhost:4000'; //after deployment use the actual URI of website host (e.g. digital Ocean, Vercel, etc.)
+export const BACKEND_HOST = import.meta.env.VITE_BACKEND_HOST; //after deployment use the actual URI of website host (e.g. digital Ocean, Vercel, etc.)

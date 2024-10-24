@@ -36,7 +36,7 @@ const Login: React.FC = () => {
     setSubmitting(true);
     try {
       const response = await axios.post<{userId: string, message: string, success: boolean}>(
-        `${BACKEND_HOST}/api/request-password`, 
+        `${BACKEND_HOST}/request-password`, 
         { username_or_email: values.username_or_email },
         {
           headers: {
