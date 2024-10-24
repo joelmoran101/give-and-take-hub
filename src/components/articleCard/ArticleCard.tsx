@@ -86,18 +86,24 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
         <Card.Text>{t('Posted by')} {article.username}</Card.Text>
         <Card.Text>{t('Date')} {new Date(article.date_time_stamp).toLocaleString()}</Card.Text>
 
-{loggedInUser && (  
-  <div className='button-container'>
-    <Button onClick={handleReplyButtonClick} className='reply-button' variant="primary">{t('Reply to Post')}</Button>
-    {isOwner && (
-      <>
-        <Button onClick={handleEditPostButtonClick} className='edit-button' variant="secondary">{t('Edit Post')}</Button>
-        <Button onClick={handleDeletePostButtonClick} className='delete-button' variant="danger" title={t('Delete Post')}>
-          <Trash2Icon size={18} />
-        </Button>
-      </>
-    )}
-  </div>
+        {loggedInUser && (  
+          <div className='button-container'>
+            {!isOwner && (
+              <Button onClick={handleReplyButtonClick} className='reply-button' variant="primary">
+                {t('Reply to Post')}
+              </Button>
+            )}
+            {isOwner && (
+              <>
+                <Button onClick={handleEditPostButtonClick} className='edit-button' variant="secondary">
+                  {t('Edit Post')}
+                </Button>
+                <Button onClick={handleDeletePostButtonClick} className='delete-button' variant="danger" title={t('Delete Post')}>
+                  <Trash2Icon size={18} />
+                </Button>
+              </>
+            )}
+          </div>
 )}
         
       </Card.Body>

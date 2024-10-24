@@ -51,7 +51,8 @@
     "build": "vite build --mode production",
     "build:dev": "vite build",
     "test": "vitest",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy": "npm run build && firebase deploy"
   },
   "eslintConfig": {
     "extends": [
