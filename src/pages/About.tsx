@@ -17,7 +17,7 @@ function About() {
       </div>
       
      
-      <img className="about-image" src="src/assets/images/TogetherImgPuzzle_noBG.png" alt="Image of people from diverse backgrounds coming together, with a subtle puzzle piece pattern in the background." />
+      <img className="about-image" src="src/assets/images/TogetherImgPuzzle_noBG.png" alt="Image of four humanoid figures, one red, one green, one blue, and one orange, each one carrying a piece of the puzzle. All four are working together to hold the complete puzzle. " />
       
       <h1>{t('About')}</h1>
       <h3>{t('Core Concept')}</h3>
