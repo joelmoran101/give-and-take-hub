@@ -136,7 +136,7 @@ function Header({
             <Form.Label className="visually-hidden">{t('Search')}</Form.Label>
             <Form.Control
               type="search"
-              title="Search"
+              title={t('Search')}
               placeholder= {"🔍 " + t('Search Articles')}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}

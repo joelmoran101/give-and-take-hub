@@ -100,11 +100,13 @@ function ArticleProvider({ children }:{children: React.ReactNode}) {
       formData.append('status', newArticleData.status);
       formData.append('location', newArticleData.location);
       if (newArticleData.photos) {
-        newArticleData.photos.forEach((photo) => {
-          formData.append('photos', photo);
+        newArticleData.photos.forEach((photo, index) => {
+          formData.append(`photos[${index}]`, photo);
         });
       }
-      
+      console.log('NEW ADDED PHOTOS:::', newAddedPhotos);
+      console.dir(formData)
+      console.log(newArticleData.photos)
       try {
         const response = await axios.put(`${import.meta.env.VITE_BACKEND_HOST}/edit-article/${articleId}`, formData, {
           headers: { 
