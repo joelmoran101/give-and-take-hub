@@ -39,27 +39,31 @@ export default function EditArticle() {
   const [newAddedPhotos, setNewAddedPhotos] = useState<File[]>([]);
   const [deletedPhotos, setDeletedPhotos] = useState<string[]>([]);
 
-  useEffect(() => {
-    console.log('EDIT FORM VALUES:::', initialValues);
-  }, [initialValues]);
+// the following lines are used for debugging
+  // useEffect(() => {
+  //   console.log('EDIT FORM VALUES:::', initialValues);
+  // }, [initialValues]);
+
+  const oldUrls = useMemo(() => {
+    return (initialValues?.photos || []).filter(url => !deletedPhotos.includes(url));
+  }, [initialValues, deletedPhotos]);
 
   const thumbnails = useMemo(() => {
     const newUrls = newAddedPhotos.map((file) => URL.createObjectURL(file));
-    const oldUrls = (initialValues?.photos || []).filter(url => !deletedPhotos.includes(url));
     return [...oldUrls, ...newUrls];
-  }, [initialValues, newAddedPhotos, deletedPhotos]);
+  }, [oldUrls, newAddedPhotos]);
 
   const handleDeleteImage = (index: number, setFieldValue: (field: string, value: any) => void) => {
-    if (index < (initialValues?.photos.length || 0)) {
+    if (index < (oldUrls?.length || 0)) {
       // It's an existing photo
       const photoUrl = initialValues!.photos[index];
       setDeletedPhotos(prev => [...prev, photoUrl]);
     } else {
       // It's a newly added photo
-      const newIndex = index - (initialValues?.photos.length || 0);
+      const newIndex = index - (oldUrls?.length || 0);
       setNewAddedPhotos(prev => prev.filter((_, i) => i !== newIndex));
     }
-    setFieldValue('photos', thumbnails.filter((_, i) => i !== index));
+    // setFieldValue('photos', thumbnails.filter((_, i) => i !== index));
   };
 
   const handleAddImages = (event: React.ChangeEvent<HTMLInputElement>) => {
