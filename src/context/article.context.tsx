@@ -16,7 +16,8 @@ export type Article={
   username: string,
   date_time_stamp: string,
   status: string,
-  location: string
+  location: string,
+  deleted_photos?: string[]
 }
 // are used to decribe methods of an object; while type is used to describe any type of data
 interface IArticleContext {

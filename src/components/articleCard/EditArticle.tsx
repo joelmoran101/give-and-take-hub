@@ -53,17 +53,20 @@ export default function EditArticle() {
     return [...oldUrls, ...newUrls];
   }, [oldUrls, newAddedPhotos]);
 
-  const handleDeleteImage = (index: number, setFieldValue: (field: string, value: any) => void) => {
+  const handleDeleteImage = (index: number) => {
+    console.log('OLD URLS:::', oldUrls);
+    console.log('THUMBNAILS:::', thumbnails);
+    console.log('DELETED PHOTOS:::', deletedPhotos);
+    console.log('NEW ADDED PHOTOS:::', newAddedPhotos);
     if (index < (oldUrls?.length || 0)) {
       // It's an existing photo
-      const photoUrl = initialValues!.photos[index];
+      const photoUrl = oldUrls[index];
       setDeletedPhotos(prev => [...prev, photoUrl]);
     } else {
       // It's a newly added photo
       const newIndex = index - (oldUrls?.length || 0);
       setNewAddedPhotos(prev => prev.filter((_, i) => i !== newIndex));
     }
-    // setFieldValue('photos', thumbnails.filter((_, i) => i !== index));
   };
 
   const handleAddImages = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -90,7 +93,8 @@ export default function EditArticle() {
     try {
       const updatedValues = {
         ...values,
-        photos: thumbnails.filter(url => !url.startsWith('blob:')),
+        deleted_photos:deletedPhotos,
+        photos: oldUrls,
       };
 
       const response = await editArticle(articleId || '', updatedValues as Article, newAddedPhotos);
@@ -133,6 +137,7 @@ export default function EditArticle() {
                       className="image-thumbnail"
                     />
                     <button
+                      data-index={index}
                       type="button"
                       className="delete-image-button"
                       aria-label='Delete Image'
