@@ -150,6 +150,7 @@ export default function EditArticle() {
                 onChange={handleAddImages}
                 multiple
                 accept="image/*"
+                capture="camera"
               />
             </div>
 

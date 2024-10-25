@@ -103,6 +103,7 @@ const AddArticle: React.FC = () => {
               type="file"
               name="photos"
               accept="image/*"
+              capture="camera"
               onChange={handleFileChange}
               multiple
             />
