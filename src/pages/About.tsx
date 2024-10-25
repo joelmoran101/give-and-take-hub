@@ -2,6 +2,7 @@ import React from 'react'
 import './About.css'
 import { Link } from 'react-router-dom'
 import { t } from 'i18next'
+import TogetherImagePuzzle from '../assets/images/TogetherImgPuzzle_noBG.png'
 
 <h1>About page</h1>
 
@@ -17,7 +18,7 @@ function About() {
       </div>
       
      
-      <img className="about-image" src="src/assets/images/TogetherImgPuzzle_noBG.png" alt="Image of four humanoid figures, one red, one green, one blue, and one orange, each one carrying a piece of the puzzle. All four are working together to hold the complete puzzle. " />
+      <img className="about-image" src={TogetherImagePuzzle} alt="Image of four humanoid figures, one red, one green, one blue, and one orange, each one carrying a piece of the puzzle. All four are working together to hold the complete puzzle. " />
       
       <h1>{t('About')}</h1>
       <h3>{t('Core Concept')}</h3>

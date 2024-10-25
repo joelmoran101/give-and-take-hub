@@ -6,6 +6,7 @@ import { Link, Navigate } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../../context/auth/AuthContext";
 import { useTranslation } from "react-i18next";
+import logo from "../../assets/images/logo.jpg";
 
 
 function FilterAccordion({ title, filters, handler, selectedFilters }: {
@@ -71,7 +72,7 @@ function Header({
       <Navbar.Brand>
           <img 
             className="logo" 
-            src="/src/assets/images/logo.jpg" 
+            src={logo}
             alt="logo" 
             onClick={() => navigate('/')}
             style={{ cursor: 'pointer' }}

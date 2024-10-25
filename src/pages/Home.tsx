@@ -6,6 +6,7 @@ import LanguageSelector from '../utilities/LanguageSelector';
 import { AuthContext } from '../context/auth/AuthContext';
 import { Container, Nav, Navbar } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
+import logo from '../assets/images/logo.jpg';
 
 const Home = () => {
   const { t } = useTranslation(); // i18n hook to be added to all pages and components that need it to translate text contents which have to be previously defined as key value pairs on the i18n.js file
@@ -19,7 +20,7 @@ const Home = () => {
         <Navbar.Brand>
           <img 
             className="logo" 
-            src="/src/assets/images/logo.jpg" 
+            src={logo}
             alt="logo" 
             onClick={() => navigate('/')}
             style={{ cursor: 'pointer' }}
