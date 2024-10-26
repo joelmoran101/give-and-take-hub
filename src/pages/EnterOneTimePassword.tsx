@@ -7,6 +7,7 @@ import './Login.css';
 import { useSelector } from 'react-redux';
 import { BACKEND_HOST } from '../config/config';
 import { AuthContext } from '../context/auth/AuthContext';
+import { t } from 'i18next';
 
 type FormValues = {
   oneTimePassword: string;
@@ -53,7 +54,7 @@ const EnterOneTimePassword = () => {
 }
   return (
     <div className="login-container">
-      <h2>Enter One Time Password</h2>
+      <h2>{t('Enter One Time Password')}</h2>
       {error && <p className="text-danger">{error}</p>}
       <Formik
         initialValues={initialValues}
@@ -62,13 +63,13 @@ const EnterOneTimePassword = () => {
       >
         {({ isSubmitting }) => (
           <Form className='login-form'>
-            <label htmlFor="oneTimePassword" padding-right="1em">Check your email for One Time Password</label>
+            <label htmlFor="oneTimePassword" padding-right="1em">{t('email-OTP')}</label>
             
             <Field type="text" border-radius="10px" id="oneTimePassword" name="oneTimePassword" placeholder="Enter 1-Time Password"/>
             <button className='login-button' type="submit" disabled={isSubmitting}>
-              Login
+              {t('Login')}
             </button>
-            <Link className='request_new_otp d-block mt-4'  to="/login">Request for a new One Time Password...</Link>
+            <Link className='request_new_otp d-block mt-4'  to="/login">{t('request-otp')}</Link>
           </Form>
         )}
       </Formik>

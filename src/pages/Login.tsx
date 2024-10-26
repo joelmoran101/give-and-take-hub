@@ -9,6 +9,7 @@ import { setUserId } from '../state/userSlice';
 import { BACKEND_HOST } from '../config/config';
 import { Modal, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { useTranslation } from 'react-i18next';
 
 type FormValues = {
   username_or_email: string;
@@ -27,6 +28,8 @@ const Login: React.FC = () => {
   const [modalMessage, setModalMessage] = useState('');
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const { t } = useTranslation(); // i18n hook to be added to all pages and components that need it to translate text contents which have to be previously defined as key value pairs on the i18n.js file
 
   const initialValues = {
     username_or_email: '',
@@ -77,7 +80,7 @@ const Login: React.FC = () => {
 
   return (
     <div className="login-container">
-      <h2>Login</h2>
+      <h2>{t('Login')}</h2>
       <Formik
         initialValues={initialValues}
         validationSchema={LoginSchema}
@@ -86,15 +89,15 @@ const Login: React.FC = () => {
         {({ isSubmitting }) => (
           <Form role='form'>
             <div className="form-group">
-              <label htmlFor="username_or_email">Enter Username or Email</label>
-              <Field type="text" id="username_or_email" name="username_or_email" placeholder="Username or Email"/>
+              <label htmlFor="username_or_email">{t('Username')}</label>
+              <Field type="text" id="username_or_email" name="username_or_email" placeholder={t('Username')}/>
               <ErrorMessage name="username_or_email" component="div" className="error-message" />
             </div>
             <button type="submit" className="get_code_button" disabled={isSubmitting}>
-              {isSubmitting ? 'Requesting...' : 'Request Password'}
+              {isSubmitting ? 'Requesting...' : t('request-otp')}
             </button>
             <div className="form-group">
-              <Link to="/register">No account yet? Register here...</Link>
+              <Link to="/register">{(t('No account yet?'))}</Link>
             </div>
           </Form>
         )}

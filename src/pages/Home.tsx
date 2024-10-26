@@ -51,7 +51,7 @@ const Home = () => {
                         {!loggedInUser && (
                           <>
                             <li><Link className="nav-link" to="/register">{t('Join')}</Link></li>
-                            <li><Link className="nav-link" to="/login">Login</Link></li>
+                            <li><Link className="nav-link" to="/login">{t('Login')}</Link></li>
                           </>
                         )}
 

@@ -5,6 +5,7 @@ import './Register.css';
 import axios from 'axios';
 // import Login from './Login';
 import { Link, useNavigate } from 'react-router-dom';
+import { t } from 'i18next';
 
 type FormValues = {
   firstname: string;
@@ -46,7 +47,7 @@ const navigate = useNavigate();
 
   return (
     <div className="register-container">
-      <h1>Registration Form</h1>
+      <h1>{t('Registration Form')}</h1>
       <Formik
 
         initialValues={initialValues}
@@ -57,38 +58,38 @@ const navigate = useNavigate();
       >
         <Form>
           <div className="form-group">
-            <label htmlFor="firstname">Firstname</label>
+            <label htmlFor="firstname">{t('Firstname')}</label>
             <Field type="text" id="firstname" name="firstname" />
             <ErrorMessage name="firstname" component="div" />
           </div>
 
           <div className="form-group">
-            <label htmlFor="lastname">Lastname</label>
+            <label htmlFor="lastname">{t('Lastname')}</label>
             <Field type="text" id="lastname" name="lastname" />
             <ErrorMessage name="lastname" component="div" />
           </div>
 
           <div className="form-group">
-            <label htmlFor="username">Username</label>
+            <label htmlFor="username">{t('choose a username')}</label>
             <Field type="text" id="username" name="username" />
             <ErrorMessage name="username" component="div" />
           </div>
 
           <div className="form-group">
-            <label htmlFor="email">Email</label>
+            <label htmlFor="email">{t('Email')}</label>
             <Field type="email" id="email" name="email" />
             <ErrorMessage name="email" component="div" />
           </div>
 
           <div className="form-group">
-            <label htmlFor="phone">Phone</label>
+            <label htmlFor="phone">{t('Phone')}</label>
             <Field type="text" id="phone" name="phone" />
             <ErrorMessage name="phone" component="div" />
           </div>
 
           <div className="button-container">
-            <button type="submit" className="register-button">Register</button>
-            <Link to="/" className="back-button">Go back...</Link>
+            <button type="submit" className="register-button">{t('Register')}</button>
+            <Link to="/" className="back-button">{t('Go back')}</Link>
           </div>
 
         </Form>

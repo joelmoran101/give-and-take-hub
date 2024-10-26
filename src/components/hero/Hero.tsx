@@ -25,8 +25,8 @@ const Hero = () => {
       <div className="hero-buttons">
         {!loggedInUser && (
           <>
-            <Link to="/register"><button className="register-button">Register</button></Link>
-            <Link to="/login"><button className="login-button">Login</button></Link>
+            <Link to="/register"><button className="register-button">{t('Register')}</button></Link>
+            <Link to="/login"><button className="login-button">{t('Login')}</button></Link>
           </>
         )}
         <Link to="/browse"><button className="browse-button">{t('Browse')}</button></Link>
