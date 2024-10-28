@@ -105,7 +105,7 @@ function Header({
               <NavDropdown.Item onClick={() => handleSortChange('date')}>{t('sort by date')}</NavDropdown.Item>
             </NavDropdown>
 
-            <NavDropdown title={t('Filter by:')} id="navbarScrollingDropdown">
+            <NavDropdown title={t('Filter by')} id="navbarScrollingDropdown">
               <NavDropdown.Item>
                 <FilterAccordion 
                   title={t('Categories')} 

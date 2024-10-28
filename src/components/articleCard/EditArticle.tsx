@@ -1,10 +1,12 @@
-import React, { useState, useEffect, useContext, useMemo } from 'react';
+import React, { useState, useEffect, useContext, useMemo, useRef } from 'react';
 import { Formik, Form, Field, ErrorMessage, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { AuthContext } from '../../context/auth/AuthContext';
 import { Article, ArticleContext } from '../../context/article.context';
 import './EditArticle.scss';
+import { useTranslation } from 'react-i18next';
+import { Button } from 'react-bootstrap';
 
 interface ArticleFormValues {
   _id: string;
@@ -34,6 +36,9 @@ export default function EditArticle() {
   const { getArticle, editArticle } = useContext(ArticleContext);
   const navigate = useNavigate();
   const { articleId } = useParams<{ articleId: string }>();
+
+  const { t } = useTranslation(); // i18n hook to be added to all pages and components that need it to translate text contents which have to be previously defined as key value pairs on the i18n.js file
+  const chooseFileRef = useRef<HTMLInputElement>(null);
   
   const [initialValues, setInitialValues] = useState<ArticleFormValues | null>(null);
   const [newAddedPhotos, setNewAddedPhotos] = useState<File[]>([]);
@@ -113,7 +118,7 @@ export default function EditArticle() {
 
   return (
     <div className='edit-article'>
-      <h2>Edit Article</h2>
+      <h2>{t('Edit Article')}</h2>
       <Formik
         initialValues={initialValues}
         validationSchema={EditArticleSchema}
@@ -123,7 +128,7 @@ export default function EditArticle() {
         {({ errors, touched, isSubmitting, setFieldValue }) => (
           <Form>
             <div className='form-group'>
-              <Field name="article_name" placeholder="Article Name" />
+              <Field name="article_name" placeholder={t('Article Name')} />
               <ErrorMessage name="article_name" component="div" className="error" />
             </div>
 
@@ -140,8 +145,8 @@ export default function EditArticle() {
                       data-index={index}
                       type="button"
                       className="delete-image-button"
-                      aria-label='Delete Image'
-                      title='Delete Image'
+                      aria-label={t('Delete Image')}
+                      title={t('Delete Image')}
                       onClick={() => handleDeleteImage(index, setFieldValue)}
                     >
                       &#10005;
@@ -149,7 +154,7 @@ export default function EditArticle() {
                   </div>
                 ))
               ) : (
-                <p>No images yet; choose and add now</p>
+                <p>{t('No images added yet')}</p>
               )}
             </div>
 
@@ -159,33 +164,41 @@ export default function EditArticle() {
                 onChange={handleAddImages}
                 multiple
                 accept="image/*"
-                capture="camera"
+                ref={chooseFileRef}
+                hidden
+
+            // additional feature to allow using camera as input source directly
+                // capture="camera"
               />
+              <Button variant="primary" type='button' onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
+                event.preventDefault();
+                chooseFileRef.current?.click()
+              }} >{t('Add Images')}</Button>
             </div>
 
             <div className='form-group'>
-              <Field name="article_category" placeholder="Category" />
+              <Field name="article_category" placeholder={t('Category')} />
               <ErrorMessage name="article_category" component="div" className="error" />
             </div>
 
             <div className='form-group'>
-              <Field name="article_description" as="textarea" placeholder="Description" />
+              <Field name="article_description" as="textarea" placeholder={t('Description')} />
               <ErrorMessage name="article_description" component="div" className="error" />
             </div>
 
             <div className='form-group'>
               <Field name="status" as="select">
-                <option value="">Select Status</option>
-                <option value="available">Available</option>
-                <option value="reserved">Reserved</option>
-                <option value="taken">Taken</option>
-                <option value="needed">Needed</option>
+                <option value="">{t('Select Status')}</option>
+                <option value="available">{t('Available')}</option>
+                <option value="reserved">{t('Reserved')}</option>
+                <option value="taken">{t('Taken')}</option>
+                <option value="needed">{t('Needed')}</option>
               </Field>
               <ErrorMessage name="status" component="div" className="error" />
             </div>
 
             <div className='form-group'>
-              <Field name="location" placeholder="Location" />
+              <Field name="location" placeholder={t('Location')} />
               <ErrorMessage name="location" component="div" className="error" />
             </div>
 
@@ -199,9 +212,9 @@ export default function EditArticle() {
 
             <div className="button-container">
               <button className='submit-button' type="submit" disabled={isSubmitting}>
-                {isSubmitting ? 'Updating...' : 'Update'}
+                {isSubmitting ? 'Updating...' : t('Update')}
               </button>
-              <Link to="/browse" className="back-button">Go back to browsing</Link>
+              <Link to="/browse" className="back-button">{t('Go back to browsing')}</Link>
             </div>
           </Form>
         )}
