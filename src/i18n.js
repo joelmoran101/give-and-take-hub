@@ -5,6 +5,12 @@ import LanguageDetector from "i18next-browser-languagedetector";
 const resources = {
     en: {
         translation: {
+            status: {
+                "available": "Available",
+                "reserved": "Reserved",
+                "taken": "Taken",
+                "needed": "Needed",
+            },
             "Home": "Home",
             "Welcome ": "Welcome ",
             "to the ": "to the ",
@@ -100,6 +106,12 @@ const resources = {
     },    
     de: {
         translation: {
+            status: {
+                "available": "Verfuegbar",
+                "reserved": "Reserviert",
+                "taken": "Vergeben",
+                "needed": "Benötigt",
+            },
             "Home": "Startseite",
             "Welcome": "Willkommen",
             "to the": "zu dem",

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Formik, Form, Field, ErrorMessage, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
 import { Link, useNavigate } from 'react-router-dom';
@@ -7,6 +7,7 @@ import './AddArticle.css';
 import { AuthContext } from '../../context/auth/AuthContext';
 import { Article, ArticleContext } from '../../context/article.context';
 import { useTranslation } from 'react-i18next';
+import { Button } from 'react-bootstrap';
 
 interface ArticleCardProps {
   article: {
@@ -34,15 +35,16 @@ const AddArticle: React.FC = () => {
   const { loggedInUser } = useContext(AuthContext);
   const { addArticle } = useContext(ArticleContext);
   const [selectedFiles, setSelectedFiles] = useState<File [] | undefined>();
+  const chooseFileRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     console.log("SELECTED FILES:::", selectedFiles);// Log the received Article;
   }, [selectedFiles]);
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>, setFieldValue: (field: string, value: any) => void) => {
-    const files= Array.from(event.target.files);
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement> ) => {
+    const files= Array.from(event.target.files || []);
     // setFieldValue('photos', files); // Update the 'photos' field
-    setSelectedFiles(files);
+    setSelectedFiles(files)
   };
 
   const getCurrentDateTime = () => {
@@ -90,7 +92,7 @@ const AddArticle: React.FC = () => {
         validationSchema={AddArticleSchema}
         onSubmit={handleSubmit}
       >
-        {({ errors, touched, isSubmitting, values }) => (
+        {({ errors, touched, isSubmitting, values, setFieldValue }) => (
           <Form>
             <div className='form-group'>
               <Field name="article_name" placeholder={t('Article Name')} />
@@ -102,11 +104,17 @@ const AddArticle: React.FC = () => {
               <input
               type="file"
               name="photos"
+              onChange={handleFileChange}
+              multiples
               accept="image/*"
               capture="camera"
-              onChange={handleFileChange}
-              multiple
+              ref={chooseFileRef}
+              hidden
             />
+               <Button variant="primary" type='button' onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
+                event.preventDefault();
+                chooseFileRef.current?.click()
+              }} >{t('Add Images')}</Button>
             {selectedFiles && (
               selectedFiles.map((file, index) => (
                 <img className='w-25' src={URL.createObjectURL(file)} alt="Selected Image" />
@@ -124,7 +132,7 @@ const AddArticle: React.FC = () => {
               <ErrorMessage name="article_description" component="div" className="error" />
             </div>
             <div className='form-group'>
-              <Field name="date_time_stamp" type="datetime-local" placeholder="Date and Time" value={values.date_time_stamp} onChange={(e) => setFieldValue('date_time_stamp', e.target.value)} />
+              <Field name="date_time_stamp" type="datetime-local" placeholder="Date and Time" value={values.date_time_stamp} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFieldValue('date_time_stamp', e.target.value)} />
               <ErrorMessage name="date_time_stamp" component="div" className="error" />
             </div>
             <div className='form-group'>

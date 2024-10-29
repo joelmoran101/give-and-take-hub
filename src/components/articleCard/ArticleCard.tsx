@@ -10,9 +10,6 @@ import { useNavigate } from 'react-router-dom';
 import { Trash2Icon } from 'lucide-react';
 import { t } from 'i18next';
 import { useTranslation } from 'react-i18next';
-// import { Article, ArticleContext } from '../../context/article.context';
-// import ArticleProvider from '../../context/article.context';
-// import { selectedSortOption, handleSortOptionChange } from '../BrowseItems';
 
 // useEffect(() => {
 //   console.log('ArticleCard received article:', { ArticleProvider }); // Log the received Article;
@@ -25,7 +22,7 @@ interface Location {
 
 interface ArticleCardProps {
   article: {
-    _id: string; // Changed from article_id to _id
+    _id: string; // Changed from article_id to  _id
     article_name: string;
     photos: string[];
     article_category: string;
@@ -81,7 +78,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
         <Card.Title>{article.article_name}</Card.Title>
         <Card.Text>{article.article_description}</Card.Text>
         <Card.Text>{t('Category')} {article.article_category}</Card.Text>
-        <Card.Text>Status: {article.status}</Card.Text>
+        <Card.Text>Status: {t(`status.${article.status}`)}</Card.Text>
         <Card.Text>{t('Location')} {article.location}</Card.Text>
         <Card.Text>{t('Posted by')} {article.username}</Card.Text>
         <Card.Text>{t('Date')} {new Date(article.date_time_stamp).toLocaleString()}</Card.Text>

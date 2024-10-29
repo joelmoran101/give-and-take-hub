@@ -50,7 +50,7 @@ function BrowseItems() {
     const sortedArticles = [...filteredArticles].sort((a, b) => {
       switch (sortBy) {
         case 'username':
-          return a.userId?.localeCompare(b.userId);
+          return a.username?.localeCompare(b.username);
         case 'category':
           return a.article_category?.localeCompare(b.article_category);
         case 'status':
@@ -161,7 +161,6 @@ function BrowseItems() {
     <div className='d-flex flex-column'>
       <Header 
         filters={filters}
-        loggedInUser={loggedInUser} 
         handleSort={handleSort}
         currentSort={currentSort}
         handleCategory={handleCategory} 
