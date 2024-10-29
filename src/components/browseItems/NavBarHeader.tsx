@@ -119,7 +119,7 @@ function Header({
               <NavDropdown.Item onClick={resetFilters}>{t('Show All')}</NavDropdown.Item>
             </NavDropdown>
 
-            <NavDropdown title={`${t('Sort by')}: ${t(currentSort)}`} id="navbarScrollingDropdown">
+            <NavDropdown title={`${t('Sort by')}: ${t(`sort_by.${currentSort}`)}`} id="navbarScrollingDropdown">
               <NavDropdown.Item onClick={() => handleSortChange('username')}>{t('sort by username')}</NavDropdown.Item>
               <NavDropdown.Item onClick={() => handleSortChange('category')}>{t('sort by category')}</NavDropdown.Item>
               <NavDropdown.Item onClick={() => handleSortChange('status')}>{t('sort by status')}</NavDropdown.Item>

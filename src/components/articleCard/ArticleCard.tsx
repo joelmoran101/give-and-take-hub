@@ -22,7 +22,7 @@ interface Location {
 
 interface ArticleCardProps {
   article: {
-    _id: string; // Changed from article_id to  _id
+    _id: string; // Changed from article_id to _id to conform with the rest of the API
     article_name: string;
     photos: string[];
     article_category: string;

@@ -5,6 +5,12 @@ import LanguageDetector from "i18next-browser-languagedetector";
 const resources = {
     en: {
         translation: {
+            sort_by: {
+                username: "Username",
+                category: "Category",
+                date: "Date",
+                status: "Status",
+            },
             status: {
                 "available": "Available",
                 "reserved": "Reserved",
@@ -106,6 +112,12 @@ const resources = {
     },    
     de: {
         translation: {
+            sort_by: {
+                username: "Benutzername",
+                category: "Kategorie",
+                date: "Datum",
+                status: "Status",   
+            },
             status: {
                 "available": "Verfuegbar",
                 "reserved": "Reserviert",
