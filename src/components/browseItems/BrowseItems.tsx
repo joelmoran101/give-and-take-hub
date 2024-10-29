@@ -25,6 +25,7 @@ function BrowseItems() {
   const { articles, fetchAllArticles } = useContext(ArticleContext);
   const [showDropdown, setShowDropdown] = useState(false);
   const [selectedArticle, setSelectedArticle] = useState<Article | null>(null);
+  const [filteredArticles, setFilteredArticles] = useState<Article[] | null>(null);
   const [articlesToBeDisplayed, setArticlesToBeDisplayed] = useState<Article[] | null>(null);
   const [isPending, setIsPending] = useState(false);
   const [errors, setErrors] = useState<string | null>(null);
@@ -34,22 +35,26 @@ function BrowseItems() {
     fetchAllArticles();
   }, [])
 
+  useEffect(() => {
+    console.log('ARTICLES TO BE DISPLAYED:::', articlesToBeDisplayed)
+  }, [articlesToBeDisplayed])
+
   const handleDropdownClick = () => {
     setShowDropdown(!showDropdown);
   };
-
   const handleSort = (sortBy: SortOption) => {
     setCurrentSort(sortBy);
-    if (!articles) return;
+    if (!filteredArticles) return;
 
-    const sortedArticles = [...articles].sort((a, b) => {
+
+    const sortedArticles = [...filteredArticles].sort((a, b) => {
       switch (sortBy) {
-        // case 'username':
-        //   return (a.userId as string).localeCompare(b.userId as string);
+        case 'username':
+          return a.userId?.localeCompare(b.userId);
         case 'category':
-          return a.article_category.localeCompare(b.article_category);
+          return a.article_category?.localeCompare(b.article_category);
         case 'status':
-          return a.status.localeCompare(b.status);
+          return a.status?.localeCompare(b.status);
         case 'date':
           return new Date(b.date_time_stamp).getTime() - new Date(a.date_time_stamp).getTime();
         default:
@@ -99,28 +104,33 @@ function BrowseItems() {
     threshold: 0.2  
   }
 
-  const fuse = new Fuse(articles?.length ? articles : [], fuseOptions);
-
-  function handleSearch(){
-    if(!searchQuery) return articles
-
-    const results = fuse.search(searchQuery)
-
-    return results.map(result => result.item)
-  }
-
-  const searchResult = useMemo(() => {
-    resetFilters()
-    return handleSearch()
-  }, [searchQuery, articles])
+  const fuse = useMemo(() => new Fuse(articles?.length ? articles : [], fuseOptions), [articles]);
 
   useEffect(() => {
-    if (searchResult) {
-      setArticlesToBeDisplayed(searchResult);
-    } else {
-      setArticlesToBeDisplayed(articles);
+    if (!articles) return;
+    let result
+
+    // Apply filters
+    result = articles.filter(article => {
+      const matchesCategory = filters.category.length === 0 || filters.category.includes(article.article_category);
+      const matchesStatus = filters.status.length === 0 || filters.status.includes(article.status);
+      return matchesCategory && matchesStatus;
+    });
+
+    // Apply search
+    if (searchQuery) {
+      const searchResults = fuse.search(searchQuery);
+      result = searchResults.map(result => result.item);
     }
-  }, [searchQuery, articles]);
+    
+    setFilteredArticles(result);
+  }, [articles, filters, searchQuery, fuse]);
+
+  useEffect(() => {
+    if (!filteredArticles) return;
+    handleSort(currentSort);
+
+  }, [filteredArticles, currentSort]);
 
   const allCategories = useMemo(() => {
     if(articles) return [...new Set(articles?.map((article: Article) => article.article_category))]
@@ -132,40 +142,12 @@ function BrowseItems() {
     return []
   }, [articles])
 
-  function applyFilters(articles: Article[] | null, filters: Filter) {
-    if (!articles) return;
-    const results = articles.filter(article => {
-      const matchesCategory = filters.category.length === 0 || filters.category.includes(article.article_category);
-      const matchesStatus = filters.status.length === 0 || filters.status.includes(article.status);
-      return matchesCategory && matchesStatus 
-    })
-
-    setArticlesToBeDisplayed(results)
-  }
-
-  useMemo(() => {
-    if (!articles) return;
-    let filteredArticles = articles;
-
-    if (searchQuery) {
-      filteredArticles = handleSearch();
-    } else {
-      filteredArticles = articles.filter(article => {
-        const matchesCategory = filters.category.length === 0 || filters.category.includes(article.article_category);
-        const matchesStatus = filters.status.length === 0 || filters.status.includes(article.status);
-        return matchesCategory && matchesStatus;
-      });
-    }
-
-    // Apply current sort
-    handleSort(currentSort);
-  }, [articles, filters, searchQuery, currentSort]);
-
   function resetFilters() {
     setFilters({
       category: [],
       status: [],
-    })
+    });
+    setSearchQuery('');
   }
 
   const scrollToTop = () => {
