@@ -98,13 +98,6 @@ function Header({
           >
             <Link className="nav-link" to="/">{t('Home')}</Link>
 
-            <NavDropdown title={`${t('Sort by')}: ${t(currentSort)}`} id="navbarScrollingDropdown">
-              {/* <NavDropdown.Item onClick={() => handleSortChange('username')}>{t('sort by username')}</NavDropdown.Item> */}
-              <NavDropdown.Item onClick={() => handleSortChange('category')}>{t('sort by category')}</NavDropdown.Item>
-              <NavDropdown.Item onClick={() => handleSortChange('status')}>{t('sort by status')}</NavDropdown.Item>
-              <NavDropdown.Item onClick={() => handleSortChange('date')}>{t('sort by date')}</NavDropdown.Item>
-            </NavDropdown>
-
             <NavDropdown title={t('Filter by')} id="navbarScrollingDropdown">
               <NavDropdown.Item>
                 <FilterAccordion 
@@ -125,6 +118,15 @@ function Header({
               <NavDropdown.Divider />
               <NavDropdown.Item onClick={resetFilters}>{t('Show All')}</NavDropdown.Item>
             </NavDropdown>
+
+            <NavDropdown title={`${t('Sort by')}: ${t(currentSort)}`} id="navbarScrollingDropdown">
+              <NavDropdown.Item onClick={() => handleSortChange('username')}>{t('sort by username')}</NavDropdown.Item>
+              <NavDropdown.Item onClick={() => handleSortChange('category')}>{t('sort by category')}</NavDropdown.Item>
+              <NavDropdown.Item onClick={() => handleSortChange('status')}>{t('sort by status')}</NavDropdown.Item>
+              <NavDropdown.Item onClick={() => handleSortChange('date')}>{t('sort by date')}</NavDropdown.Item>
+            </NavDropdown>
+
+            
 
             {loggedInUser ? (
               <>
