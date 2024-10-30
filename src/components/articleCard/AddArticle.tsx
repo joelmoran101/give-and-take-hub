@@ -2,12 +2,12 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Formik, Form, Field, ErrorMessage, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import './AddArticle.css';
+import Webcam from 'react-webcam';
 import { AuthContext } from '../../context/auth/AuthContext';
 import { Article, ArticleContext } from '../../context/article.context';
 import { useTranslation } from 'react-i18next';
-import { Button } from 'react-bootstrap';
+import { Button, Modal } from 'react-bootstrap';
+import './AddArticle.css';
 
 interface ArticleCardProps {
   article: {
@@ -31,32 +31,36 @@ const AddArticleSchema = Yup.object().shape({
 });
 
 const AddArticle: React.FC = () => {
-  const { t } = useTranslation(); // i18n hook to be added to all pages and components that need it to translate text contents which have to be previously defined as key value pairs on the i18n.js file
+  const { t } = useTranslation();
   const { loggedInUser } = useContext(AuthContext);
   const { addArticle } = useContext(ArticleContext);
-  const [selectedFiles, setSelectedFiles] = useState<File [] | undefined>();
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const [showCamera, setShowCamera] = useState(false);
+  const webcamRef = useRef<Webcam>(null);
   const chooseFileRef = useRef<HTMLInputElement>(null);
 
-  useEffect(() => {
-    console.log("SELECTED FILES:::", selectedFiles);// Log the received Article;
-  }, [selectedFiles]);
-
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement> ) => {
-    const files= Array.from(event.target.files || []);
-    // setFieldValue('photos', files); // Update the 'photos' field
-    setSelectedFiles(files)
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(event.target.files || []);
+    setSelectedFiles(prev => [...prev, ...files]);
   };
+
+  const handleCapture = React.useCallback(() => {
+    const imageSrc = webcamRef.current?.getScreenshot();
+    if (imageSrc) {
+      fetch(imageSrc)
+        .then(res => res.blob())
+        .then(blob => {
+          const file = new File([blob], "webcam-capture.jpg", { type: "image/jpeg" });
+          setSelectedFiles(prev => [...prev, file]);
+          setShowCamera(false);
+        });
+    }
+  }, [webcamRef]);
 
   const getCurrentDateTime = () => {
     const now = new Date();
-    const year = now.getFullYear();
-    const month = String(now.getMonth() + 1).padStart(2, '0');
-    const day = String(now.getDate()).padStart(2, '0');
-    const hours = String(now.getHours()).padStart(2, '0');
-    const minutes = String(now.getMinutes()).padStart(2, '0');
-    return `${year}-${month}-${day}T${hours}:${minutes}`;
+    return now.toISOString().slice(0, 16);
   };
-
 
   const navigate = useNavigate();
 
@@ -72,13 +76,13 @@ const AddArticle: React.FC = () => {
 
   const handleSubmit = async (values: ArticleCardProps['article'], { setSubmitting, resetForm }: FormikHelpers<ArticleCardProps['article']>) => {
     try {
-     await addArticle(values as Article, selectedFiles  );
+      await addArticle({ ...values, photos: selectedFiles.map(file => URL.createObjectURL(file)) } as Article, selectedFiles);
       resetForm();
-      navigate('/browse'); // Redirect to the browse page after successful submission
+      setSelectedFiles([]);
+      navigate('/browse');
     } catch (error) {
       console.error('Error adding article:', error);
       alert('Error adding article: ' + error);
-      // Handle error (e.g., show error message to user)
     } finally {
       setSubmitting(false);
     }
@@ -100,27 +104,23 @@ const AddArticle: React.FC = () => {
             </div>
 
             <div className='form-group'>
-              <Field name="photos" disabled placeholder={(t('Upload Picture/s'))} />
               <input
-              type="file"
-              name="photos"
-              onChange={handleFileChange}
-              multiples
-              accept="image/*"
-              capture="camera"
-              ref={chooseFileRef}
-              hidden
-            />
-               <Button variant="primary" type='button' onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
-                event.preventDefault();
-                chooseFileRef.current?.click()
-              }} >{t('Add Images')}</Button>
-            {selectedFiles && (
-              selectedFiles.map((file, index) => (
-                <img className='w-25' src={URL.createObjectURL(file)} alt="Selected Image" />
-              ))
-            )}
-              <ErrorMessage name="photos" component="div" className="error" />
+                type="file"
+                onChange={handleFileChange}
+                multiple
+                accept="image/*"
+                ref={chooseFileRef}
+                hidden
+              />
+              <Button variant="primary" onClick={() => chooseFileRef.current?.click()}>
+                {t('Add Images')}
+              </Button>
+              <Button variant="secondary" onClick={() => setShowCamera(true)}>
+                {t('Take Photo')}
+              </Button>
+              {selectedFiles.map((file, index) => (
+                <img key={index} className='w-25' src={URL.createObjectURL(file)} alt="Selected Image" />
+              ))}
             </div>
 
             <div className='form-group'>
@@ -132,7 +132,7 @@ const AddArticle: React.FC = () => {
               <ErrorMessage name="article_description" component="div" className="error" />
             </div>
             <div className='form-group'>
-              <Field name="date_time_stamp" type="datetime-local" placeholder="Date and Time" value={values.date_time_stamp} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFieldValue('date_time_stamp', e.target.value)} />
+              <Field name="date_time_stamp" type="datetime-local" placeholder="Date and Time" />
               <ErrorMessage name="date_time_stamp" component="div" className="error" />
             </div>
             <div className='form-group'>
@@ -151,7 +151,7 @@ const AddArticle: React.FC = () => {
             </div>
 
             <div className="button-container">
-            <button className='submit-button' type="submit" disabled={isSubmitting}>
+              <button className='submit-button' type="submit" disabled={isSubmitting}>
                 {isSubmitting ? t('Submitting...') : t('Submit')}
               </button>
               <Link to="/browse" className="back-button">{t('Go back to browsing')}</Link>
@@ -159,6 +159,29 @@ const AddArticle: React.FC = () => {
           </Form>
         )}
       </Formik>
+
+      <Modal show={showCamera} onHide={() => setShowCamera(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>{t('Take a Photo')}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Webcam
+            audio={false}
+            ref={webcamRef}
+            screenshotFormat="image/jpeg"
+            width="100%"
+            videoConstraints={{ facingMode: "environment" }}
+          />
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowCamera(false)}>
+            {t('Close')}
+          </Button>
+          <Button variant="primary" onClick={handleCapture}>
+            {t('Capture')}
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };

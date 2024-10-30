@@ -2,11 +2,12 @@ import React, { useState, useEffect, useContext, useMemo, useRef } from 'react';
 import { Formik, Form, Field, ErrorMessage, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
 import { Link, useNavigate, useParams } from 'react-router-dom';
+import Webcam from 'react-webcam';
 import { AuthContext } from '../../context/auth/AuthContext';
 import { Article, ArticleContext } from '../../context/article.context';
-import './EditArticle.scss';
 import { useTranslation } from 'react-i18next';
-import { Button } from 'react-bootstrap';
+import { Button, Modal } from 'react-bootstrap';
+import './EditArticle.scss';
 
 interface ArticleFormValues {
   _id: string;
@@ -37,17 +38,14 @@ export default function EditArticle() {
   const navigate = useNavigate();
   const { articleId } = useParams<{ articleId: string }>();
 
-  const { t } = useTranslation(); // i18n hook to be added to all pages and components that need it to translate text contents which have to be previously defined as key value pairs on the i18n.js file
+  const { t } = useTranslation();
   const chooseFileRef = useRef<HTMLInputElement>(null);
+  const webcamRef = useRef<Webcam>(null);
   
   const [initialValues, setInitialValues] = useState<ArticleFormValues | null>(null);
   const [newAddedPhotos, setNewAddedPhotos] = useState<File[]>([]);
   const [deletedPhotos, setDeletedPhotos] = useState<string[]>([]);
-
-// the following lines are used for debugging
-  // useEffect(() => {
-  //   console.log('EDIT FORM VALUES:::', initialValues);
-  // }, [initialValues]);
+  const [showCamera, setShowCamera] = useState(false);
 
   const oldUrls = useMemo(() => {
     return (initialValues?.photos || []).filter(url => !deletedPhotos.includes(url));
@@ -59,10 +57,6 @@ export default function EditArticle() {
   }, [oldUrls, newAddedPhotos]);
 
   const handleDeleteImage = (index: number) => {
-    console.log('OLD URLS:::', oldUrls);
-    console.log('THUMBNAILS:::', thumbnails);
-    console.log('DELETED PHOTOS:::', deletedPhotos);
-    console.log('NEW ADDED PHOTOS:::', newAddedPhotos);
     if (index < (oldUrls?.length || 0)) {
       // It's an existing photo
       const photoUrl = oldUrls[index];
@@ -78,6 +72,19 @@ export default function EditArticle() {
     const files = Array.from(event.target.files || []);
     setNewAddedPhotos(prevFiles => [...prevFiles, ...files]);
   };
+
+  const handleCapture = React.useCallback(() => {
+    const imageSrc = webcamRef.current?.getScreenshot();
+    if (imageSrc) {
+      fetch(imageSrc)
+        .then(res => res.blob())
+        .then(blob => {
+          const file = new File([blob], "webcam-capture.jpg", { type: "image/jpeg" });
+          setNewAddedPhotos(prev => [...prev, file]);
+          setShowCamera(false);
+        });
+    }
+  }, [webcamRef]);
 
   useEffect(() => {
     const fetchArticle = async () => {
@@ -98,7 +105,7 @@ export default function EditArticle() {
     try {
       const updatedValues = {
         ...values,
-        deleted_photos:deletedPhotos,
+        deleted_photos: deletedPhotos,
         photos: oldUrls,
       };
 
@@ -142,12 +149,11 @@ export default function EditArticle() {
                       className="image-thumbnail"
                     />
                     <button
-                      data-index={index}
                       type="button"
                       className="delete-image-button"
                       aria-label={t('Delete Image')}
                       title={t('Delete Image')}
-                      onClick={() => handleDeleteImage(index, setFieldValue)}
+                      onClick={() => handleDeleteImage(index)}
                     >
                       &#10005;
                     </button>
@@ -166,14 +172,13 @@ export default function EditArticle() {
                 accept="image/*"
                 ref={chooseFileRef}
                 hidden
-
-            // additional feature to allow using camera as input source directly
-                // capture="camera"
               />
-              <Button variant="primary" type='button' onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
-                event.preventDefault();
-                chooseFileRef.current?.click()
-              }} >{t('Add Images')}</Button>
+              <Button variant="primary" onClick={() => chooseFileRef.current?.click()}>
+                {t('Add Images')}
+              </Button>
+              <Button variant="secondary" onClick={() => setShowCamera(true)}>
+                {t('Take Photo')}
+              </Button>
             </div>
 
             <div className='form-group'>
@@ -184,6 +189,7 @@ export default function EditArticle() {
             <div className='form-group'>
               <Field name="article_description" as="textarea" placeholder={t('Description')} />
               <ErrorMessage name="article_description" component="div" className="error" />
+            
             </div>
 
             <div className='form-group'>
@@ -219,6 +225,29 @@ export default function EditArticle() {
           </Form>
         )}
       </Formik>
+
+      <Modal show={showCamera} onHide={() => setShowCamera(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>{t('Take a Photo')}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Webcam
+            audio={false}
+            ref={webcamRef}
+            screenshotFormat="image/jpeg"
+            width="100%"
+            videoConstraints={{ facingMode: "environment" }}
+          />
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowCamera(false)}>
+            {t('Close')}
+          </Button>
+          <Button variant="primary" onClick={handleCapture}>
+            {t('Capture')}
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }
