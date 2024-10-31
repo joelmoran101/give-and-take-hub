@@ -4,6 +4,7 @@ import * as Yup from 'yup';
 import './Register.css';
 import axios from 'axios';
 // import Login from './Login';
+import Terms from './Terms/terms';
 import { Link, useNavigate } from 'react-router-dom';
 import { t } from 'i18next';
 
@@ -34,15 +35,21 @@ const initialValues = {
 }
 const navigate = useNavigate();
 
-  const handleSubmit = (values: FormValues, { resetForm }: FormikHelpers<FormValues>) => {
-    axios.post(import.meta.env.VITE_BACKEND_HOST +'/register', values).then((response) => {
+  const handleSubmit = async (values: FormValues, { resetForm }: FormikHelpers<FormValues>) => {
+    
+    try { 
+      const response = await axios.post(import.meta.env.VITE_BACKEND_HOST +'/register', values)
       console.log(response.data);
       resetForm(); // Reset the form after submission
+      alert('Registration successful');
       navigate('/login');
 
-    }).catch((error) => {
+    } catch (error) {
+
+
       console.error(error);
-    });
+    }
+
   };
 
   return (
@@ -86,8 +93,14 @@ const navigate = useNavigate();
             <Field type="text" id="phone" name="phone" />
             <ErrorMessage name="phone" component="div" />
           </div>
-
+          {/* place terms and conditions here */}
+          <div className="terms">
+            <span>{t('By registering')}</span>
+            <Link to="/terms-and-conditions">{t('Terms and Conditions')}</Link>
+          </div>
+          
           <div className="button-container">
+
             <button type="submit" className="register-button">{t('Register')}</button>
             <Link to="/" className="back-button">{t('Go back')}</Link>
           </div>
