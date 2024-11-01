@@ -1,6 +1,9 @@
 // src/pages/Terms/terms.tsx
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
+import { t } from 'i18next';
+import './terms.scss';
 
 const Terms: React.FC = () => {
   const { t } = useTranslation();
@@ -48,6 +51,11 @@ const Terms: React.FC = () => {
       {/* <p>{t('EU Representative')}</p> */}
       <h3>{t('10. Data Protection Officer')}</h3>
       <p>{t('Data Protection Officer p')}</p>
+      <div className="back-link-container">
+        <Link to="/register" className="back-link">
+          {t('Back')}
+        </Link>
+      </div>
     </div>
   );
 };
