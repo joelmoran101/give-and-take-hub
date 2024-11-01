@@ -45,7 +45,7 @@ const DeleteArticle: React.FC = () => {
       // Fetch article data if not provided in location state
       const fetchArticle = async () => {
         try {
-          const article= getArticle( articleId || '')
+          const article= getArticle(articleId || '')
           setArticle(article)
         } catch (err) {
           setError('Failed to fetch article data')
