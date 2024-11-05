@@ -15,12 +15,12 @@ const Hero = () => {
       <div className="hero-description font" style={{ fontSize: '1.4rem' }}>
         <strong>{t('Core Concept')}</strong> 
           <p>
-              {t('Hero paragraph1')} 
+              {t('hero paragraph1')} 
               <a href="https://gradido.net" target="_blank" rel="noopener noreferrer">{t('GraDiDo')}</a>. 
-              {t('Hero paragraph2')}
+              {t('hero paragraph2')}
           </p>
         <br/>
-        <strong>{t('Hero paragraph3')}</strong>
+        <strong>{t('hero paragraph3')}</strong>
       </div>
       <div className="hero-buttons">
         {!loggedInUser && (

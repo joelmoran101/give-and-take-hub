@@ -17,12 +17,38 @@ const resources = {
                 "taken": "Taken",
                 "needed": "Needed",
             },
+        
+            trust: {
+                  title: "Trust",
+                  points: [
+                    "We trust all members to act honestly and transparently",
+                    "Offers and requests must be truthful",
+                    "Respect other community members' time and effort"
+                  ]
+            },
+            honesty: {
+                  title: "Honesty",
+                  points: [
+                    "Describe items and services exactly as they are",
+                    "Keep your commitments and agreements",
+                    "Communicate openly when plans change"
+                  ]
+            },
+            agreement: "By using Give and Take Hub, you agree to respect these core principles. Our community is self-regulated through mutual respect and responsibility.",
+                privacy: {
+                  title: "A Note on Privacy",
+                  content: "While we prioritize your privacy, please understand that certain personal data (such as email address and contact information) are essential for the app to function. Additionally, third-party frameworks, libraries, and databases may need access to some of this data - this is an inherent part of digital networking and modern applications. We ensure all such data sharing follows strict privacy guidelines."
+                },
+            
+
+            "By using Give and Take Hub, you agree to respect these core principles. Our community is self-regulated through mutual respect and responsibility.": "By using Give and Take Hub, you agree to respect these core principles. Our community is self-regulated through mutual respect and responsibility.",
+
             "Home": "Home",
             "Welcome ": "Welcome ",
             "to the ": "to the ",
             "Give and Take Hub": "Give and Take Hub",
             "About": "About",
-            "About paragraph1": "Welcome to the 'Give and Take Hub', a platform where users can anonymously offer or request items or services for free. Our core concept is rooted in the belief that unconditional giving and sharing can bring people together, foster a sense of community, and create a more sustainable future.",
+            "About paragraph1": "The 'Give and Take Hub', is a platform where users can anonymously offer or request items or ideas and services for free. Our core concept is rooted in the belief that unconditional giving and sharing can bring people together, foster a sense of community, and create a more sustainable future.",
             "Unconditional giving": "The Power of Unconditional Giving:",
             "About paragraph2": "We believe that by sharing what we have, we can help create a better world where everyone's needs could be met, and hopefully, where greed and scarcity are a thing of the past.",
             "About paragraph3": "Research has shown that giving without expecting anything in return can have a profound impact on both the giver and the receiver. It can increase feelings of happiness, empathy, and social connection. By providing a platform for people to give and receive freely, we aim to create a ripple effect of kindness that can spread far and wide.",            
@@ -38,7 +64,7 @@ const resources = {
             "By registering": "By registering, you agree to the terms and conditions.",
             "Terms and Conditions": "Terms and Conditions",
             "Introduction": "1. Introduction",
-            "Introduction p": "Welcome to Give and Take Hub, a mobile application designed to give users an online platform wherein they can anonymously offer or request items or services for free. These Terms and Conditions ('Terms') govern your use of the App and the services provided through it. By using the App, you agree to be bound by these Terms",
+            "Introduction p": "Welcome to Give and Take Hub, a mobile application designed to give users an online platform wherein they can anonymously offer or request items or ideas and services for free. These Terms and Conditions ('Terms') govern your use of the App and the services provided through it. By using the App, you agree to be bound by these Terms",
             "Definition": "2. Definitions",
             "App": "* 'App' means the Give and Take Hub mobile application and all related services.",
             "User": "* 'User' means you, the individual using the App.",
@@ -91,10 +117,10 @@ const resources = {
             "Give & Take": "Give & Take Hub",
             "A Sharing Platform": "A Sharing Platform",
             "Core Concept": "Core Concept:",
-            "Hero paragraph1": "A platform where users can anonymously offer or request items or services for free. Instead of paying for the articles or services through the current monetary system, users are encouraged to simply express their gratitude. And one way of doing that is through ",
+            "hero paragraph1": "A platform where users can anonymously offer or request items or services for free. Instead of paying for the articles or services through the current monetary system, users are encouraged to simply express their gratitude. And one way of doing that is through ",
             "GraDiDo": "GraDiDo",
-            "Hero paragraph2": " Click on the link to learn more about it. The term 'Gradido' stands for Gratitude, Dignity and Donation.",
-            "Hero paragraph3": " Unconditional giving or sharing is good not only for the recipient but also for the giver. It makes one feel connected. ",
+            "hero paragraph2": " Click on the link to learn more about it. The term 'Gradido' stands for Gratitude, Dignity and Donation.",
+            "hero paragraph3": " Unconditional giving or sharing is good not only for the recipient but also for the giver. It makes one feel connected. ",
             "Our Logo:": "Our Logo:",
             "Logo description": "The logo features two interlocking puzzle pieces, symbolizing collaboration and connectivity. The design highlights unity and harmony, which are essential elements for a sustainable future. Just as puzzle pieces fit together to form a complete picture, we believe that individuals coming together can create a more complete and compassionate community",
             "About quote": "'There is enough for everybody's needs but not enough for everyone's greed.' - Mahatma Gandhi",
@@ -154,7 +180,8 @@ const resources = {
             "Article Name": "Article Name",
             "Upload Picture/s": "Upload Picture/s",
         },
-    },    
+    },
+        
     de: {
         translation: {
             sort_by: {
@@ -169,12 +196,37 @@ const resources = {
                 "taken": "Vergeben",
                 "needed": "Benötigt",
             },
+
+            trust: {
+                title: "Vertrauen",
+                points: [
+                    "Wir vertrauen darauf, dass alle Mitglieder ehrlich und transparent handeln",
+                    "Angebote und Anfragen müssen wahrheitsgetreu sein",
+                    "Respektiere die Zeit und den Einsatz anderer Community-Mitglieder"
+                ]
+            },
+            honesty: {
+                title: "Ehrlichkeit",
+                points: [
+                    "Beschreibe Gegenstände und Dienstleistungen genau wie sie sind",
+                    "Halte deine Zusagen und Vereinbarungen ein",
+                    "Kommuniziere offen, wenn sich Pläne ändern"
+                ]
+            },
+            agreement: "Durch die Nutzung von Give and Take Hub stimmst du zu, diese Grundprinzipien zu respektieren. Unsere Community reguliert sich selbst durch gegenseitigen Respekt und Verantwortungsbewusstsein.",
+            privacy: {
+                title: "Hinweis zum Datenschutz",
+                content: "Auch wenn der Schutz Ihrer Privatsphäre für uns Priorität hat, sind bestimmte personenbezogene Daten (wie E-Mail-Adresse und Kontaktinformationen) für die Funktionalität der App unerlässlich. Zudem benötigen Drittanbieter-Frameworks, -Bibliotheken und Datenbanken möglicherweise Zugriff auf einige dieser Daten - dies ist ein inhärenter Bestandteil digitaler Vernetzung und moderner Anwendungen. Wir stellen sicher, dass jegliche Datenweitergabe strengen Datenschutzrichtlinien folgt."
+            },
+
+            "Join": "Beitreten",
+            "Join": "Beitreten",
             "Home": "Startseite",
             "Welcome": "Willkommen",
             "to the": "zum",
             "Give and Take Hub": "Geben und Nehmen Zentrum",
             "About": "Über Uns",
-            "About paragraph1": "Willkommen beim 'Give and Take Hub', einer Plattform, auf der Nutzer anonym Gegenstände oder Dienstleistungen kostenlos anbieten oder anfragen können. Unser Kernkonzept basiert auf der Überzeugung, dass bedingungsloses Geben und Teilen Menschen zusammenbringen, ein Gemeinschaftsgefühl fördern und eine nachhaltigere Zukunft schaffen kann.",
+            "About paragraph1": "'Give and Take Hub', ist einer Plattform, auf der Nutzer anonym Gegenstände oder Ideen und Dienstleistungen kostenlos anbieten oder anfragen können. Unser Kernkonzept basiert auf der Überzeugung, dass bedingungsloses Geben und Teilen Menschen zusammenbringen, ein Gemeinschaftsgefühl fördern und eine nachhaltigere Zukunft schaffen kann.",
             "Unconditional giving": "Die Macht von bedingungslosen Geben:", 
             "About paragraph2": "Wir glauben, dass wir durch das Teilen dessen, was wir haben, dazu beitragen können, eine bessere Welt zu schaffen, in der die Bedürfnisse aller erfüllt werden können und hoffentlich Gier und Knappheit der Vergangenheit angehören.",
             "About paragraph3": "Forschungen haben gezeigt, dass Geben, ohne etwas im Gegenzug zu erwarten, sowohl auf den Geber als auch auf den Empfänger einen tiefgreifenden Einfluss haben kann. Es kann das Gefühl von Glück, Empathie und sozialer Verbundenheit steigern. Indem wir eine Plattform bieten, auf der Menschen frei geben und empfangen können, möchten wir eine Welle der Freundlichkeit auslösen.",
@@ -193,7 +245,7 @@ const resources = {
             "By registering": "Wenn du dich registrierst, akzeptierst du unsere Nutzungsbedingungen.", 
             "Terms and Conditions": "Allgemeine Geschäftsbedingungen (AGB)",
             "Introduction": "1. Einführung",
-            "Introduction p": "Willkommen bei Give and Take Hub, einer mobilen Anwendung, die Nutzern eine Online-Plattform bietet, auf der sie anonym Gegenstände oder Dienstleistungen kostenlos anbieten oder anfordern können. Diese Allgemeine Geschäftsbedingungen ('AGB') regeln Ihre Nutzung der App und der über sie bereitgestellten Dienste. Durch die Nutzung der App erklären Sie sich mit diesen Bedingungen einverstanden.",
+            "Introduction p": "Willkommen bei Give and Take Hub, einer mobilen Anwendung, die Nutzern eine Online-Plattform bietet, auf der sie anonym Gegenstände oder Ideen und Dienstleistungen kostenlos anbieten oder anfordern können. Diese Allgemeine Geschäftsbedingungen ('AGB') regeln Ihre Nutzung der App und der über sie bereitgestellten Dienste. Durch die Nutzung der App erklären Sie sich mit diesen Bedingungen einverstanden.",
             "Definition": "2. Bedeutung",
             "App": "* 'App' bedeutet die mobile Anwendung Give and Take Hub sowie alle zugehörigen Dienste",
             "User": "* 'Nutzer' bezeichnet Sie, die Einzelperson, die die App verwendet.",
@@ -246,10 +298,10 @@ const resources = {
             "Give & Take": "Geben & Nehmen Hub",
             "A Sharing Platform": "Eine Plattform für das Geben, Teilen und Nehmen",
             "Core Concept": "Kernkonzept:",
-            "Hero paragraph1": "Eine Plattform, auf der Nutzer anonym Artikel oder Dienstleistungen kostenlos anbieten oder anfragen können. Anstatt für die Artikel oder Dienstleistungen mit dem aktuellen Geldsystem zu bezahlen, werden die Nutzer dazu ermutigt, einfach ihre Dankbarkeit auszudrücken. Eine Möglichkeit, dies zu tun, ist durch ",
+            "hero paragraph1": "Eine Plattform, auf der Nutzer anonym Artikel oder Dienstleistungen kostenlos anbieten oder anfragen können. Anstatt für die Artikel oder Dienstleistungen mit dem aktuellen Geldsystem zu bezahlen, werden die Nutzer dazu ermutigt, einfach ihre Dankbarkeit auszudrücken. Eine Möglichkeit, dies zu tun, ist durch ",
             "GraDiDo": "GraDiDo",
-            "Hero paragraph2": " Klicken Sie auf den Link, um mehr darüber zu erfahren. Der Begriff 'Gradido' steht für 'Gratitude', Dankbarkeit, 'Dignity', Würde und 'Donation', Spende.",
-            "Hero paragraph3": "Bedingungsloses Geben oder Teilen ist nicht nur gut für den Empfänger, sondern auch für den Geber. Es sorgt für ein Gefühl der Verbundenheit.",
+            "hero paragraph2": " Klicken Sie auf den Link, um mehr darüber zu erfahren. Der Begriff 'Gradido' steht für 'Gratitude', Dankbarkeit, 'Dignity', Würde und 'Donation', Spende.",
+            "hero paragraph3": "Bedingungsloses Geben oder Teilen ist nicht nur gut für den Empfänger, sondern auch für den Geber. Es sorgt für ein Gefühl der Verbundenheit.",
             "Our Logo": "Unsere Logo:",
             "Logo description": "Das Logo zeigt zwei ineinandergreifende Puzzleteile, die Zusammenarbeit und Verbundenheit symbolisieren. Das Design hebt Einheit und Harmonie hervor, wesentliche Elemente für eine nachhaltige Zukunft. So wie Puzzleteile zusammenpassen, um ein vollständiges Bild zu ergeben, glauben wir, dass Menschen, die zusammenkommen, eine vollständigere und mitfühlendere Gemeinschaft schaffen können.",
             "About quote": "'Es gibt genug für die Bedürfnisse aller, aber nicht genug für die Gier aller.' – Mahatma Gandhi",
@@ -308,8 +360,9 @@ const resources = {
             "Article Name": "Artikelname",
             "Upload Picture/s": "Bild hochladen",
         },
-    },
+        },
 };
+
 
   // fr: {
   //     translation: {

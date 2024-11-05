@@ -16,7 +16,8 @@ import UserProfile from "../components/userProfile/UserProfile";
 import DeleteAccount from "../components/userProfile/DeleteAccount";
 import ArticleProvider from "../context/article.context";
 import { AuthProvider } from "../context/auth/AuthContext";
-import Terms from "../pages/Terms/terms";
+import SimplifiedTerms from "../pages/Terms/SimplifiedTerms";
+// import Terms from "../pages/Terms/terms";
 
 export const router=createBrowserRouter(createRoutesFromElements(
 
@@ -44,7 +45,7 @@ export const router=createBrowserRouter(createRoutesFromElements(
             <Route path="/profile" element={<UserProfile />} />
             <Route path="/edit-user-profile" element={<UserProfile />} />
             <Route path="/delete-account" element={<DeleteAccount />} />
-            <Route path="/terms-and-conditions" element={<Terms />} />
+            <Route path="/terms-and-conditions" element={<SimplifiedTerms />} />
             
 
         </Route>

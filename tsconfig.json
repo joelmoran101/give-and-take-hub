@@ -13,7 +13,11 @@
     "resolveJsonModule": true,                
     "isolatedModules": true,                  
     "noEmit": true,                           
-    "jsx": "react-jsx"                        
+    "jsx": "react-jsx",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"]
+    }                        
   },
   "include": ["src", "backend/utilities/mailer.js"]                        /* Skip type checking all .d.ts files. */
 }
