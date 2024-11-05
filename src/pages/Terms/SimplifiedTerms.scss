@@ -1,0 +1,77 @@
+.simplified-terms-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  
+    .language-toggle {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 20px;
+  
+      .language-button {
+        padding: 8px 16px;
+        background-color: #f0e6ff;
+        color: #6200ee;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: bold;
+  
+        &:hover {
+          background-color: #d9c2ff;
+        }
+      }
+    }
+  
+    .terms-content {
+      h1 {
+        font-size: 24px;
+        margin-bottom: 16px;
+      }
+  
+      h2 {
+        font-size: 20px;
+        margin-top: 24px;
+        margin-bottom: 12px;
+      }
+  
+      p {
+        margin-bottom: 16px;
+      }
+  
+      ul {
+        list-style-type: disc;
+        padding-left: 20px;
+        margin-bottom: 16px;
+      }
+  
+      .agreement {
+        background-color: #f0f0f0;
+        padding: 16px;
+        border-radius: 4px;
+        margin-top: 24px;
+        margin-bottom: 24px;
+      }
+  
+      .privacy-note {
+        background-color: #f0e6ff;
+        padding: 16px;
+        border-radius: 4px;
+      }
+    }
+  
+    .back-link-container {
+      margin-top: 24px;
+      text-align: center;
+  
+      .back-link {
+        text-decoration: none;
+        color: #6200ee;
+        font-weight: bold;
+  
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
