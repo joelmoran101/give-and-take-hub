@@ -1,5 +1,17 @@
 .article-cards {
   background-color: rgb(202,235,150);
+
+  @media (min-width: 1024px) {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 20px;
+  }
+  @media (min-width: 1750px) {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 20px;
+  }
+
 }
 
 .scroll-to-top-btn {
