@@ -159,6 +159,8 @@ function BrowseItems() {
 
   return (
     <div className='d-flex flex-column'>
+      <Reminder />
+
       <Header 
         filters={filters}
         handleSort={handleSort}
@@ -171,8 +173,6 @@ function BrowseItems() {
         allStatuses={allStatuses}
         resetFilters={resetFilters}
       />
-
-      <Reminder />
 
       <div className="article-cards mx-auto">
         {isPending ? (

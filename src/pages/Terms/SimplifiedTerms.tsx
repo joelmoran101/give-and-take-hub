@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import './SimplifiedTerms.scss';
+import { Users, Heart, UserCheck, Shield, Lightbulb } from 'lucide-react';
 
 const SimplifiedTerms: React.FC = () => {
   const { t, i18n } = useTranslation();
@@ -32,33 +33,49 @@ const SimplifiedTerms: React.FC = () => {
       </div>
 
       <div className="terms-content">
-        <h1>{t('Terms and Conditions')}</h1>
-        <p>{t('Introduction p')}</p>
+        <h1 className="flex items-center">
+          <Users className="h-8 w-8 text-primary flex-shrink-0 mr-4" />
+          <span>{t('Community based Terms and Conditions')}</span>
+        </h1>
+        <p>{t('Community based Terms p')}</p>
 
-        <h2>{t('Core Concept')}</h2>
-        <p>{t('About paragraph1')}</p>
-
-        <h2>{t('trust.title')}</h2>
+        <h2 className="flex items-center mt-6">
+          <Heart className="h-8 w-8 text-red-500 flex-shrink-0 mr-4" />
+          <span>{t('trust.title')}</span>
+        </h2>
         <ul>
           {renderPoints('trust.points')}
         </ul>
 
-        <h2>{t('honesty.title')}</h2>
+        <h2 className="flex items-center mt-6">
+          <UserCheck className="h-8 w-8 text-green-500 flex-shrink-0 mr-4" />
+          <span>{t('honesty.title')}</span>
+        </h2>
         <ul>
           {renderPoints('honesty.points')}
         </ul>
 
-        <div className="agreement">
+        <h2 className="flex items-center mt-6">
+          <Lightbulb className="h-8 w-8 text-yellow-500 flex-shrink-0 mr-4" />
+          <span>{t('Core Concept')}</span>
+        </h2>
+
+        <p>{t('About paragraph1')}</p>
+
+        <div className="agreement mt-6">
           <p>{t('agreement')}</p>
         </div>
 
-        <div className="privacy-note">
-          <h2>{t('privacy.title')}</h2>
+        <div className="privacy-note mt-6">
+          <h2 className="flex items-center">
+            <Shield className="h-8 w-8 text-primary flex-shrink-0 mr-4" />
+            <span>{t('privacy.title')}</span>
+          </h2>
           <p>{t('privacy.content')}</p>
         </div>
       </div>
 
-      <div className="back-link-container">
+      <div className="back-link-container mt-8">
         <Link to="/register" className="back-link">
           {t('Go back')}
         </Link>
