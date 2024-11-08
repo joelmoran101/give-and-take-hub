@@ -44,8 +44,8 @@ const navigate = useNavigate();
       alert('Registration successful');
       navigate('/login');
 
-    } catch (error) {
-
+    } catch (error: any) {
+      alert(error.response.data || error.message || error.response.data.message || 'Registration failed');
 
       console.error(error);
     }

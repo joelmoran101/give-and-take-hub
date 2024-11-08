@@ -3,7 +3,7 @@ import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { AuthContext } from '../context/auth/AuthContext';
+import { AuthContext } from '../../context/auth/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
 const EditProfileSchema = Yup.object().shape({
@@ -19,12 +19,20 @@ const EditProfile = () => {
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  if (!loggedInUser) {
+    navigate('/login');
+    return null;
+  }
+
   const handleUpdateProfile = async (values: any, { setSubmitting }: any) => {
     try {
-      const response = await axios.put(`${process.env.REACT_APP_BACKEND_HOST}/users/${loggedInUser.id}`, values);
+      const response: any = await axios.put(`${process.env.REACT_APP_BACKEND_HOST}/users/${loggedInUser.id}`, values);
       setLoggedInUser(response.data.user);
       navigate('/view-profile');
-    } catch (error) {
+    } catch (error: any) {
+      alert('Error updating profile');
+      alert(error.response.data || error.message || error.response.data.message || 'Editing of the profile failed');
+
       console.error('Error updating profile:', error);
     } finally {
       setSubmitting(false);
@@ -45,7 +53,7 @@ const EditProfile = () => {
         validationSchema={EditProfileSchema}
         onSubmit={handleUpdateProfile}
       >
-        {({ isSubmitting, handleChange, handleSubmit }) => (
+        {({ isSubmitting, handleChange }) => (
           <Form>
             <div className="form-group">
               <label htmlFor="firstname">First Name</label>

@@ -14,7 +14,7 @@ axios.interceptors.request.use(
 );
 
 type User = {
-  userId: string;
+  id: string;
   firstname: string;
   lastname: string;
   username: string;

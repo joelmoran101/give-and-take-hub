@@ -71,9 +71,9 @@ const UserProfile: React.FC = () => {
       }
       setIsEditing(false)
       setError(null)
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error updating profile:', error)
-      setError('Failed to update profile. Please try again.')
+      setError(error.response.data?.message || error.response.data || error.message || 'Failed to update profile. Please try again.')
     } finally {
       setSubmitting(false)
     }
